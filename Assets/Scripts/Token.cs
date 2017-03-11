@@ -7,13 +7,13 @@ using System.Collections;
 public class Token : MonoBehaviour
 {
   /// インスタンスを生成してスクリプトを返す.
-  public static Type CreateInstance<Type> (GameObject prefab, Vector3 p, float direction = 0.0f, float speed = 0.0f) where Type : Token
-  {
-    GameObject g = Instantiate (prefab, p, Quaternion.identity) as GameObject;
-    Type obj = g.GetComponent<Type> ();
-    obj.SetVelocity (direction, speed);
-    return obj;
-  }
+//  public static Type CreateInstance<Type> (GameObject prefab, Vector3 p, float direction = 0.0f, float speed = 0.0f) where Type : Token
+//  {
+//    GameObject g = Instantiate (prefab, p, Quaternion.identity) as GameObject;
+//    Type obj = g.GetComponent<Type> ();
+//    obj.SetVelocity (direction, speed);
+//    return obj;
+//  }
 
   /// 生存フラグ.
   bool _exists = true;
@@ -236,26 +236,26 @@ public class Token : MonoBehaviour
     Renderer.color = c;
   }
 
-  /// アルファ値を設定.
-  public void SetAlpha (float a)
-  {
-    var c = Renderer.color;
-    c.a = a;
-    Renderer.color = c;
-  }
-
-  /// アルファ値を取得.
-  public float GetAlpha ()
-  {
-    var c = Renderer.color;
-    return c.a;
-  }
-
-  /// アルファ値.
-  public float Alpha {
-    set { SetAlpha (value); }
-    get { return GetAlpha (); }
-  }
+//  /// アルファ値を設定.
+//  public void SetAlpha (float a)
+//  {
+//    var c = Renderer.color;
+//    c.a = a;
+//    Renderer.color = c;
+//  }
+//
+//  /// アルファ値を取得.
+//  public float GetAlpha ()
+//  {
+//    var c = Renderer.color;
+//    return c.a;
+//  }
+//
+//  /// アルファ値.
+//  public float Alpha {
+//    set { SetAlpha (value); }
+//    get { return GetAlpha (); }
+//  }
 
   /// サイズを設定.
   float _width = 0.0f;
@@ -277,59 +277,59 @@ public class Token : MonoBehaviour
     get { return Renderer.bounds.size.y; }
   }
 
-  /// コリジョン（円）.
-  CircleCollider2D _circleCollider = null;
-
-  public CircleCollider2D CircleCollider {
-    get { return _circleCollider ?? (_circleCollider = GetComponent<CircleCollider2D> ()); }
-  }
-  // 円コリジョンの半径.
-  public float CollisionRadius {
-    get { return CircleCollider.radius; }
-    set { CircleCollider.radius = value; }
-  }
-  // 円コリジョンの有効無効を設定する.
-  public bool CircleColliderEnabled {
-    get { return CircleCollider.enabled; }
-    set { CircleCollider.enabled = value; }
-  }
-
+//  /// コリジョン（円）.
+//  CircleCollider2D _circleCollider = null;
+//
+//  public CircleCollider2D CircleCollider {
+//    get { return _circleCollider ?? (_circleCollider = GetComponent<CircleCollider2D> ()); }
+//  }
+//  // 円コリジョンの半径.
+//  public float CollisionRadius {
+//    get { return CircleCollider.radius; }
+//    set { CircleCollider.radius = value; }
+//  }
+//  // 円コリジョンの有効無効を設定する.
+//  public bool CircleColliderEnabled {
+//    get { return CircleCollider.enabled; }
+//    set { CircleCollider.enabled = value; }
+//  }
+//
   /// コリジョン（矩形）.
-  BoxCollider2D _boxCollider = null;
+//  BoxCollider2D _boxCollider = null;
 
-  public BoxCollider2D BoxCollider {
-    get { return _boxCollider ?? (_boxCollider = GetComponent<BoxCollider2D> ()); }
-  }
+//  public BoxCollider2D BoxCollider {
+//    get { return _boxCollider ?? (_boxCollider = GetComponent<BoxCollider2D> ()); }
+//  }
 
-  /// 矩形コリジョンの幅.
-  public float BoxColliderWidth {
-    get { return BoxCollider.size.x; }
-    set {
-      var size = BoxCollider.size;
-      size.x = value;
-      BoxCollider.size = size;
-    }
-  }
+//  /// 矩形コリジョンの幅.
+//  public float BoxColliderWidth {
+//    get { return BoxCollider.size.x; }
+//    set {
+//      var size = BoxCollider.size;
+//      size.x = value;
+//      BoxCollider.size = size;
+//    }
+//  }
 
-  /// 矩形コリジョンの高さ.
-  public float BoxColliderHeight {
-    get { return BoxCollider.size.y; }
-    set {
-      var size = BoxCollider.size;
-      size.y = value;
-      BoxCollider.size = size;
-    }
-  }
-  // 箱コリジョンのサイズを設定する.
-  public void SetBoxColliderSize (float w, float h)
-  {
-    BoxCollider.size.Set (w, h);
-  }
-  // 箱コリジョンの有効無効を設定する
-  public bool BoxColliderEnabled {
-    get { return BoxCollider.enabled; }
-    set { BoxCollider.enabled = value; }
-  }
+//  /// 矩形コリジョンの高さ.
+//  public float BoxColliderHeight {
+//    get { return BoxCollider.size.y; }
+//    set {
+//      var size = BoxCollider.size;
+//      size.y = value;
+//      BoxCollider.size = size;
+//    }
+//  }
+//  // 箱コリジョンのサイズを設定する.
+//  public void SetBoxColliderSize (float w, float h)
+//  {
+//    BoxCollider.size.Set (w, h);
+//  }
+//  // 箱コリジョンの有効無効を設定する
+//  public bool BoxColliderEnabled {
+//    get { return BoxCollider.enabled; }
+//    set { BoxCollider.enabled = value; }
+//  }
 
   /// 移動して画面内に収めるようにする.
   public void ClampScreenAndMove (Vector2 v)
@@ -407,10 +407,10 @@ public class Token : MonoBehaviour
   }
 
   /// 消滅（メモリから削除）.
-  public void DestroyObj ()
-  {
-    Destroy (gameObject);
-  }
+//  public void DestroyObj ()
+//  {
+//    Destroy (gameObject);
+//  }
 
   /// アクティブにする.
   public virtual void Revive ()

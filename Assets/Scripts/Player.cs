@@ -9,7 +9,7 @@ public class Player : Token {
 
 	/// 移動速度
     //  public float MoveSpeed = 5.0f;
-    public float MoveSpeed = 0.5f;
+    public float MoveSpeed = 0.3f;
 
 	/// アニメーションタイマ
 	int _tAnim = 0;
@@ -21,7 +21,12 @@ public class Player : Token {
 		var w = SpriteWidth / 2;
 		var h = SpriteHeight / 2;
 
-		SetSize (w, h);
+        w -= w / 2;
+        h -= h / 2;
+
+	//	SetSize (w, h);
+        SetSize (0, 0);
+
         Angle = -5;
 	}
 
