@@ -14,6 +14,18 @@ public class Enemy : Token
 	public Sprite Spr4;
 	public Sprite Spr5;
 
+	/// 敵のID
+	int _id = 0;
+
+	/// HP
+	int _hp = 0;
+
+	/// HPの取得
+	public int Hp
+	{
+		get { return _hp; }
+	}
+
 	// 敵管理
 	public static TokenMgr<Enemy> parent = null;
 
@@ -22,8 +34,7 @@ public class Enemy : Token
 	{
 		Enemy e = parent.Add (x, y, direction, speed);
 
-		if (e == null)
-		{
+		if (e == null) {
 			return null;
 		}
 
@@ -45,31 +56,16 @@ public class Enemy : Token
 		return Mathf.Atan2 (dy, dx) * Mathf.Rad2Deg;
 	}
 
-	/// 敵のID
-	int _id = 0;
-
-	/// HP
-	int _hp = 0;
-
-	/// HPの取得
-	public int Hp
-	{
-		get { return _hp; }
-	}
-
     /// ダメージを与える
-    bool Damage(int v)
-    {
+    bool Damage(int v) {
         _hp -= v;
         
-        if (_hp <= 0)
-        {
+        if (_hp <= 0) {
             // HPがなくなったので死亡
             Vanish();
             
             // 倒した
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 Particle.Add(X, Y);
             }
             
@@ -77,14 +73,12 @@ public class Enemy : Token
             Sound.PlaySe("destroy", 0);
 
             // ボスを倒したらザコ敵と敵弾を消す
-            if (_id == 0)
-            {
+            if (_id == 0) {
                 // 生存しているザコ敵を消す
                 Enemy.parent.ForEachExist(e => e.Damage(9999));
 
                 // 敵弾をすべて消す
-                if (Bullet.parent != null)
-                {
+                if (Bullet.parent != null) {
                     Bullet.parent.Vanish();
                 }
             }
@@ -98,8 +92,7 @@ public class Enemy : Token
 	/// 更新
 	IEnumerator _Update1()
 	{
-		while (true)
-		{
+		while (true) {
 			// 2秒おきに弾を撃つ
 			yield return new WaitForSeconds(2.0f);
 			
@@ -117,8 +110,7 @@ public class Enemy : Token
 
 		float dir = 0;
 
-		while (true)
-		{
+		while (true) {
 			Bullet.Add(X, Y, dir, 2);
 
 			dir += 16;
@@ -130,8 +122,7 @@ public class Enemy : Token
 	IEnumerator _Update3()
 	{
 		// 3Way弾を撃つ
-		while (true)
-		{
+		while (true) {
 			// 2秒おきに弾を撃つ
 			yield return new WaitForSeconds(2.0f);
 			
@@ -153,8 +144,7 @@ public class Enemy : Token
 		const float ROT = 5.0f;
 
 		// ホーミングする
-		while (true)
-        {
+		while (true) {
             // 0.02秒おきに更新する
             yield return new WaitForSeconds(0.02f);
 
@@ -167,8 +157,7 @@ public class Enemy : Token
             // 角度差を求める
             float delta = Mathf.DeltaAngle(dir, aim);
 
-            if (Mathf.Abs (delta) < ROT)
-            {
+            if (Mathf.Abs (delta) < ROT) {
                 // 角度差が小さいので回転不要
             }
             else if (delta > 0)
@@ -187,8 +176,7 @@ public class Enemy : Token
             Angle = dir;
 
             // 画面外に出たら消える
-            if (IsOutside())
-            {
+            if (IsOutside()) {
                 Vanish();
             }
         }
@@ -200,8 +188,7 @@ public class Enemy : Token
 		// Layer名を取得する
 		string name = LayerMask.LayerToName (other.gameObject.layer);
 
-		if (name == "Shot")
-		{
+		if (name == "Shot") {
 			// ショットであれば当たりとする
 			Shot s = other.GetComponent<Shot>();
 
@@ -222,14 +209,12 @@ public class Enemy : Token
 	/// IDからパラメータを設定
 	public void SetParam(int id)
 	{
-		if (_id != 0) 
-		{
+		if (_id != 0) {
 			// 前回のコルーチンを終了する
 			StopCoroutine("_Update" + _id);
 		}
 
-		if (id != 0)
-		{
+		if (id != 0) {
 			// コルーチンを新しく開始する
 			StartCoroutine("_Update" + id);
 		}
@@ -257,8 +242,7 @@ public class Enemy : Token
 	/// 固定フレームで更新
 	void FixedUpdate()
 	{
-		if (_id <= 3)
-		{
+		if (_id <= 3) {
 			// 通常の敵だけ移動速度を減衰する
 			MulVelocity (0.93f);
 		}
@@ -267,22 +251,19 @@ public class Enemy : Token
 	/// 更新
 	void Update()
 	{
-		if (_id == 4)
-		{
+		if (_id == 4) {
 			// だいこんのみ
 			Vector2 min = GetWorldMin();
 			Vector2 max = GetWorldMax();
 
-			if (Y < min.y || max.y < Y)
-			{
+			if (Y < min.y || max.y < Y) {
 				// 上下ではみ出したら跳ね返るようにする
 				ClampScreen();
 
 				// 移動速度を反転
 				VY *= -1;
 			}
-			if (X < min.x || max.x < X)
-			{
+			if (X < min.x || max.x < X) {
 				// 左右ではみ出したら消滅する
 				Vanish();
 			}

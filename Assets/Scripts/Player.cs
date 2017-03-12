@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Player : Token {
     public GameMgr gameMgr_;
+    public Vector2 latest_;
 
 	public Sprite Spr0;	// 待機画像1
 	public Sprite Spr1;	// 待機画像2
@@ -57,17 +58,21 @@ public class Player : Token {
 	{
 		// 移動速度
 		Vector2 v = gameMgr_.pad.GetVector();
-		float speed = MoveSpeed * Time.deltaTime;
+//		float speed = MoveSpeed * Time.deltaTime;
 
 		// 移動して画面外に出ないようにする
-        ClampScreenAndMove (v * speed);
+//      ClampScreenAndMove (v * speed);
+        ClampScreenAndMove (v * Time.deltaTime);
+
+	    Vector2 pos = transform.position;
+		latest_ = Camera.main.WorldToScreenPoint(pos);
 	}
 
 	/// 衝突判定
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		string name = LayerMask.LayerToName (other.gameObject.layer);
-
+#if true
 		switch (name)
 		{
 		case "Enemy":
@@ -88,5 +93,6 @@ public class Player : Token {
             Sound.StopBgm();
 			break;
 		}
+#endif
 	}
 }

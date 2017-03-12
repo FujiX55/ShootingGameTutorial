@@ -105,6 +105,11 @@ public class Boss : Enemy
 
         // テキスト描画
         string text = string.Format("{0,3}", Hp);
-        Util.GUILabel(380, 200, 120, 30, text);
+
+//	    Vector2 pos = Camera.main.ScreenToWorldPoint(transform.position);
+	    Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
+//	    Vector2 pos = transform.position;
+//        Util.GUILabel(380, 200, 120, 30, text);
+        Util.GUILabel(pos.x, pos.y, 120, 30, text);
     }
 }

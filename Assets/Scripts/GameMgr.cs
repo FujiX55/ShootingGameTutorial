@@ -6,6 +6,9 @@ using System.Collections;
 /// </summary>
 public class GameMgr : MonoBehaviour 
 {
+	public Vector2 start_;         // タッチ開始位置
+	public Vector2 latest_;        // 最新タッチ位置
+
 	/// 状態
 	enum eState
 	{
@@ -44,6 +47,8 @@ public class GameMgr : MonoBehaviour
 	void Update()
 	{
 		pad.Update();
+		start_  = pad.start_;         // タッチ開始位置
+		latest_ = pad.latest_;        // 最新タッチ位置
 
         // 戻るボタンで終了
         if ( pad.IsEscape() )

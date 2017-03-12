@@ -55,7 +55,7 @@ public class TitleMgr : MonoBehaviour {
             py += 65;
 
             // フォント描画
-            Util.GUILabel(px, py, w, h, "ダブルタップでゲーム開始");
+            Util.GUILabel(px, py, w, h, "タップでゲーム開始");
         }
     }
 }
