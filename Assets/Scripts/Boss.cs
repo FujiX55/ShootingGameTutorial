@@ -37,32 +37,32 @@ public class Boss : Enemy
 		if (_bStart == false) 
 		{
 			// 敵生成開始
-			StartCoroutine("_GenerateEnemy");
+			StartCoroutine("CoGenerateEnemy");
 
 			_bStart = true;
 		}
 	}
 
 	/// 敵生成
-	IEnumerator _GenerateEnemy()
+	IEnumerator CoGenerateEnemy()
 	{
 		while (true)
 		{
 			AddEnemy(1, 135, 5);
 			AddEnemy(1, 225, 5);
 			yield return new WaitForSeconds(3);
-			BulletRadish();
+			BuildPencil();
 			yield return new WaitForSeconds(2);
 
 			AddEnemy(2,  90, 5);
 			AddEnemy(2, 270, 5);
-            BulletCarrot();
+            BuildPeppy();
 			yield return new WaitForSeconds(3);
 
 			AddEnemy(3,  45, 5);
 			AddEnemy(3, -45, 5);
 			yield return new WaitForSeconds(3);
-			BulletRadish();
+			BuildPencil();
 			yield return new WaitForSeconds(2);
 		}
 	}
@@ -73,8 +73,8 @@ public class Boss : Enemy
 		return Enemy.Add (id, X, Y, direction, speed);
 	}
 
-	/// だいこんを3方向に発射
-	void BulletRadish()
+	/// ペンシルを3方向に発射
+	void BuildPencil()
 	{
 		// プレイヤと±30度にだいこんを発射
 		float aim = GetAim ();
@@ -84,8 +84,8 @@ public class Boss : Enemy
 		AddEnemy (4, aim+30, 3);
 	}
 
-    /// にんじんを発射
-    void BulletCarrot()
+    /// Mr.Peppyを発射
+    void BuildPeppy()
     {
         AddEnemy(5, 45, 3);
         AddEnemy(5, -45, 3);
@@ -106,10 +106,7 @@ public class Boss : Enemy
         // テキスト描画
         string text = string.Format("{0,3}", Hp);
 
-//	    Vector2 pos = Camera.main.ScreenToWorldPoint(transform.position);
 	    Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
-//	    Vector2 pos = transform.position;
-//        Util.GUILabel(380, 200, 120, 30, text);
-        Util.GUILabel(pos.x, pos.y, 120, 30, text);
+        Util.GUILabel(pos.x-60, pos.y, 120, 30, text);
     }
 }

@@ -160,8 +160,7 @@ public class Enemy : Token
             if (Mathf.Abs (delta) < ROT) {
                 // 角度差が小さいので回転不要
             }
-            else if (delta > 0)
-            {
+            else if (delta > 0) {
                 // 左回り
                 dir += ROT;
             }
@@ -178,6 +177,17 @@ public class Enemy : Token
             // 画面外に出たら消える
             if (IsOutside()) {
                 Vanish();
+            }
+            else
+            {
+                // 噴煙をパーティクルで表現
+                Particle p = Particle.Add(X, Y);
+                if (p) {
+                    p.SetVelocity(Random.Range(0, 359), 0.3f);  // 全方向に速度0.3で放射
+                    p.Visible = false;                          // 非表示で開始
+                    p.Delay = 5;                                // 可視状態までの遅延フレーム数
+                    p.SetColor(1.0f, 0.2f, 0.0f);
+                }
             }
         }
 	}

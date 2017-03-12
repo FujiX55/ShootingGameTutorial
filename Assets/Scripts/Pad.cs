@@ -51,8 +51,6 @@ public class Pad {
 			case TouchPhase.Began:
 				if ( touchId_ == -1 ) {
 					touchId_ = touch.fingerId;
-//					latest_ = start_ = Camera.main.ScreenToWorldPoint(touch.position);
-//					latest_ = start_ = Camera.main.WorldToScreenPoint(touch.position);
 					latest_ = start_ = touch.position;
 					push_ = true;
 				}
@@ -61,8 +59,6 @@ public class Pad {
 			case TouchPhase.Stationary:
 			case TouchPhase.Moved:
 				if ( touch.fingerId == touchId_ ) {
-//					latest_ = Camera.main.ScreenToWorldPoint(touch.position);
-//					latest_ = Camera.main.WorldToScreenPoint(touch.position);
 					latest_ = touch.position;
 					vec = latest_ - start_;
 					start_ = latest_;
