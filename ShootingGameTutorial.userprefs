@@ -1,19 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Particle.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Boss.cs">
     <Files>
-      <File FileName="Assets\Scripts\Pad.cs" Line="92" Column="27" />
-      <File FileName="Assets\Scripts\Player.cs" Line="51" Column="1" />
+      <File FileName="Assets\Scripts\Boss.cs" Line="63" Column="18" />
+      <File FileName="Assets\Scripts\Pad.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TitleMgr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameMgr.cs" Line="131" Column="1" />
-      <File FileName="Assets\Scripts\Boss.cs" Line="43" Column="3" />
-      <File FileName="Assets\Scripts\Shot.cs" Line="4" Column="1" />
+      <File FileName="Assets\Scripts\GameMgr.cs" Line="47" Column="3" />
+      <File FileName="Assets\Scripts\Shot.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Bullet.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SoundMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TokenMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Token.cs" Line="235" Column="13" />
       <File FileName="Assets\Scripts\Util.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="189" Column="21" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Particle.cs" Line="29" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>

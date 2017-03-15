@@ -1,11 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum eEnemyType
+{
+	Boss,		// ボス
+	Bon,		// 覆水盆
+	Metsu,		// 滅
+	Fugu,		// 河豚
+	Pencil,		// ペンシルロケット
+	MrPeppy,	// ミスターペッピー
+	Count		// 総数
+}
+
 /// <summary>
 /// 敵
 /// </summary>
 public class Enemy : Token
 {
+    static int[] enemyCount = new int[(int)eEnemyType.Count];
+    static public int[] EnemyCount
+    {
+		get { return Enemy.enemyCount; }
+	}
+
 	/// スプライト
 	public Sprite Spr0;
 	public Sprite Spr1;
@@ -29,15 +46,25 @@ public class Enemy : Token
 	// 敵管理
 	public static TokenMgr<Enemy> parent = null;
 
+	public int phase;
+
 	// 敵の追加
 	public static Enemy Add(int id, float x, float y, float direction, float speed)
 	{
+        if (4 <= Enemy.enemyCount[id] ) {
+            return null;
+        }
+
 		Enemy e = parent.Add (x, y, direction, speed);
+
+        e.phase = 0;
 
 		if (e == null) {
 			return null;
 		}
 
+		Enemy.enemyCount[id]++;
+		
 		// 初期パラメータ設定
 		e.SetParam (id);
 
@@ -73,7 +100,7 @@ public class Enemy : Token
             Sound.PlaySe("destroy", 0);
 
             // ボスを倒したらザコ敵と敵弾を消す
-            if (_id == 0) {
+            if (_id == (int)eEnemyType.Boss) {
                 // 生存しているザコ敵を消す
                 Enemy.parent.ForEachExist(e => e.Damage(9999));
 
@@ -100,6 +127,11 @@ public class Enemy : Token
 			float dir = GetAim();
 			
 			Bullet.Add(X, Y, dir, 3);
+
+            // 画面外に出たら消える
+            if (IsOutside()) {
+                Vanish();
+            }
 		}
 	}
 	
@@ -116,7 +148,12 @@ public class Enemy : Token
 			dir += 16;
 
 			yield return new WaitForSeconds(0.1f);
-		}
+
+            // 画面外に出たら消える
+            if (IsOutside()) {
+                Vanish();
+            }
+        }
 	}
 	
 	IEnumerator _Update3()
@@ -126,16 +163,45 @@ public class Enemy : Token
 			// 2秒おきに弾を撃つ
 			yield return new WaitForSeconds(2.0f);
 			
-			DoBullet(180 - 2, 2);
-			DoBullet(180, 2);
-			DoBullet(180 + 2, 2);
-		}
+            // 画面外に出たら消える
+            if (IsOutside()) {
+                Vanish();
+            }
+            else
+            {
+                DoBullet(180 - 2, 2);
+                DoBullet(180, 2);
+                DoBullet(180 + 2, 2);
+            }
+    	}
 	}
 	
 	IEnumerator _Update4()
 	{
-		// 何もしない
-		yield return new WaitForSeconds (1.0f);
+		while (true) {
+			// 何もしない
+			yield return new WaitForSeconds (0.05f);
+
+            if ( RigidBody.velocity.magnitude < 3.0f ) {
+                MulVelocity (1.05f);
+            }
+
+            // 画面外に出たら消える
+            if (IsOutside()) {
+                Vanish();
+            }
+            else
+            {
+                // 噴煙をパーティクルで表現
+                Particle p = Particle.Add(X, Y);
+                if (p) {
+                    p.SetVelocity(Random.Range(0, 359), 0.0f);  // 全方向に速度0.3で放射
+                    p.Visible = false;                          // 非表示で開始
+                    p.Delay = 5;                                // 可視状態までの遅延フレーム数
+                    //              p.SetColor(1.0f, 0.2f, 0.0f);
+                }
+            }
+		}
 	}
 
 	IEnumerator _Update5()
@@ -252,9 +318,24 @@ public class Enemy : Token
 	/// 固定フレームで更新
 	void FixedUpdate()
 	{
-		if (_id <= 3) {
-			// 通常の敵だけ移動速度を減衰する
-			MulVelocity (0.93f);
+        if (_id <= 3 && _id != 0) {
+			switch ( phase )
+			{
+			case 0:
+				// 通常の敵だけ移動速度を減衰する
+				MulVelocity (0.93f);
+				if ( 0.01 > RigidBody.velocity.magnitude ) {
+					phase = 1;
+				}
+				break;
+			case 1:
+                SetVelocity(180, 0.1f);
+				phase = 2;
+				break;
+			default:
+				MulVelocity (1.005f);
+				break;
+			}
 		}
 	}
 
@@ -281,5 +362,14 @@ public class Enemy : Token
 			// 移動方向を向くようにする
 			Angle = Direction;
 		}
+	}
+
+	public virtual void Vanish ()
+	{
+		if (0 < Enemy.enemyCount[_id] ) {
+			Enemy.enemyCount[_id]--;
+		}
+		
+		VanishCannotOverride();
 	}
 }

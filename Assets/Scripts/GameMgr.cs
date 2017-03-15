@@ -38,6 +38,9 @@ public class GameMgr : MonoBehaviour
 
 		// 敵オブジェクトを64個確保しておく
 		Enemy.parent = new TokenMgr<Enemy> ("Enemy", 64);
+        for (int i = 0; i < (int)eEnemyType.Count; i++) {
+            Enemy.EnemyCount[i] = 0;
+        }
 
 		// プレイヤの参照を敵に登録する
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();

@@ -5,7 +5,7 @@ using System.Collections;
 /// ボス
 /// </summary>
 public class Boss : Enemy 
-{
+{	
     /// ボスを倒したフラグ
     public static bool bDestroyed = false;
 
@@ -59,8 +59,8 @@ public class Boss : Enemy
             BuildPeppy();
 			yield return new WaitForSeconds(3);
 
-			AddEnemy(3,  45, 5);
-			AddEnemy(3, -45, 5);
+			AddEnemy(3,  60, 5);
+			AddEnemy(3, -60, 5);
 			yield return new WaitForSeconds(3);
 			BuildPencil();
 			yield return new WaitForSeconds(2);
@@ -76,19 +76,19 @@ public class Boss : Enemy
 	/// ペンシルを3方向に発射
 	void BuildPencil()
 	{
-		// プレイヤと±30度にだいこんを発射
+		// プレイヤと±30度にペンシルを発射
 		float aim = GetAim ();
 
-		AddEnemy (4, aim, 3);
-		AddEnemy (4, aim-30, 3);
-		AddEnemy (4, aim+30, 3);
+		AddEnemy (4, aim, 1);
+		AddEnemy (4, aim-30, 1);
+		AddEnemy (4, aim+30, 1);
 	}
 
     /// Mr.Peppyを発射
     void BuildPeppy()
     {
-        AddEnemy(5, 45, 3);
-        AddEnemy(5, -45, 3);
+        AddEnemy(5, 30, 3);
+        AddEnemy(5, -30, 3);
     }
 
     /// HPの描画
