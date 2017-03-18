@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum eEnemyType
+public enum eEnemyType : long
 {
 	Boss,		// ボス
 	Bon,		// 覆水盆
@@ -32,21 +32,21 @@ public class Enemy : Token
 	public Sprite Spr5;
 
 	/// 敵のID
-	int _id = 0;
+    int id_ = (int)eEnemyType.Boss;
 
 	/// HP
-	int _hp = 0;
+	int hp_ = 0;
 
 	/// HPの取得
 	public int Hp
 	{
-		get { return _hp; }
+		get { return hp_; }
 	}
 
 	// 敵管理
 	public static TokenMgr<Enemy> parent = null;
 
-	public int phase;
+	public int phase_;
 
 	// 敵の追加
 	public static Enemy Add(int id, float x, float y, float direction, float speed)
@@ -57,7 +57,7 @@ public class Enemy : Token
 
 		Enemy e = parent.Add (x, y, direction, speed);
 
-        e.phase = 0;
+        e.phase_ = 0;
 
 		if (e == null) {
 			return null;
@@ -85,9 +85,9 @@ public class Enemy : Token
 
     /// ダメージを与える
     bool Damage(int v) {
-        _hp -= v;
+        hp_ -= v;
         
-        if (_hp <= 0) {
+        if (hp_ <= 0) {
             // HPがなくなったので死亡
             Vanish();
             
@@ -100,7 +100,7 @@ public class Enemy : Token
             Sound.PlaySe("destroy", 0);
 
             // ボスを倒したらザコ敵と敵弾を消す
-            if (_id == (int)eEnemyType.Boss) {
+            if ((eEnemyType)id_ == eEnemyType.Boss) {
                 // 生存しているザコ敵を消す
                 Enemy.parent.ForEachExist(e => e.Damage(9999));
 
@@ -179,7 +179,7 @@ public class Enemy : Token
 	IEnumerator _Update4()
 	{
 		while (true) {
-			// 何もしない
+			// まっすぐ飛ぶ
 			yield return new WaitForSeconds (0.05f);
 
             if ( RigidBody.velocity.magnitude < 3.0f ) {
@@ -285,18 +285,18 @@ public class Enemy : Token
 	/// IDからパラメータを設定
 	public void SetParam(int id)
 	{
-		if (_id != 0) {
+        if (id_ != (int)eEnemyType.Boss) {
 			// 前回のコルーチンを終了する
-			StopCoroutine("_Update" + _id);
+			StopCoroutine("_Update" + id_);
 		}
 
-		if (id != 0) {
+        if (id != (int)eEnemyType.Boss) {
 			// コルーチンを新しく開始する
 			StartCoroutine("_Update" + id);
 		}
 
 		// IDを設定
-		_id = id;
+		id_ = id;
 
 		//              0,  1,  2,  3,  4,  5
 		// HPテーブル
@@ -306,7 +306,7 @@ public class Enemy : Token
 		Sprite[] sprs = { Spr0, Spr1, Spr2, Spr3, Spr4, Spr5 };
 
 		// HPを設定
-		_hp = hps[id];
+		hp_ = hps[id];
 
 		// スプライトを設定
 		SetSprite (sprs [id]);
@@ -318,19 +318,19 @@ public class Enemy : Token
 	/// 固定フレームで更新
 	void FixedUpdate()
 	{
-        if (_id <= 3 && _id != 0) {
-			switch ( phase )
+        if ((eEnemyType)id_ <= eEnemyType.Fugu && (eEnemyType)id_ != eEnemyType.Boss) {
+			switch ( phase_ )
 			{
 			case 0:
 				// 通常の敵だけ移動速度を減衰する
 				MulVelocity (0.93f);
 				if ( 0.01 > RigidBody.velocity.magnitude ) {
-					phase = 1;
+					phase_ = 1;
 				}
 				break;
 			case 1:
                 SetVelocity(180, 0.1f);
-				phase = 2;
+				phase_ = 2;
 				break;
 			default:
 				MulVelocity (1.005f);
@@ -342,8 +342,8 @@ public class Enemy : Token
 	/// 更新
 	void Update()
 	{
-		if (_id == 4) {
-			// だいこんのみ
+        if ((eEnemyType)id_ == eEnemyType.Pencil) {
+			// ペンシルロケットのみ
 			Vector2 min = GetWorldMin();
 			Vector2 max = GetWorldMax();
 
@@ -366,8 +366,8 @@ public class Enemy : Token
 
 	public virtual void Vanish ()
 	{
-		if (0 < Enemy.enemyCount[_id] ) {
-			Enemy.enemyCount[_id]--;
+		if (0 < Enemy.enemyCount[id_] ) {
+			Enemy.enemyCount[id_]--;
 		}
 		
 		VanishCannotOverride();

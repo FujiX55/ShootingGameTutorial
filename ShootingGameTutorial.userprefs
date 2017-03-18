@@ -1,20 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Boss.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Pad.cs">
     <Files>
+      <File FileName="Assets\Scripts\GameMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Boss.cs" Line="63" Column="18" />
       <File FileName="Assets\Scripts\Pad.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TitleMgr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameMgr.cs" Line="47" Column="3" />
       <File FileName="Assets\Scripts\Shot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Bullet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Bullet.cs" Line="7" Column="1" />
       <File FileName="Assets\Scripts\SoundMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TokenMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Token.cs" Line="235" Column="13" />
       <File FileName="Assets\Scripts\Util.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Particle.cs" Line="29" Column="40" />
+      <File FileName="Assets\Scripts\Particle.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

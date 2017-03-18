@@ -19,7 +19,7 @@ public class GameMgr : MonoBehaviour
 	}
 
 	/// 開始時は初期化状態にする
-	eState _state = eState.Init;
+	eState state_ = eState.Init;
 
 	public Pad pad;
 
@@ -60,14 +60,14 @@ public class GameMgr : MonoBehaviour
 			return;
 		}
 
-		switch (_state)
+		switch (state_)
 		{
 			case eState.Init:
 				// BGM再生開始
 				Sound.PlayBgm("bgm");
 
 				// メイン状態へ遷移する
-				_state = eState.Main;
+				state_ = eState.Main;
 				break;
 			   
 			case eState.Main:
@@ -76,12 +76,12 @@ public class GameMgr : MonoBehaviour
 					// ボスを倒したのでゲームクリア
 					// BGMを止める
 					Sound.StopBgm();
-					_state = eState.GameClear;
+					state_ = eState.GameClear;
 				}
 				else if (Enemy.target.Exists == false)
 				{
 					// プレイヤが死亡したのでゲームオーバー
-					_state = eState.GameOver;
+					state_ = eState.GameOver;
 				}
 				break;
 
@@ -128,7 +128,7 @@ public class GameMgr : MonoBehaviour
 	//
 	void OnGUI()
 	{
-		switch (_state)
+		switch (state_)
 		{
 			case eState.GameClear:
 				DrawLabelCenter("GAME CLEAR!");
