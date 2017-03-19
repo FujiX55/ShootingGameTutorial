@@ -4,8 +4,10 @@ using System.Collections;
 public class Pad {
 
 	public Vector2 start_;	// タッチ開始位置
+	public Vector2 prev_;	// 前回タッチ位置
 	public Vector2 latest_; // 最新タッチ位置
 	public Vector2 vec;		// 移動量
+	public Vector2 totalvec;// 総移動量
 
 	bool	push_;			// プッシュON
 	int		touchId_;		// タッチ番号
@@ -30,6 +32,16 @@ public class Pad {
 		return new Vector2(x, y);
 	}
 
+    /// タッチからの総移動量を取得する.
+    public Vector2 GetTotalVector() {
+        return totalvec;
+    }
+
+    /// タッチの現在位置を取得する.
+    public Vector2 GetPosition() {
+        return latest_;
+    }
+
 	/// PUSHを検出する
 	public bool IsPushed() {
 		return push_;
@@ -51,7 +63,7 @@ public class Pad {
 			case TouchPhase.Began:
 				if ( touchId_ == -1 ) {
 					touchId_ = touch.fingerId;
-					latest_ = start_ = touch.position;
+					start_ = latest_ = prev_ = touch.position;
 					push_ = true;
 				}
 				break;
@@ -60,15 +72,18 @@ public class Pad {
 			case TouchPhase.Moved:
 				if ( touch.fingerId == touchId_ ) {
 					latest_ = touch.position;
-					vec = latest_ - start_;
-					start_ = latest_;
+//                  vec = latest_ - prev_;
+                    vec = Camera.main.ScreenToWorldPoint( latest_ ) - Camera.main.ScreenToWorldPoint( prev_ );
+
+					totalvec = latest_ - start_;
+					prev_ = latest_;
 				}
 				break;
 			
 			case TouchPhase.Canceled:
 			case TouchPhase.Ended:
 				if ( touch.fingerId == touchId_ ) {
-					latest_ = start_ = vec = new Vector2(0,0);
+					start_ = latest_ = prev_ = vec = totalvec = new Vector2(0,0);
 					touchId_ = -1;
 				}
 				break;			
@@ -79,17 +94,20 @@ public class Pad {
             // 左クリックを検出
             if ( Input.GetMouseButtonDown(0) ) {
                 // マウスボタン押下
-                latest_ = start_ = Input.mousePosition;
+                start_ = latest_ = prev_ = Input.mousePosition;
                 push_ = true;
             }
             else if ( Input.GetMouseButton(0) ) {
                 // マウス押下中
                 latest_ = Input.mousePosition;
-                vec = latest_ - start_;
-                start_ = latest_;
+//                vec = latest_ - prev_;
+                vec = Camera.main.ScreenToWorldPoint( latest_ ) - Camera.main.ScreenToWorldPoint( prev_ );
+
+                totalvec = latest_ - start_;
+                prev_ = latest_;
             }
             else if ( Input.GetMouseButtonUp(0) ) {
-                latest_ = start_ = vec = new Vector2(0,0);
+                start_ = latest_ = prev_ = vec = totalvec = new Vector2(0,0);
             }
 
             // 右クリックやスペースキーでもPUSHを検出

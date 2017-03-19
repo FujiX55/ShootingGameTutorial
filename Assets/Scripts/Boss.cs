@@ -16,7 +16,7 @@ public class Boss : Enemy
 	void Start()
 	{
 		// パラメータを設定
-		SetParam (0);
+        SetParam ( (int)eEnemyType.Boss );
 
         // ボスを倒したフラグ初期化
         bDestroyed = false;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ゲーム管理
@@ -89,7 +90,7 @@ public class GameMgr : MonoBehaviour
 				if (pad.IsPushed())
 				{
 					// タイトルへ戻る
-					Application.LoadLevel("Title");
+					SceneManager.LoadScene("Title");
 				}
 				break;
 
@@ -97,7 +98,7 @@ public class GameMgr : MonoBehaviour
 				if (pad.IsPushed())
 				{
 					// ゲームをやり直す
-					Application.LoadLevel("Main");
+					SceneManager.LoadScene("Main");
 				}
 				break;
 

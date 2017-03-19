@@ -199,6 +199,7 @@ public class Enemy : Token
                     p.Visible = false;                          // 非表示で開始
                     p.Delay = 5;                                // 可視状態までの遅延フレーム数
                     //              p.SetColor(1.0f, 0.2f, 0.0f);
+                    p.RigidBody.gravityScale = -0.1f;
                 }
             }
 		}
@@ -349,10 +350,10 @@ public class Enemy : Token
 
 			if (Y < min.y || max.y < Y) {
 				// 上下ではみ出したら跳ね返るようにする
-				ClampScreen();
+//				ClampScreen();
 
 				// 移動速度を反転
-				VY *= -1;
+//				VY *= -1;
 			}
 			if (X < min.x || max.x < X) {
 				// 左右ではみ出したら消滅する
@@ -364,7 +365,7 @@ public class Enemy : Token
 		}
 	}
 
-	public virtual void Vanish ()
+	public override void Vanish ()
 	{
 		if (0 < Enemy.enemyCount[id_] ) {
 			Enemy.enemyCount[id_]--;

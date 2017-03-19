@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TitleMgr : MonoBehaviour {
     Pad pad;
 
     /// Press to startの表示フラグ
-    bool _bDrawPressStart = false;
+    bool bDrawPressStart = false;
 
     void Awake()
     {
@@ -17,7 +18,7 @@ public class TitleMgr : MonoBehaviour {
         while (true)
         {
             // 0.6秒で点滅する
-            _bDrawPressStart = !_bDrawPressStart;
+            bDrawPressStart = !bDrawPressStart;
 
             yield return new WaitForSeconds(0.6f);
         }
@@ -30,13 +31,13 @@ public class TitleMgr : MonoBehaviour {
         if (pad.IsPushed())
         {
             // Spaceキーを押したらゲーム開始
-            Application.LoadLevel("Main");
+            SceneManager.LoadScene("Main");
         }
     }
 
     void OnGUI()
     {
-        if (_bDrawPressStart)
+        if (bDrawPressStart)
         {
             // ゲーム開始メッセージの描画
             // フォントサイズ設定

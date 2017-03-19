@@ -19,7 +19,7 @@ public class Player : Token {
 	void Start()
 	{
 		// 画面からはみ出ないようにする
-		var w = SpriteWidth / 2;
+		var w = SpriteWidth  / 2;
 		var h = SpriteHeight / 2;
 
         w -= w / 2;
@@ -28,7 +28,7 @@ public class Player : Token {
 	//	SetSize (w, h);
         SetSize (0, 0);
 
-        Angle = -5;
+//        Angle = -5;
 	}
 
 	/// 固定フレームで更新
@@ -56,16 +56,40 @@ public class Player : Token {
 	/// 更新
 	void Update()
 	{
-		// 移動速度
-		Vector2 v = gameMgr_.pad.GetVector();
-//		float speed = MoveSpeed * Time.deltaTime;
+        #if true
+        // 移動量
+        Vector2 v = gameMgr_.pad.GetVector();
 
 		// 移動して画面外に出ないようにする
-//      ClampScreenAndMove (v * speed);
-        ClampScreenAndMove (v * Time.deltaTime);
+//        ClampScreenAndMove (v * Time.deltaTime);
+        X += v.x;
+        Y += v.y;
+        ClampScreen ();
 
-	    Vector2 pos = transform.position;
-		latest_ = Camera.main.WorldToScreenPoint(pos);
+        latest_ = Camera.main.WorldToScreenPoint( transform.position );
+        #else
+        #if false
+        // 移動量
+        Vector2 pos = Camera.main.ScreenToWorldPoint( gameMgr_.pad.GetPosition() );
+
+        // 移動して画面外に出ないようにする
+        X = pos.x;
+        Y = pos.y;
+        ClampScreen ();
+        #else
+        // 移動量
+        Vector2 pos = Camera.main.ScreenToWorldPoint( gameMgr_.pad.GetTotalVector() );
+        Vector2 v = latest_ - pos;
+        latest_ = pos;
+//        Vector2 v = gameMgr_.pad.GetVector();
+
+        // 移動して画面外に出ないようにする
+        X -= v.x;
+        Y -= v.y;
+        //      ClampScreenAndMove (v * speed);
+        ClampScreen ();
+        #endif
+        #endif
 	}
 
 	/// 衝突判定
