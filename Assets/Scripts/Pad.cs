@@ -69,7 +69,7 @@ public class Pad
 	{
 		Idle,
 		Began,
-		Pressing,
+		Moving,
 		Ended
 	}
 
@@ -85,10 +85,8 @@ public class Pad
 			case TouchPhase.Began:
 				if (touchId_ == -1) {
 					touchId_ = touch.fingerId;
-					start_ = latest_ = prev_ = touch.position;
-					push_ = true;
-
-					Time.timeScale = 1.0f;
+					latest_ = touch.position;
+					touchState = eTouchState.Began;
 				}
 				break;
 
@@ -96,21 +94,16 @@ public class Pad
 			case TouchPhase.Moved:
 				if (touch.fingerId == touchId_) {
 					latest_ = touch.position;
-//                  vec = latest_ - prev_;
-					vec = Camera.main.ScreenToWorldPoint(latest_) - Camera.main.ScreenToWorldPoint(prev_);
-
-					totalvec = latest_ - start_;
-					prev_ = latest_;
+					touchState = eTouchState.Moving;
 				}
 				break;
 			
 			case TouchPhase.Canceled:
 			case TouchPhase.Ended:
 				if (touch.fingerId == touchId_) {
-					start_ = latest_ = prev_ = vec = totalvec = new Vector2(0, 0);
 					touchId_ = -1;
-
-					Time.timeScale = 0.3f;
+					latest_ = new Vector2(0, 0);
+					touchState = eTouchState.Ended;
 				}
 				break;			
 			}
@@ -120,24 +113,17 @@ public class Pad
 			// 左クリックを検出
 			if (Input.GetMouseButtonDown(0)) {
 				// マウスボタン押下
-				start_ = latest_ = prev_ = Input.mousePosition;
-				push_ = true;
-
-				Time.timeScale = 1.0f;
+				latest_ = Input.mousePosition;
+				touchState = eTouchState.Began;
 			}
 			else if (Input.GetMouseButton(0)) {
 				// マウス押下中
 				latest_ = Input.mousePosition;
-//                vec = latest_ - prev_;
-				vec = Camera.main.ScreenToWorldPoint(latest_) - Camera.main.ScreenToWorldPoint(prev_);
-
-				totalvec = latest_ - start_;
-				prev_ = latest_;
+				touchState = eTouchState.Moving;
 			}
 			else if (Input.GetMouseButtonUp(0)) {
-				start_ = latest_ = prev_ = vec = totalvec = new Vector2(0, 0);
-
-				Time.timeScale = 0.3f;
+				latest_ = new Vector2(0, 0);
+				touchState = eTouchState.Ended;
 			}
 
 			// 右クリックやスペースキーでもPUSHを検出
@@ -146,5 +132,28 @@ public class Pad
 			}
 		}
 #endif
+		switch (touchState) {
+		case eTouchState.Began:
+			start_ = prev_ = latest_;
+			push_ = true;
+
+			Time.timeScale = 1.0f;
+			break;
+
+		case eTouchState.Moving:
+			vec = Camera.main.ScreenToWorldPoint(latest_) - Camera.main.ScreenToWorldPoint(prev_);
+
+			totalvec = latest_ - start_;
+			prev_ = latest_;
+			break;
+
+		case eTouchState.Ended:
+			start_ = prev_ = vec = totalvec = latest_;
+			touchId_ = -1;
+
+			Time.timeScale = 0.3f;
+			touchState = eTouchState.Idle;
+			break;			
+		}
 	}
 }
