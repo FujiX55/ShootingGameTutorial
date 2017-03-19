@@ -4,7 +4,8 @@ using System.Collections;
 /// <summary>
 /// 敵弾
 /// </summary>
-public class Bullet : Token {
+public class Bullet : Token
+{
 
 	/// 敵弾処理
 	public static TokenMgr<Bullet> parent = null;
@@ -18,8 +19,7 @@ public class Bullet : Token {
 	/// 更新
 	void Update()
 	{
-		if ( IsOutside() )
-		{
+		if (IsOutside()) {
 			// 画面外に出たら消える
 			Vanish();
 		}
