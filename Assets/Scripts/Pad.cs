@@ -69,7 +69,7 @@ public class Pad
 	{
 		Idle,
 		Began,
-		Moving,
+		Stay,
 		Ended
 	}
 
@@ -79,11 +79,12 @@ public class Pad
 	{
 		push_ = false;
 
-		// タッチを検出
+		// タッチ処理
 		foreach (var touch in Input.touches) {
 			switch (touch.phase) {
 			case TouchPhase.Began:
 				if (touchId_ == -1) {
+					// タッチ開始
 					touchId_ = touch.fingerId;
 					latest_ = touch.position;
 					touchState = eTouchState.Began;
@@ -93,14 +94,16 @@ public class Pad
 			case TouchPhase.Stationary:
 			case TouchPhase.Moved:
 				if (touch.fingerId == touchId_) {
+					// タッチ継続中
 					latest_ = touch.position;
-					touchState = eTouchState.Moving;
+					touchState = eTouchState.Stay;
 				}
 				break;
 			
 			case TouchPhase.Canceled:
 			case TouchPhase.Ended:
 				if (touch.fingerId == touchId_) {
+					// タッチ終了
 					touchId_ = -1;
 					latest_ = new Vector2(0, 0);
 					touchState = eTouchState.Ended;
@@ -108,7 +111,8 @@ public class Pad
 				break;			
 			}
 		}
-#if true
+
+		// マウス処理
 		if (touchId_ == -1) {
 			// 左クリックを検出
 			if (Input.GetMouseButtonDown(0)) {
@@ -119,9 +123,10 @@ public class Pad
 			else if (Input.GetMouseButton(0)) {
 				// マウス押下中
 				latest_ = Input.mousePosition;
-				touchState = eTouchState.Moving;
+				touchState = eTouchState.Stay;
 			}
 			else if (Input.GetMouseButtonUp(0)) {
+				// マウスリリース
 				latest_ = new Vector2(0, 0);
 				touchState = eTouchState.Ended;
 			}
@@ -131,16 +136,17 @@ public class Pad
 				push_ = true;
 			}
 		}
-#endif
+
+		// 共通処理
 		switch (touchState) {
 		case eTouchState.Began:
 			start_ = prev_ = latest_;
 			push_ = true;
-
+			// 等速再生
 			Time.timeScale = 1.0f;
 			break;
 
-		case eTouchState.Moving:
+		case eTouchState.Stay:
 			vec = Camera.main.ScreenToWorldPoint(latest_) - Camera.main.ScreenToWorldPoint(prev_);
 
 			totalvec = latest_ - start_;
@@ -150,8 +156,9 @@ public class Pad
 		case eTouchState.Ended:
 			start_ = prev_ = vec = totalvec = latest_;
 			touchId_ = -1;
-
+			// スロー再生
 			Time.timeScale = 0.3f;
+			// アイドル状態へ
 			touchState = eTouchState.Idle;
 			break;			
 		}
