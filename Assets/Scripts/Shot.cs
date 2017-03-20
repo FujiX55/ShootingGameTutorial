@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shot : Token
+public class Shot : Actor
 {
 	/// 親オブジェクト
-	public static TokenMgr<Shot> parent = null;
+	public static ActorMgr<Shot> parent = null;
 
 	/// インスタンスの取得
 	public static Shot Add(float x, float y, float direction, float speed)

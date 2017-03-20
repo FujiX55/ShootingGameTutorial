@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/// Token管理クラス
-public class TokenMgr<Type> where Type : Token
+/// Actor管理クラス
+public class ActorMgr<Type> where Type : Actor
 {
 	int _size = 0;
 	GameObject _prefab = null;
@@ -16,7 +16,7 @@ public class TokenMgr<Type> where Type : Token
 
 	/// コンストラクタ
 	/// プレハブは必ず"Resources/Prefabs/"に配置すること
-	public TokenMgr(string prefabName, int size = 0)
+	public ActorMgr(string prefabName, int size = 0)
 	{
 		_size = size;
 		_prefab = Resources.Load("Prefabs/" + prefabName) as GameObject;

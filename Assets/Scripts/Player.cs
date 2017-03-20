@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Player : Token
+public class Player : Actor
 {
 	public GameMgr gameMgr_;
 	public Vector2 latest_;

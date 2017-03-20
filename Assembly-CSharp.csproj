@@ -45,6 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Actor.cs" />
+     <Compile Include="Assets\Scripts\ActorMgr.cs" />
      <Compile Include="Assets\Scripts\Boss.cs" />
      <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -57,8 +59,6 @@
      <Compile Include="Assets\Scripts\Sound.cs" />
      <Compile Include="Assets\Scripts\SoundMgr.cs" />
      <Compile Include="Assets\Scripts\TitleMgr.cs" />
-     <Compile Include="Assets\Scripts\Token.cs" />
-     <Compile Include="Assets\Scripts\TokenMgr.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

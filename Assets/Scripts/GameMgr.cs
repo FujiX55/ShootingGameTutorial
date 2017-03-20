@@ -42,16 +42,16 @@ public class GameMgr : MonoBehaviour
 		pad = new Pad();
 
 		// ショットオブジェクトを32個確保しておく
-		Shot.parent = new TokenMgr<Shot>("Shot", 32);
+		Shot.parent = new ActorMgr<Shot>("Shot", 32);
 
 		// パーティクルオブジェクトを256個確保しておく
-		Particle.parent = new TokenMgr<Particle>("Particle", 256);
+		Particle.parent = new ActorMgr<Particle>("Particle", 256);
 
 		// 敵弾オブジェクトを256個確保しておく
-		Bullet.parent = new TokenMgr<Bullet>("Bullet", 256);
+		Bullet.parent = new ActorMgr<Bullet>("Bullet", 256);
 
 		// 敵オブジェクトを64個確保しておく
-		Enemy.parent = new TokenMgr<Enemy>("Enemy", 64);
+		Enemy.parent = new ActorMgr<Enemy>("Enemy", 64);
 		for (int i = 0; i < (int)eEnemyType.Count; i++) {
 			Enemy.EnemyCount[i] = 0;
 		}
@@ -153,7 +153,7 @@ public class GameMgr : MonoBehaviour
 	/// 破壊
 	void OnDestroy()
 	{
-		// TokenMgrの参照を消す
+		// ActorMgrの参照を消す
 		Shot.parent = null;
 		Enemy.parent = null;
 		Bullet.parent = null;

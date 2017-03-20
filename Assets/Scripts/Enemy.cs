@@ -22,7 +22,7 @@ public enum eEnemyType : long
 /// <summary>
 /// 敵
 /// </summary>
-public class Enemy : Token
+public class Enemy : Actor
 {
 	static int[] enemyCount = new int[(int)eEnemyType.Count];
 
@@ -50,7 +50,7 @@ public class Enemy : Token
 	}
 
 	// 敵管理
-	public static TokenMgr<Enemy> parent = null;
+	public static ActorMgr<Enemy> parent = null;
 
 	public int phase_;
 
@@ -151,6 +151,8 @@ public class Enemy : Token
 
 		while (true) {
 			Bullet.Add(X, Y, dir, 2);
+
+			Angle = dir;
 
 			dir += 16;
 

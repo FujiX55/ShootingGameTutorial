@@ -25,14 +25,14 @@ public class Util
 	}
 
 	/// トークンを動的生成する.
-	public static Token CreateToken(float x, float y, string SpriteFile, string SpriteName, string objName = "Token")
+	public static Actor CreateActor(float x, float y, string SpriteFile, string SpriteName, string objName = "Actor")
 	{
 		GameObject obj = new GameObject(objName);
 		obj.AddComponent<SpriteRenderer>();
 		obj.AddComponent<Rigidbody2D>();
-		obj.AddComponent<Token>();
+		obj.AddComponent<Actor>();
 
-		Token t = obj.GetComponent<Token>();
+		Actor t = obj.GetComponent<Actor>();
 		// スプライト設定.
 		t.SetSprite(GetSprite(SpriteFile, SpriteName));
 		// 座標を設定.

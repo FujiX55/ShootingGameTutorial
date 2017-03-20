@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// パーティクル
-public class Particle : Token
+public class Particle : Actor
 {
 	/// 遅延時間
 	int delay;
@@ -13,7 +13,7 @@ public class Particle : Token
 	}
 
 	/// パーティクル管理
-	public static TokenMgr<Particle> parent = null;
+	public static ActorMgr<Particle> parent = null;
 
 	/// パーティクルのインスタンスを取得する
 	public static Particle Add(float x, float y)

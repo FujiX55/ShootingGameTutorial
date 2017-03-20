@@ -4,10 +4,10 @@ using System.Collections;
 /// キャラクター基底クラス.
 /// SpriteRendererが必要.
 [RequireComponent(typeof(SpriteRenderer))]
-public class Token : MonoBehaviour
+public class Actor : MonoBehaviour
 {
 	/// インスタンスを生成してスクリプトを返す.
-	//  public static Type CreateInstance<Type> (GameObject prefab, Vector3 p, float direction = 0.0f, float speed = 0.0f) where Type : Token
+	//  public static Type CreateInstance<Type> (GameObject prefab, Vector3 p, float direction = 0.0f, float speed = 0.0f) where Type : Actor
 	//  {
 	//    GameObject g = Instantiate (prefab, p, Quaternion.identity) as GameObject;
 	//    Type obj = g.GetComponent<Type> ();
