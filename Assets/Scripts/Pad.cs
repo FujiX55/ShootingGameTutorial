@@ -75,6 +75,8 @@ public class Pad
 
 	eTouchState touchState = eTouchState.Idle;
 
+	float brake = 0.01f;
+
 	public void Update()
 	{
 		push_ = false;
@@ -157,10 +159,27 @@ public class Pad
 			start_ = prev_ = vec = totalvec = latest_;
 			touchId_ = -1;
 			// スロー再生
-			Time.timeScale = 0.3f;
+			Time.timeScale = 0.99f;
 			// アイドル状態へ
 			touchState = eTouchState.Idle;
 			break;			
+		}
+
+		if (Time.timeScale != 1.0f) {
+			if (Time.timeScale > 0.0f) {
+				float tmScale = Time.timeScale;
+
+				tmScale -= brake;
+
+				if (0.0f > tmScale) {
+					tmScale = 0.0f;
+				}
+				Time.timeScale = tmScale;
+				brake += 0.0001f;
+			}
+		}
+		else {
+			brake = 0.01f;
 		}
 	}
 }

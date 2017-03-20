@@ -34,7 +34,7 @@ public class Particle : Token
 	}
 
 	/// 更新
-	void Update()
+	void FixedUpdate()
 	{
 		if (0 < delay) {
 			delay--;

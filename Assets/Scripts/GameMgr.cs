@@ -7,28 +7,34 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameMgr : MonoBehaviour
 {
-	public Vector2 start_;
 	// タッチ開始位置
-	public Vector2 latest_;
+	public Vector2 start_;
 	// 最新タッチ位置
+	public Vector2 latest_;
 
 	/// 状態
-	enum eState
+	public enum eState
 	{
-		Init,
 		// 初期化
-		Main,
+		Init,
 		// メイン
-		GameClear,
+		Main,
 		// ゲームクリア
-		GameOver
+		GameClear,
 		// ゲームオーバー
+		GameOver
 	}
 
 	/// 開始時は初期化状態にする
 	eState state_ = eState.Init;
 
+	public eState State {
+		get { return state_; }
+	}
+
 	public Pad pad;
+
+	//	public Texture2D blackTexture;
 
 	/// 開始
 	void Awake()
@@ -53,20 +59,15 @@ public class GameMgr : MonoBehaviour
 		// プレイヤの参照を敵に登録する
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();
 
-		//ここで黒テクスチャ作る
-		Texture2D blackTexture;
-		blackTexture = new Texture2D(32, 32, TextureFormat.RGB24, false);
-		blackTexture.ReadPixels(new Rect(0, 0, 32, 32), 0, 0, false);
-		blackTexture.SetPixel(0, 0, Color.white);
-		blackTexture.Apply();
+		Time.timeScale = 1.0f;
 	}
 
 	/// 更新
 	void Update()
 	{
 		pad.Update();
-		start_ = pad.start_;         // タッチ開始位置
-		latest_ = pad.latest_;        // 最新タッチ位置
+		start_ = pad.start_;	// タッチ開始位置
+		latest_ = pad.latest_;	// 最新タッチ位置
 
 		// 戻るボタンで終了
 		if (pad.IsEscape()) {
@@ -143,6 +144,7 @@ public class GameMgr : MonoBehaviour
 			break;
 
 		case eState.GameOver:
+			Time.timeScale = 0.3f;
 			DrawLabelCenter("GAME OVER");
 			break;
 		}
