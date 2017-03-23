@@ -6,10 +6,12 @@ public class Player : Actor
 	public GameMgr gameMgr_;
 	public Vector2 latest_;
 
-	public Sprite Spr0;
 	// 待機画像1
-	public Sprite Spr1;
+	public Sprite Spr0;
 	// 待機画像2
+	public Sprite Spr1;
+	// 待機画像3
+	public Sprite Spr2;
 
 	/// 移動速度
 	//  public float MoveSpeed = 5.0f;
@@ -17,6 +19,8 @@ public class Player : Actor
 
 	/// アニメーションタイマ
 	int _tAnim = 0;
+
+	ProximitySensor sensor;
 
 	/// 開始
 	void Start()
@@ -31,7 +35,7 @@ public class Player : Actor
 		//	SetSize (w, h);
 		SetSize(0, 0);
 
-//        Angle = -5;
+		sensor = gameObject.transform.GetChild(0).GetComponent<ProximitySensor>();
 	}
 
 	/// 固定フレームで更新
@@ -39,61 +43,57 @@ public class Player : Actor
 	{
 		_tAnim++;
 		if (_tAnim % 48 < 24) {
-			// 0～23フレームは「Spr0」
-			SetSprite(Spr0);
-			{
-				// X座標をランダムでずらす
-				float px = X + Random.Range(0, SpriteWidth / 2);
-
-				// 発射角度を    ±3する
-				float dir = Random.Range(-3.0f, 3.0f);
-
-				Shot.Add(px, Y, dir, 10);
+			if (0 < sensor.Alert) {
+				// 0～23フレームは「Spr2」
+				SetSprite(Spr2);
 			}
+			else {
+				// 0～23フレームは「Spr0」
+				SetSprite(Spr0);
+			}
+
+			// X座標をランダムでずらす
+			float px = X + Random.Range(0, SpriteWidth / 2);
+
+			// 発射角度を    ±3する
+			float dir = Random.Range(-3.0f, 3.0f);
+
+			Shot.Add(px, Y, dir, 10);
 		}
 		else {
-			// 24～48フレームは「Spr1」
-			SetSprite(Spr1);
+			if (0 < sensor.Alert) {
+				// 24～48フレームは「Spr2」
+				SetSprite(Spr2);
+			}
+			else {
+				// 24～48フレームは「Spr1」
+				SetSprite(Spr1);
+			}
 		}
+		// 噴煙をパーティクルで表現
+//		if (latest_.magnitude > 0.05) {
+		Particle p = Particle.Add(X - 0.2f, Y - 0.5f);
+		if (p) {
+//			p.SetVelocity(Random.Range(0, 359), 0.3f);  // 全方向に速度0.3で放射
+			p.SetVelocity(Random.Range(225, 270), 2.5f);  // 全方向に速度0.3で放射
+			p.SortingLayer = "Default";
+			p.SetColor(0.2f, 1.0f, 0.2f);
+		}
+//		}
 	}
 
 	/// 更新
 	void Update()
 	{
-		#if true
 		// 移動量
 		Vector2 v = gameMgr_.pad.GetVector();
+		latest_ = v;
 
 		// 移動して画面外に出ないようにする
 //        ClampScreenAndMove (v * Time.deltaTime);
 		X += v.x;
 		Y += v.y;
 		ClampScreen();
-
-		latest_ = Camera.main.WorldToScreenPoint(transform.position);
-		#else
-		#if false
-        // 移動量
-        Vector2 pos = Camera.main.ScreenToWorldPoint( gameMgr_.pad.GetPosition() );
-
-        // 移動して画面外に出ないようにする
-        X = pos.x;
-        Y = pos.y;
-        ClampScreen ();
-		#else
-        // 移動量
-        Vector2 pos = Camera.main.ScreenToWorldPoint( gameMgr_.pad.GetTotalVector() );
-        Vector2 v = latest_ - pos;
-        latest_ = pos;
-//        Vector2 v = gameMgr_.pad.GetVector();
-
-        // 移動して画面外に出ないようにする
-        X -= v.x;
-        Y -= v.y;
-        //      ClampScreenAndMove (v * speed);
-        ClampScreen ();
-		#endif
-		#endif
 	}
 
 	/// 衝突判定

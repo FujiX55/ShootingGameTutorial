@@ -3,18 +3,9 @@ using System.Collections;
 
 /// キャラクター基底クラス.
 /// SpriteRendererが必要.
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof (SpriteRenderer))]
 public class Actor : MonoBehaviour
 {
-	/// インスタンスを生成してスクリプトを返す.
-	//  public static Type CreateInstance<Type> (GameObject prefab, Vector3 p, float direction = 0.0f, float speed = 0.0f) where Type : Actor
-	//  {
-	//    GameObject g = Instantiate (prefab, p, Quaternion.identity) as GameObject;
-	//    Type obj = g.GetComponent<Type> ();
-	//    obj.SetVelocity (direction, speed);
-	//    return obj;
-	//  }
-
 	/// 生存フラグ.
 	bool exists_ = true;
 
@@ -23,7 +14,6 @@ public class Actor : MonoBehaviour
 		set { exists_ = value; }
 	}
 
-	/// アクセサ.
 	/// レンダラー.
 	SpriteRenderer renderer_ = null;
 
@@ -67,13 +57,6 @@ public class Actor : MonoBehaviour
 			transform.position = pos;
 		}
 		get { return transform.position.y; }
-	}
-
-	/// 座標を足し込む.
-	public void AddPosition(float dx, float dy)
-	{
-		X += dx;
-		Y += dy;
 	}
 
 	/// 座標を設定する.
@@ -142,10 +125,10 @@ public class Actor : MonoBehaviour
 	}
 
 	/// 剛体.
-	Rigidbody2D _rigidbody2D = null;
+	Rigidbody2D rigidbody2D_ = null;
 
 	public Rigidbody2D RigidBody {
-		get { return _rigidbody2D ?? (_rigidbody2D = gameObject.GetComponent<Rigidbody2D>()); }
+		get { return rigidbody2D_ ?? (rigidbody2D_ = gameObject.GetComponent<Rigidbody2D>()); }
 	}
 
 	/// 移動量を設定.
@@ -157,39 +140,10 @@ public class Actor : MonoBehaviour
 		RigidBody.velocity = v;
 	}
 
-	/// 移動量を設定(X/Y).
-	public void SetVelocityXY(float vx, float vy)
-	{
-		Vector2 v;
-		v.x = vx;
-		v.y = vy;
-		RigidBody.velocity = v;
-	}
-
 	/// 移動量をかける.
 	public void MulVelocity(float d)
 	{
 		RigidBody.velocity *= d;
-	}
-
-	/// 移動量(X).
-	public float VX {
-		get { return RigidBody.velocity.x; }
-		set {
-			Vector2 v = RigidBody.velocity;
-			v.x = value;
-			RigidBody.velocity = v;
-		}
-	}
-
-	/// 移動量(Y).
-	public float VY {
-		get { return RigidBody.velocity.y; }
-		set {
-			Vector2 v = RigidBody.velocity;
-			v.y = value;
-			RigidBody.velocity = v;
-		}
 	}
 
 	/// 方向.
@@ -258,13 +212,13 @@ public class Actor : MonoBehaviour
 	//  }
 
 	/// サイズを設定.
-	float _width = 0.0f;
-	float _height = 0.0f;
+	float width_ = 0.0f;
+	float height_ = 0.0f;
 
 	public void SetSize(float width, float height)
 	{
-		_width = width;
-		_height = height;
+		width_ = width;
+		height_ = height;
 	}
 
 	/// スプライトの幅.
@@ -275,76 +229,6 @@ public class Actor : MonoBehaviour
 	/// スプライトの高さ.
 	public float SpriteHeight {
 		get { return Renderer.bounds.size.y; }
-	}
-
-	//  /// コリジョン（円）.
-	//  CircleCollider2D _circleCollider = null;
-	//
-	//  public CircleCollider2D CircleCollider {
-	//    get { return _circleCollider ?? (_circleCollider = GetComponent<CircleCollider2D> ()); }
-	//  }
-	//  // 円コリジョンの半径.
-	//  public float CollisionRadius {
-	//    get { return CircleCollider.radius; }
-	//    set { CircleCollider.radius = value; }
-	//  }
-	//  // 円コリジョンの有効無効を設定する.
-	//  public bool CircleColliderEnabled {
-	//    get { return CircleCollider.enabled; }
-	//    set { CircleCollider.enabled = value; }
-	//  }
-	//
-	/// コリジョン（矩形）.
-	//  BoxCollider2D _boxCollider = null;
-
-	//  public BoxCollider2D BoxCollider {
-	//    get { return _boxCollider ?? (_boxCollider = GetComponent<BoxCollider2D> ()); }
-	//  }
-
-	//  /// 矩形コリジョンの幅.
-	//  public float BoxColliderWidth {
-	//    get { return BoxCollider.size.x; }
-	//    set {
-	//      var size = BoxCollider.size;
-	//      size.x = value;
-	//      BoxCollider.size = size;
-	//    }
-	//  }
-
-	//  /// 矩形コリジョンの高さ.
-	//  public float BoxColliderHeight {
-	//    get { return BoxCollider.size.y; }
-	//    set {
-	//      var size = BoxCollider.size;
-	//      size.y = value;
-	//      BoxCollider.size = size;
-	//    }
-	//  }
-	//  // 箱コリジョンのサイズを設定する.
-	//  public void SetBoxColliderSize (float w, float h)
-	//  {
-	//    BoxCollider.size.Set (w, h);
-	//  }
-	//  // 箱コリジョンの有効無効を設定する
-	//  public bool BoxColliderEnabled {
-	//    get { return BoxCollider.enabled; }
-	//    set { BoxCollider.enabled = value; }
-	//  }
-
-	/// 移動して画面内に収めるようにする.
-	public void ClampScreenAndMove(Vector2 v)
-	{
-		Vector2 min = GetWorldMin();
-		Vector2 max = GetWorldMax();
-		Vector2 pos = transform.position;
-		pos += v;
-
-		// 画面内に収まるように制限をかける.
-		pos.x = Mathf.Clamp(pos.x, min.x, max.x);
-		pos.y = Mathf.Clamp(pos.y, min.y, max.y);
-
-		// プレイヤーの座標を反映.
-		transform.position = pos;
 	}
 
 	/// 画面内に収めるようにする.
@@ -386,8 +270,8 @@ public class Actor : MonoBehaviour
 		}
 
 		// 自身のサイズを考慮する.
-		min.x += _width;
-		min.y += _height;
+		min.x += width_;
+		min.y += height_;
 		return min;
 	}
 
@@ -401,16 +285,10 @@ public class Actor : MonoBehaviour
 		}
 
 		// 自身のサイズを考慮する.
-		max.x -= _width;
-		max.y -= _height;
+		max.x -= width_;
+		max.y -= height_;
 		return max;
 	}
-
-	/// 消滅（メモリから削除）.
-	//  public void DestroyObj ()
-	//  {
-	//    Destroy (gameObject);
-	//  }
 
 	/// アクティブにする.
 	public virtual void Revive()

@@ -165,6 +165,7 @@ public class Pad
 			break;			
 		}
 
+		// 減速
 		if (Time.timeScale != 1.0f) {
 			if (Time.timeScale > 0.0f) {
 				float tmScale = Time.timeScale;
@@ -175,7 +176,7 @@ public class Pad
 					tmScale = 0.0f;
 				}
 				Time.timeScale = tmScale;
-				brake += 0.0001f;
+				brake += 0.0002f;
 			}
 		}
 		else {

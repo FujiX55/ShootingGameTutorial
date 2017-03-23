@@ -139,10 +139,15 @@ public class GameMgr : MonoBehaviour
 	void OnGUI()
 	{
 		switch (state_) {
+		case eState.Main:
+			if (Time.timeScale == 0.0f) {
+				DrawLabelCenter("PAUSED");
+			}
+			break;
 		case eState.GameClear:
+			Time.timeScale = 1.0f;
 			DrawLabelCenter("GAME CLEAR!");
 			break;
-
 		case eState.GameOver:
 			Time.timeScale = 0.3f;
 			DrawLabelCenter("GAME OVER");
