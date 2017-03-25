@@ -71,15 +71,12 @@ public class Player : Actor
 			}
 		}
 		// 噴煙をパーティクルで表現
-//		if (latest_.magnitude > 0.05) {
 		Particle p = Particle.Add(X - 0.2f, Y - 0.5f);
 		if (p) {
-//			p.SetVelocity(Random.Range(0, 359), 0.3f);  // 全方向に速度0.3で放射
-			p.SetVelocity(Random.Range(225, 270), 2.5f);  // 全方向に速度0.3で放射
+			p.SetVelocity(Random.Range(225, 270), 2.5f);  // 下後方に速度2.5で放射
 			p.SortingLayer = "Default";
 			p.SetColor(0.2f, 1.0f, 0.2f);
 		}
-//		}
 	}
 
 	/// 更新
@@ -99,11 +96,22 @@ public class Player : Actor
 	/// 衝突判定
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		string name = LayerMask.LayerToName(other.gameObject.layer);
 #if true
+		string name = LayerMask.LayerToName(other.gameObject.layer);
+
 		switch (name) {
+//		case "Dummy":
+//			if (SystemInfo.supportsVibration) {
+//				Handheld.Vibrate();	// パーミッション設定のためのダミー呼び出し
+//			}
+//			break;
 		case "Enemy":
 		case "Bullet":
+			// 振動してみたり
+//			if (SystemInfo.supportsVibration) {
+//				Handheld.Vibrate();
+//			}
+			Vibration.Vibrate(100);
 			// ゲームオーバー
 			Vanish();
 

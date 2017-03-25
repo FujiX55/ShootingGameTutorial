@@ -60,6 +60,10 @@ public class GameMgr : MonoBehaviour
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();
 
 		Time.timeScale = 1.0f;
+
+//		if (SystemInfo.supportsVibration) {
+//			VibrateScript.Initialize();
+//		}
 	}
 
 	/// 更新
@@ -71,6 +75,9 @@ public class GameMgr : MonoBehaviour
 
 		// 戻るボタンで終了
 		if (pad.IsEscape()) {
+//			if (SystemInfo.supportsVibration) {
+//				VibrateScript.Destruct();
+//			}
 			Application.Quit();
 			return;
 		}

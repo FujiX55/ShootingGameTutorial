@@ -24,6 +24,19 @@ public class ProximitySensor : MonoBehaviour
 	}
 
 	/// 衝突判定
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		string name = LayerMask.LayerToName(other.gameObject.layer);
+		switch (name) {
+		case "Enemy":
+		case "Bullet":
+			// 振動してみたり
+			Vibration.Vibrate(50);
+			break;
+		}
+	}
+
+	/// 衝突判定
 	void OnTriggerStay2D(Collider2D other)
 	{
 		string name = LayerMask.LayerToName(other.gameObject.layer);

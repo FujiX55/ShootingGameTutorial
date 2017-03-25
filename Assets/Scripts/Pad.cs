@@ -3,22 +3,22 @@ using System.Collections;
 
 public class Pad
 {
-	public Vector2 start_;
 	// タッチ開始位置
-	public Vector2 prev_;
+	public Vector2 start_;
 	// 前回タッチ位置
-	public Vector2 latest_;
+	public Vector2 prev_;
 	// 最新タッチ位置
-	public Vector2 vec;
+	public Vector2 latest_;
 	// 移動量
-	public Vector2 totalvec;
+	public Vector2 vec;
 	// 総移動量
-
-	bool	push_;
+	public Vector2 totalvec;
 
 	// プッシュON
-	int touchId_;
+	bool	push_;
+
 	// タッチ番号
+	int touchId_;
 
 	// コンストラクタ
 	public Pad()
