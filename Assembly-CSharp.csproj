@@ -52,14 +52,17 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Fade.cs" />
      <Compile Include="Assets\Scripts\GameMgr.cs" />
+     <Compile Include="Assets\Scripts\MainUI.cs" />
      <Compile Include="Assets\Scripts\Pad.cs" />
      <Compile Include="Assets\Scripts\Particle.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\ProximitySensor.cs" />
+     <Compile Include="Assets\Scripts\Setting.cs" />
      <Compile Include="Assets\Scripts\Shot.cs" />
      <Compile Include="Assets\Scripts\Sound.cs" />
      <Compile Include="Assets\Scripts\SoundMgr.cs" />
      <Compile Include="Assets\Scripts\TitleMgr.cs" />
+     <Compile Include="Assets\Scripts\TitleUI.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

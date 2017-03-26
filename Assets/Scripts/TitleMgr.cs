@@ -28,14 +28,24 @@ public class TitleMgr : MonoBehaviour
 	{
 		pad.Update();
 
-		if (pad.IsPushed()) {
-			// Spaceキーを押したらゲーム開始
-			SceneManager.LoadScene("Main");
+//		if (pad.IsPushed()) {
+//			// Spaceキーを押したらゲーム開始
+//			SceneManager.LoadScene("Main");
+//		}
+
+		// 戻るボタンで終了
+		if (pad.IsEscape()) {
+			//			if (SystemInfo.supportsVibration) {
+			//				VibrateScript.Destruct();
+			//			}
+			Application.Quit();
+			return;
 		}
 	}
 
 	void OnGUI()
 	{
+#if false
 		if (bDrawPressStart) {
 			// ゲーム開始メッセージの描画
 			// フォントサイズ設定
@@ -56,5 +66,6 @@ public class TitleMgr : MonoBehaviour
 			// フォント描画
 			Util.GUILabel(px, py, w, h, "タップでゲーム開始");
 		}
+#endif
 	}
 }

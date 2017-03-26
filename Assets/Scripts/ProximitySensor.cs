@@ -30,8 +30,10 @@ public class ProximitySensor : MonoBehaviour
 		switch (name) {
 		case "Enemy":
 		case "Bullet":
-			// 振動してみたり
-			Vibration.Vibrate(50);
+			if (GameMgr.VibNear) {
+				// 振動してみたり
+				Vibration.Vibrate(50);
+			}
 			break;
 		}
 	}

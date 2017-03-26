@@ -111,7 +111,9 @@ public class Player : Actor
 //			if (SystemInfo.supportsVibration) {
 //				Handheld.Vibrate();
 //			}
-			Vibration.Vibrate(100);
+			if (GameMgr.Vibrate) {
+				Vibration.Vibrate(100);
+			}
 			// ゲームオーバー
 			Vanish();
 

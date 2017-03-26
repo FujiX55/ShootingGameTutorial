@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -32,7 +33,14 @@ public class GameMgr : MonoBehaviour
 		get { return state_; }
 	}
 
+	// 設定取得
+	public static bool Vibrate { set; get; }
+
+	public static bool VibNear { set; get; }
+
 	public Pad pad;
+
+	bool ButtonActive { set; get; }
 
 	//	public Texture2D blackTexture;
 
@@ -64,6 +72,18 @@ public class GameMgr : MonoBehaviour
 //		if (SystemInfo.supportsVibration) {
 //			VibrateScript.Initialize();
 //		}
+		Debug.Log("Vibrate:");
+		Debug.Log(Vibrate);
+
+	}
+
+	void Start()
+	{
+		MainUI.SetActive("Setting", false);
+		MainUI.SetActive("Restart", false);
+		MainUI.SetActive("Title", false);
+
+		ButtonActive = false;
 	}
 
 	/// 更新
@@ -105,17 +125,17 @@ public class GameMgr : MonoBehaviour
 			break;
 
 		case eState.GameClear:
-			if (pad.IsPushed()) {
-				// タイトルへ戻る
-				SceneManager.LoadScene("Title");
-			}
+//			if (pad.IsPushed()) {
+//				// タイトルへ戻る
+//				SceneManager.LoadScene("Title");
+//			}
 			break;
 
 		case eState.GameOver:
-			if (pad.IsPushed()) {
-				// ゲームをやり直す
-				SceneManager.LoadScene("Main");
-			}
+//			if (pad.IsPushed()) {
+//				// ゲームをやり直す
+//				SceneManager.LoadScene("Main");
+//			}
 			break;
 
 		default:
@@ -149,13 +169,36 @@ public class GameMgr : MonoBehaviour
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
 				DrawLabelCenter("PAUSED");
+//				MainUI.SetActive("Restart", true);
+//				MainUI.SetActive("Title", true);
+//				MainUI.SetActive("Setting", true);
+//				ButtonActive = true;
+			}
+			else {
+				if (ButtonActive) {
+					MainUI.SetActive("Setting", false);
+					MainUI.SetActive("Restart", false);
+					MainUI.SetActive("Title", false);
+					ButtonActive = false;
+				}
+//				MainUI.SetActive("Setting", false);
 			}
 			break;
 		case eState.GameClear:
+			MainUI.SetActive("Restart", true);
+			MainUI.SetActive("Title", true);
+			MainUI.SetActive("Setting", true);
+			ButtonActive = true;
+
 			Time.timeScale = 1.0f;
 			DrawLabelCenter("GAME CLEAR!");
 			break;
 		case eState.GameOver:
+			MainUI.SetActive("Restart", true);
+			MainUI.SetActive("Title", true);
+			MainUI.SetActive("Setting", true);
+			ButtonActive = true;
+
 			Time.timeScale = 0.3f;
 			DrawLabelCenter("GAME OVER");
 			break;
@@ -171,5 +214,17 @@ public class GameMgr : MonoBehaviour
 		Bullet.parent = null;
 		Particle.parent = null;
 		Enemy.target = null;
+	}
+
+	//
+	public static void SetVibrate(bool state)
+	{
+		Vibrate = state;
+	}
+
+	//
+	public static void SetVibNear(bool state)
+	{
+		VibNear = state;
 	}
 }

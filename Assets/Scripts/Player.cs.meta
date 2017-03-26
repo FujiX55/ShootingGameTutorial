@@ -1,12 +1,14 @@
 fileFormatVersion: 2
 guid: 67e0f3553a9a3e74c836a4cf7cb0736f
-timeCreated: 1438434698
+timeCreated: 1490444719
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - Spr0: {fileID: 21300002, guid: 695dd16aca2de4348809a26eeb26664d, type: 3}
-  - Spr1: {fileID: 21300004, guid: 695dd16aca2de4348809a26eeb26664d, type: 3}
+  - gameMgr_: {instanceID: 0}
+  - Spr0: {fileID: 21300006, guid: 44057370eb6624b4c94e99b1d5fb8e74, type: 3}
+  - Spr1: {fileID: 21300010, guid: 44057370eb6624b4c94e99b1d5fb8e74, type: 3}
+  - Spr2: {fileID: 21300008, guid: 44057370eb6624b4c94e99b1d5fb8e74, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
