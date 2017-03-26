@@ -34,9 +34,9 @@ public class GameMgr : MonoBehaviour
 	}
 
 	// 設定取得
-	public static bool Vibrate { set; get; }
+	//	public static bool Vibrate { set; get; }
 
-	public static bool VibNear { set; get; }
+	//	public static bool VibNear { set; get; }
 
 	public Pad pad;
 
@@ -68,13 +68,6 @@ public class GameMgr : MonoBehaviour
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();
 
 		Time.timeScale = 1.0f;
-
-//		if (SystemInfo.supportsVibration) {
-//			VibrateScript.Initialize();
-//		}
-		Debug.Log("Vibrate:");
-		Debug.Log(Vibrate);
-
 	}
 
 	void Start()
@@ -95,9 +88,6 @@ public class GameMgr : MonoBehaviour
 
 		// 戻るボタンで終了
 		if (pad.IsEscape()) {
-//			if (SystemInfo.supportsVibration) {
-//				VibrateScript.Destruct();
-//			}
 			Application.Quit();
 			return;
 		}
@@ -125,17 +115,9 @@ public class GameMgr : MonoBehaviour
 			break;
 
 		case eState.GameClear:
-//			if (pad.IsPushed()) {
-//				// タイトルへ戻る
-//				SceneManager.LoadScene("Title");
-//			}
 			break;
 
 		case eState.GameOver:
-//			if (pad.IsPushed()) {
-//				// ゲームをやり直す
-//				SceneManager.LoadScene("Main");
-//			}
 			break;
 
 		default:
@@ -181,7 +163,6 @@ public class GameMgr : MonoBehaviour
 					MainUI.SetActive("Title", false);
 					ButtonActive = false;
 				}
-//				MainUI.SetActive("Setting", false);
 			}
 			break;
 		case eState.GameClear:
@@ -219,12 +200,26 @@ public class GameMgr : MonoBehaviour
 	//
 	public static void SetVibrate(bool state)
 	{
-		Vibrate = state;
+		PlayerPrefs.SetInt("Vibrate", state ? 1 : 0);
+		PlayerPrefs.Save();
+	}
+
+	public static bool GetVibrate()
+	{
+		// ※セーブデータがない場合のデフォルト値=false
+		return (PlayerPrefs.GetInt("Vibrate", 0) == 1);
 	}
 
 	//
 	public static void SetVibNear(bool state)
 	{
-		VibNear = state;
+		PlayerPrefs.SetInt("VibNear", state ? 1 : 0);
+		PlayerPrefs.Save();
+	}
+
+	public static bool GetVibNear()
+	{
+		// ※セーブデータがない場合のデフォルト値=false
+		return (PlayerPrefs.GetInt("VibNear", 0) == 1);
 	}
 }

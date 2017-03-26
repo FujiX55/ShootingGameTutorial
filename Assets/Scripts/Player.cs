@@ -108,10 +108,7 @@ public class Player : Actor
 		case "Enemy":
 		case "Bullet":
 			// 振動してみたり
-//			if (SystemInfo.supportsVibration) {
-//				Handheld.Vibrate();
-//			}
-			if (GameMgr.Vibrate) {
+			if (PlayerPrefs.GetInt("Vibrate") == 1) {
 				Vibration.Vibrate(100);
 			}
 			// ゲームオーバー

@@ -21,8 +21,8 @@ public class Setting : MonoBehaviour
 				vibnear = child.gameObject.GetComponent<Toggle>();
 			}
 		}
-		vibrate.isOn = GameMgr.Vibrate;
-		vibnear.isOn = GameMgr.VibNear;
+		vibrate.isOn = GameMgr.GetVibrate();
+		vibnear.isOn = GameMgr.GetVibNear();
 	}
 
 	void Update()
@@ -32,7 +32,6 @@ public class Setting : MonoBehaviour
 
 	public void ChangeVibrate()
 	{
-//		Debug.Log("Vibrateが変更されました");
 		GameMgr.SetVibrate(vibrate.isOn);
 	}
 
