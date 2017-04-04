@@ -18,7 +18,7 @@ public class Fade : MonoBehaviour
 	{
 		if (Time.timeScale != 1.0f) {
 			if (alpha < 0.5f) {
-				alpha += 0.01f;
+				alpha += 0.01f * (60 * Time.deltaTime);
 			}
 			GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, alpha);
 		}

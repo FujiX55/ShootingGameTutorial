@@ -176,7 +176,7 @@ public class Pad
 					tmScale = 0.0f;
 				}
 				Time.timeScale = tmScale;
-				brake += 0.0002f;
+				brake += 0.0002f * (60 * Time.deltaTime * 4);
 			}
 		}
 		else {

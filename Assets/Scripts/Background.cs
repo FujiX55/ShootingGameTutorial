@@ -70,6 +70,10 @@ public class Background : MonoBehaviour
 			// 背景の座標を更新
 			transform.position = (acc_vec - org_vec);
 
+			Vector3 pos = Camera.main.transform.position;
+			pos.y = -transform.position.y;
+			Camera.main.transform.position = pos;
+
 			// じわじわと戻す
 			Vector2 dir = acc_vec - org_vec;
 			org_vec += (dir * 0.005f);
