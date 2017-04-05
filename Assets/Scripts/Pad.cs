@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class Pad
@@ -80,6 +81,13 @@ public class Pad
 	public void Update()
 	{
 		push_ = false;
+
+//		if (IsPointerOverGameObject()) {
+//			return;
+//		}
+		if (EventSystem.current.currentSelectedGameObject != null) {
+			return;
+		}
 
 		// タッチ処理
 		foreach (var touch in Input.touches) {
@@ -182,5 +190,25 @@ public class Pad
 		else {
 			brake = 0.01f;
 		}
+	}
+
+	//-------------------------------------------------------------
+	// EventSystemのGameObjectにマウスオーバーしているか？
+	//-------------------------------------------------------------
+	public bool IsPointerOverGameObject()
+	{ 
+		EventSystem current = EventSystem.current; 
+		if (current != null) { 
+			if (current.IsPointerOverGameObject()) { 
+				return true; 
+			} 
+			 
+			foreach (Touch t in Input.touches) { 
+				if (current.IsPointerOverGameObject(t.fingerId)) { 
+					return true; 
+				} 
+			} 
+		} 
+		return false; 
 	}
 }
