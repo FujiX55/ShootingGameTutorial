@@ -85,9 +85,9 @@ public class Pad
 //		if (IsPointerOverGameObject()) {
 //			return;
 //		}
-		if (EventSystem.current.currentSelectedGameObject != null) {
-			return;
-		}
+//		if (EventSystem.current.currentSelectedGameObject != null) {
+//			return;
+//		}
 
 		// タッチ処理
 		foreach (var touch in Input.touches) {

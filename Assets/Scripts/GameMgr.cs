@@ -47,6 +47,8 @@ public class GameMgr : MonoBehaviour
 	/// 開始
 	void Awake()
 	{
+//		DontDestroyOnLoad(transform.gameObject);
+
 		pad = new Pad();
 
 		// ショットオブジェクトを32個確保しておく
@@ -151,10 +153,10 @@ public class GameMgr : MonoBehaviour
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
 				DrawLabelCenter("PAUSED");
-//				MainUI.SetActive("Restart", true);
-//				MainUI.SetActive("Title", true);
+				MainUI.SetActive("Restart", true);
+				MainUI.SetActive("Title", true);
 //				MainUI.SetActive("Setting", true);
-//				ButtonActive = true;
+				ButtonActive = true;
 			}
 			else {
 				if (ButtonActive) {
