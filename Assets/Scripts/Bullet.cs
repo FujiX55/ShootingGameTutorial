@@ -6,7 +6,6 @@ using System.Collections;
 /// </summary>
 public class Bullet : Actor
 {
-
 	/// 敵弾処理
 	public static ActorMgr<Bullet> parent = null;
 

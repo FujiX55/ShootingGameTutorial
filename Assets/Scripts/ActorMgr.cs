@@ -6,13 +6,15 @@ using System.Collections.Generic;
 public class ActorMgr<Type> where Type : Actor
 {
 	int _size = 0;
+
 	GameObject _prefab = null;
 	List<Type> _pool = null;
+
 	/// Order in Layer
 	int _order = 0;
 
 	/// ForEach関数に渡す関数の型
-  public delegate void FuncT(Type t);
+	public delegate void FuncT(Type t);
 
 	/// コンストラクタ
 	/// プレハブは必ず"Resources/Prefabs/"に配置すること
@@ -20,6 +22,7 @@ public class ActorMgr<Type> where Type : Actor
 	{
 		_size = size;
 		_prefab = Resources.Load("Prefabs/" + prefabName) as GameObject;
+
 		if (_prefab == null) {
 			Debug.LogError("Not found prefab. name=" + prefabName);
 		}
@@ -45,14 +48,16 @@ public class ActorMgr<Type> where Type : Actor
 		// 復活
 		obj.Revive();
 		obj.SetPosition(x, y);
+
 		if (obj.RigidBody != null) {
 			// Rigidbody2Dがあるときのみ速度を設定する
 			obj.SetVelocity(direction, speed);
 		}
 		obj.Angle = 0;
-		// Order in Layerをインクリメントして設定する
-		obj.SortingOrder = _order;
-		_order++;
+
+		// Order in Layerを設定してインクリメントする
+		obj.SortingOrder = _order++;
+
 		return obj;
 	}
 

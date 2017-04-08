@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// 様々なユーティリティ.
-public class Util
+public static class Util
 {
 	/// Mathf.Cosの角度指定版.
 	public static float CosEx(float Deg)

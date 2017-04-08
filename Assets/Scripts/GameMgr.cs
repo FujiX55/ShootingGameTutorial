@@ -47,7 +47,8 @@ public class GameMgr : MonoBehaviour
 	/// 開始
 	void Awake()
 	{
-		pad = new Pad();
+		// パッド入力を取得
+		pad = Pad.Instance;
 
 		// ショットオブジェクトを32個確保しておく
 		Shot.parent = new ActorMgr<Shot>("Shot", 32);
@@ -73,7 +74,7 @@ public class GameMgr : MonoBehaviour
 
 	void OnLevelWasLoaded(int level)
 	{
-		if (State != eState.Main) {
+		if (state_ != eState.Main) {
 //			Destroy(gameObject);
 			state_ = eState.Init;
 		}
@@ -94,6 +95,7 @@ public class GameMgr : MonoBehaviour
 	void Update()
 	{
 		pad.Update();
+
 		start_ = pad.start_;	// タッチ開始位置
 		latest_ = pad.latest_;	// 最新タッチ位置
 

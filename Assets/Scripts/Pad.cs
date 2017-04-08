@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Pad
 {
+	private static Pad instance_;
+
 	// タッチ開始位置
 	public Vector2 start_;
 	// 前回タッチ位置
@@ -25,6 +27,15 @@ public class Pad
 	public Pad()
 	{
 		touchId_ = -1;
+	}
+
+	public static Pad Instance {
+		get {
+			if (instance_ == null) {
+				instance_ = new Pad();
+			}
+			return instance_;
+		}
 	}
 
 	/// 入力方向を取得する.
