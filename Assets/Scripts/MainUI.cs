@@ -35,7 +35,7 @@ public class MainUI : MonoBehaviour
 
 	public void TransitSetting()
 	{
-		// タイトルへ戻る
+		// 設定画面へ
 		SceneManager.LoadScene("Setting");
 	}
 
@@ -47,7 +47,7 @@ public class MainUI : MonoBehaviour
 
 	public void Restart()
 	{
-		// タイトルへ戻る
+		// ゲームに戻る
 		SceneManager.LoadScene("Main");
 	}
 }

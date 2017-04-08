@@ -72,7 +72,13 @@ public class Setting : MonoBehaviour
 
 	public void ExitScene()
 	{
-		// タイトルへ戻る
-		SceneManager.LoadScene("Title");
+		if (GameMgr.State == GameMgr.eState.Main) {
+			// ゲームへ戻る
+			SceneManager.LoadScene("Main");
+		}
+		else {
+			// タイトルへ戻る
+			SceneManager.LoadScene("Title");
+		}
 	}
 }

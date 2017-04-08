@@ -16,7 +16,7 @@ public class Pad
 	public Vector2 totalvec;
 
 	// プッシュON
-	bool	push_;
+	bool push_;
 
 	// タッチ番号
 	int touchId_;
@@ -85,9 +85,9 @@ public class Pad
 //		if (IsPointerOverGameObject()) {
 //			return;
 //		}
-//		if (EventSystem.current.currentSelectedGameObject != null) {
-//			return;
-//		}
+		if (EventSystem.current.currentSelectedGameObject != null) {
+			return;
+		}
 
 		// タッチ処理
 		foreach (var touch in Input.touches) {

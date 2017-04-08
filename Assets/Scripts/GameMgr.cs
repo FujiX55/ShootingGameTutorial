@@ -27,9 +27,9 @@ public class GameMgr : MonoBehaviour
 	}
 
 	/// 開始時は初期化状態にする
-	eState state_ = eState.Init;
+	static eState state_ = eState.Init;
 
-	public eState State {
+	static public eState State {
 		get { return state_; }
 	}
 
@@ -47,8 +47,6 @@ public class GameMgr : MonoBehaviour
 	/// 開始
 	void Awake()
 	{
-//		DontDestroyOnLoad(transform.gameObject);
-
 		pad = new Pad();
 
 		// ショットオブジェクトを32個確保しておく
@@ -62,6 +60,7 @@ public class GameMgr : MonoBehaviour
 
 		// 敵オブジェクトを64個確保しておく
 		Enemy.parent = new ActorMgr<Enemy>("Enemy", 64);
+
 		for (int i = 0; i < (int)eEnemyType.Count; i++) {
 			Enemy.EnemyCount[i] = 0;
 		}
@@ -72,8 +71,18 @@ public class GameMgr : MonoBehaviour
 		Time.timeScale = 1.0f;
 	}
 
+	void OnLevelWasLoaded(int level)
+	{
+		if (State != eState.Main) {
+//			Destroy(gameObject);
+			state_ = eState.Init;
+		}
+	}
+
 	void Start()
 	{
+//		DontDestroyOnLoad(transform.gameObject);
+
 		MainUI.SetActive("Setting", false);
 		MainUI.SetActive("Restart", false);
 		MainUI.SetActive("Title", false);
@@ -153,9 +162,9 @@ public class GameMgr : MonoBehaviour
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
 				DrawLabelCenter("PAUSED");
-				MainUI.SetActive("Restart", true);
-				MainUI.SetActive("Title", true);
-//				MainUI.SetActive("Setting", true);
+//				MainUI.SetActive("Restart", true);
+//				MainUI.SetActive("Title", true);
+				MainUI.SetActive("Setting", true);
 				ButtonActive = true;
 			}
 			else {
