@@ -20,13 +20,14 @@ public class TitleUI : MonoBehaviour
 
 	public void TransitSetting()
 	{
-		// タイトルへ戻る
-		SceneManager.LoadScene("Setting");
+		// 設定画面へ
+		SceneManager.LoadScene("Setting", LoadSceneMode.Additive);
+//		SceneManager.LoadScene("Setting");
 	}
 
 	public void StartGame()
 	{
-		// タイトルへ戻る
+		// ゲーム開始
 		SceneManager.LoadScene("Main");
 	}
 }

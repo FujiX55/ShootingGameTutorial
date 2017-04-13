@@ -1,25 +1,28 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameMgr.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemy.cs">
     <Files>
-      <File FileName="Assets\Scripts\Pad.cs" Line="35" Column="27" />
-      <File FileName="Assets\Plugins\Vibration.cs" Line="19" Column="21" />
-      <File FileName="Assets\Scripts\GameMgr.cs" Line="85" Column="3" />
+      <File FileName="Assets\Scripts\Setting.cs" Line="101" Column="35" />
+      <File FileName="Assets\Scripts\EndImage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameMgr.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pad.cs" Line="1" Column="1" />
+      <File FileName="Assets\Plugins\Vibration.cs" Line="10" Column="2" />
       <File FileName="Assets\Scripts\ProximitySensor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="64" Column="1" />
-      <File FileName="Assets\Scripts\Boss.cs" Line="96" Column="34" />
-      <File FileName="Assets\Scripts\TitleMgr.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="314" Column="20" />
+      <File FileName="Assets\Scripts\Boss.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Bullet.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Bullet.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SoundMgr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Util.cs" Line="5" Column="14" />
+      <File FileName="Assets\Scripts\Util.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Particle.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ActorMgr.cs" Line="58" Column="32" />
-      <File FileName="Assets\Scripts\Player.cs" Line="31" Column="41" />
-      <File FileName="Assets\Scripts\Setting.cs" Line="76" Column="10" />
-      <File FileName="Assets\Scripts\MainUI.cs" Line="38" Column="1" />
+      <File FileName="Assets\Scripts\ActorMgr.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Fade.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Actor.cs" Line="296" Column="1" />
+      <File FileName="Assets\Scripts\Actor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TitleUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TitleMgr.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EndUI.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

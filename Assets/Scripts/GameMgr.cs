@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameMgr : MonoBehaviour
 {
+	private static GameMgr instance_;
+
 	// タッチ開始位置
 	public Vector2 start_;
 	// 最新タッチ位置
@@ -40,13 +42,44 @@ public class GameMgr : MonoBehaviour
 
 	public Pad pad;
 
+	public Text message, outline1, outline2, outline3, outline4;
+
 	bool ButtonActive { set; get; }
 
 	//	public Texture2D blackTexture;
 
+	static GameMgr Instance {
+		get {
+			if (instance_ == null) {
+				GameObject obj = new GameObject("GameMgr");
+				instance_ = obj.AddComponent<GameMgr>();
+			}
+			return instance_;
+		}
+	}
+
+	/// 破壊
+	void OnDestroy()
+	{
+		// ActorMgrの参照を消す
+		Shot.parent = null;
+		Enemy.parent = null;
+		Bullet.parent = null;
+		Particle.parent = null;
+		Enemy.target = null;
+
+		if (this == instance_) {
+			instance_ = null;
+		}
+	}
+
 	/// 開始
 	void Awake()
 	{
+//		if (this != instance_) {
+//			return;
+//		}
+
 		// パッド入力を取得
 		pad = Pad.Instance;
 
@@ -69,6 +102,8 @@ public class GameMgr : MonoBehaviour
 		// プレイヤの参照を敵に登録する
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();
 
+		message.text = outline1.text = outline2.text = outline3.text = outline4.text = "";
+
 		Time.timeScale = 1.0f;
 	}
 
@@ -82,11 +117,12 @@ public class GameMgr : MonoBehaviour
 
 	void Start()
 	{
-//		DontDestroyOnLoad(transform.gameObject);
+//		DontDestroyOnLoad(gameObject);
 
 		MainUI.SetActive("Setting", false);
 		MainUI.SetActive("Restart", false);
 		MainUI.SetActive("Title", false);
+		MainUI.SetActive("Next", false);
 
 		ButtonActive = false;
 	}
@@ -163,7 +199,9 @@ public class GameMgr : MonoBehaviour
 		switch (state_) {
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
-				DrawLabelCenter("PAUSED");
+//				DrawLabelCenter("PAUSED");
+				message.text = "PAUSED\n<size=40><color=#ff0000>タップで再開</color></size>";
+				outline1.text = outline2.text = outline3.text = outline4.text = "PAUSED\n<size=40>タップで再開</size>";
 //				MainUI.SetActive("Restart", true);
 //				MainUI.SetActive("Title", true);
 				MainUI.SetActive("Setting", true);
@@ -175,17 +213,21 @@ public class GameMgr : MonoBehaviour
 					MainUI.SetActive("Restart", false);
 					MainUI.SetActive("Title", false);
 					ButtonActive = false;
+					message.text = outline1.text = outline2.text = outline3.text = outline4.text = "";
 				}
 			}
 			break;
 		case eState.GameClear:
-			MainUI.SetActive("Restart", true);
-			MainUI.SetActive("Title", true);
-			MainUI.SetActive("Setting", true);
+//			MainUI.SetActive("Restart", true);
+//			MainUI.SetActive("Title", true);
+//			MainUI.SetActive("Setting", true);
+//			MainUI.SetActive("Next", true);
+			StartCoroutine(GoNext());
 			ButtonActive = true;
 
 			Time.timeScale = 1.0f;
-			DrawLabelCenter("GAME CLEAR!");
+//			DrawLabelCenter("GAME CLEAR!");
+			message.text = "STAGE CLEAR!";
 			break;
 		case eState.GameOver:
 			MainUI.SetActive("Restart", true);
@@ -194,20 +236,18 @@ public class GameMgr : MonoBehaviour
 			ButtonActive = true;
 
 			Time.timeScale = 0.3f;
-			DrawLabelCenter("GAME OVER");
+//			DrawLabelCenter("GAME OVER");
+			message.text = "GAME OVER";
 			break;
 		}
 	}
 
-	/// 破壊
-	void OnDestroy()
+	IEnumerator GoNext()
 	{
-		// ActorMgrの参照を消す
-		Shot.parent = null;
-		Enemy.parent = null;
-		Bullet.parent = null;
-		Particle.parent = null;
-		Enemy.target = null;
+		yield return new WaitForSeconds(4.0f);
+
+		// ゲームに戻る
+		SceneManager.LoadScene("End");
 	}
 
 	//

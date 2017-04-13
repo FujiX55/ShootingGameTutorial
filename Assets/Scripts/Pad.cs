@@ -23,6 +23,13 @@ public class Pad
 	// タッチ番号
 	int touchId_;
 
+	bool active_ = true;
+
+	public bool Active {
+		set { active_ = value; }
+		get { return active_; }
+	}
+
 	// コンストラクタ
 	public Pad()
 	{
@@ -35,6 +42,13 @@ public class Pad
 				instance_ = new Pad();
 			}
 			return instance_;
+		}
+	}
+
+	void OnDestroy()
+	{
+		if (this == instance_) {
+			instance_ = null;
 		}
 	}
 
@@ -93,6 +107,9 @@ public class Pad
 	{
 		push_ = false;
 
+		if (!active_) {
+			return;
+		}
 //		if (IsPointerOverGameObject()) {
 //			return;
 //		}

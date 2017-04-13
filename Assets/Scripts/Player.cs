@@ -102,6 +102,9 @@ public class Player : Actor
 //        ClampScreenAndMove (v * Time.deltaTime);
 		X += v.x;
 		Y += v.y;
+
+		//	Angle = v.x * -300;
+
 		ClampScreen();
 	}
 
@@ -112,11 +115,6 @@ public class Player : Actor
 		string name = LayerMask.LayerToName(other.gameObject.layer);
 
 		switch (name) {
-//		case "Dummy":
-//			if (SystemInfo.supportsVibration) {
-//				Handheld.Vibrate();	// パーミッション設定のためのダミー呼び出し
-//			}
-//			break;
 		case "Enemy":
 		case "Bullet":
 			// 振動してみたり

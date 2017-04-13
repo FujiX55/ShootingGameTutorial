@@ -11,7 +11,7 @@ public class TitleMgr : MonoBehaviour
 
 	void Awake()
 	{
-		pad = new Pad();
+		pad = Pad.Instance;
 	}
 
 	IEnumerator Start()

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Setting : MonoBehaviour
 {
+	bool initialized = false;
+
 	Canvas canvas;
 	Toggle vibrate;
 	Toggle vibnear;
@@ -13,10 +15,8 @@ public class Setting : MonoBehaviour
 
 	public Pad pad;
 
-	void Start()
+	void Awake()
 	{
-		pad = new Pad();
-
 		canvas = GetComponent<Canvas>();
 
 		foreach (Transform child in canvas.transform) {
@@ -38,7 +38,16 @@ public class Setting : MonoBehaviour
 		vibrate.isOn = GameMgr.GetVibrate();
 		vibnear.isOn = GameMgr.GetVibNear();
 		parallax.isOn = Background.GetParallax();
-		parainv.isOn = Background.GetParaInv();
+		parainv.isOn = Background.GetParaInv();	
+
+		initialized = true;
+	}
+
+	void Start()
+	{
+		pad = Pad.Instance;
+
+		pad.Active = false;
 	}
 
 	void Update()
@@ -53,11 +62,19 @@ public class Setting : MonoBehaviour
 	public void ChangeVibrate()
 	{
 		GameMgr.SetVibrate(vibrate.isOn);
+
+		if (initialized && vibrate.isOn) {
+			Vibration.Vibrate(100);
+		}
 	}
 
 	public void ChangeVibNear()
 	{
 		GameMgr.SetVibNear(vibnear.isOn);
+
+		if (initialized && vibnear.isOn) {
+			Vibration.Vibrate(50);
+		}
 	}
 
 	public void ChangeParallax()
@@ -72,13 +89,16 @@ public class Setting : MonoBehaviour
 
 	public void ExitScene()
 	{
-		if (GameMgr.State == GameMgr.eState.Main) {
-			// ゲームへ戻る
-			SceneManager.LoadScene("Main");
-		}
-		else {
+		pad.Active = true;
+
+		if (GameMgr.eState.Init == GameMgr.State) {
 			// タイトルへ戻る
 			SceneManager.LoadScene("Title");
+		}
+		else {
+			// 前のシーンに戻る
+			SceneManager.UnloadScene("Setting");
+			Resources.UnloadUnusedAssets();
 		}
 	}
 }
