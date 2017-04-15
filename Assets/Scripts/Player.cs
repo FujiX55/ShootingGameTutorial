@@ -68,7 +68,14 @@ public class Player : Actor
 			float px = X + Random.Range(0, SpriteWidth / 2);
 
 			// 発射角度を    ±3する
-			float dir = Random.Range(-3.0f, 3.0f);
+			float angle = 3.0f;
+			// 位置に応じて角度を変化させる(-1.5より左ではレンジが開く)
+			angle *= (1.0f + (-5 * (X + 1.5f)));
+			if (3.0f > angle) {
+				angle = 3.0f;
+			}
+
+			float dir = Random.Range(-angle, angle);
 
 			Shot.Add(px, Y, dir, 10);
 		}
@@ -111,6 +118,9 @@ public class Player : Actor
 	/// 衝突判定
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		if (GameMgr.GetDbgUndead()) {
+			return;
+		}
 #if true
 		string name = LayerMask.LayerToName(other.gameObject.layer);
 

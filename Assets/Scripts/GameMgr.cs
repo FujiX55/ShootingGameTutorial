@@ -10,6 +10,8 @@ public class GameMgr : MonoBehaviour
 {
 	private static GameMgr instance_;
 
+	public Fade fade;
+
 	// タッチ開始位置
 	public Vector2 start_;
 	// 最新タッチ位置
@@ -222,12 +224,16 @@ public class GameMgr : MonoBehaviour
 //			MainUI.SetActive("Title", true);
 //			MainUI.SetActive("Setting", true);
 //			MainUI.SetActive("Next", true);
-			StartCoroutine(GoNext());
-			ButtonActive = true;
+//			StartCoroutine(GoNext());
+			string msg = "STAGE CLEAR!";
+			if (message.text != msg) {
+				fade.FadeToNext();
+			}
+			ButtonActive = false;
 
 			Time.timeScale = 1.0f;
 //			DrawLabelCenter("GAME CLEAR!");
-			message.text = "STAGE CLEAR!";
+			message.text = msg;
 			break;
 		case eState.GameOver:
 			MainUI.SetActive("Restart", true);
@@ -244,9 +250,9 @@ public class GameMgr : MonoBehaviour
 
 	IEnumerator GoNext()
 	{
-		yield return new WaitForSeconds(4.0f);
+		yield return new WaitForSeconds(3.0f);
 
-		// ゲームに戻る
+		// 次のシーンへ
 		SceneManager.LoadScene("End");
 	}
 
@@ -274,5 +280,18 @@ public class GameMgr : MonoBehaviour
 	{
 		// ※セーブデータがない場合のデフォルト値=false
 		return (PlayerPrefs.GetInt("VibNear", 0) == 1);
+	}
+
+	//
+	public static void SetDbgUndead(bool state)
+	{
+		PlayerPrefs.SetInt("DbgUndead", state ? 1 : 0);
+		PlayerPrefs.Save();
+	}
+
+	public static bool GetDbgUndead()
+	{
+		// ※セーブデータがない場合のデフォルト値=false
+		return (PlayerPrefs.GetInt("DbgUndead", 0) == 1);
 	}
 }

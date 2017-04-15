@@ -12,6 +12,7 @@ public class Setting : MonoBehaviour
 	Toggle vibnear;
 	Toggle parallax;
 	Toggle parainv;
+	Toggle dbg_undead;
 
 	public Pad pad;
 
@@ -33,12 +34,16 @@ public class Setting : MonoBehaviour
 			case "ParaInv":
 				parainv = child.gameObject.GetComponent<Toggle>();
 				break;
+			case "DbgUndead":
+				dbg_undead = child.gameObject.GetComponent<Toggle>();
+				break;
 			}
 		}
 		vibrate.isOn = GameMgr.GetVibrate();
 		vibnear.isOn = GameMgr.GetVibNear();
 		parallax.isOn = Background.GetParallax();
 		parainv.isOn = Background.GetParaInv();	
+		dbg_undead.isOn = GameMgr.GetDbgUndead();
 
 		initialized = true;
 	}
@@ -87,6 +92,12 @@ public class Setting : MonoBehaviour
 		Background.SetParaInv(parainv.isOn);
 	}
 
+	public void ChangeDbgUndead()
+	{
+		GameMgr.SetDbgUndead(dbg_undead.isOn);
+	}
+
+	// シーン終了
 	public void ExitScene()
 	{
 		pad.Active = true;
