@@ -50,7 +50,7 @@ public class Enemy : Actor
 	}
 
 	// 敵管理
-	public static ActorMgr<Enemy> parent = null;
+	public static ActorCtx<Enemy> parent = null;
 
 	public int phase_;
 
@@ -96,7 +96,7 @@ public class Enemy : Actor
         
 		if (hp_ <= 0) {
 			// HPがなくなったので死亡
-			Vanish();
+			Discard();
             
 			// 倒した
 			for (int i = 0; i < 4; i++) {
@@ -113,7 +113,7 @@ public class Enemy : Actor
 
 				// 敵弾をすべて消す
 				if (Bullet.parent != null) {
-					Bullet.parent.Vanish();
+					Bullet.parent.Discard();
 				}
 			}
 			return true;
@@ -141,7 +141,7 @@ public class Enemy : Actor
 
 			// 画面外に出たら消える
 			if (IsOutside()) {
-				Vanish();
+				Discard();
 			}
 		}
 	}
@@ -164,7 +164,7 @@ public class Enemy : Actor
 
 			// 画面外に出たら消える
 			if (IsOutside()) {
-				Vanish();
+				Discard();
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class Enemy : Actor
 			
 			// 画面外に出たら消える
 			if (IsOutside()) {
-				Vanish();
+				Discard();
 			}
 			else {
 				DoBullet(180 - 2, 2);
@@ -200,7 +200,7 @@ public class Enemy : Actor
 
 			// 画面外に出たら消える
 			if (IsOutside()) {
-				Vanish();
+				Discard();
 			}
 			else {
 				// 噴煙をパーティクルで表現
@@ -253,7 +253,7 @@ public class Enemy : Actor
 
 			// 画面外に出たら消える
 			if (IsOutside()) {
-				Vanish();
+				Discard();
 			}
 			else {
 				// 噴煙をパーティクルで表現
@@ -279,7 +279,7 @@ public class Enemy : Actor
 			Shot s = other.GetComponent<Shot>();
 
 			// ショットを消す
-			s.Vanish();
+			s.Discard();
 
 			// ダメージ処理
 			Damage(1);
@@ -369,7 +369,7 @@ public class Enemy : Actor
 			}
 			if (X < min.x || max.x < X) {
 				// 左右ではみ出したら消滅する
-				Vanish();
+				Discard();
 			}
 
 			// 移動方向を向くようにする
@@ -377,12 +377,12 @@ public class Enemy : Actor
 		}
 	}
 
-	public override void Vanish()
+	public override void Discard()
 	{
 		if (0 < Enemy.enemyCount[id_]) {
 			Enemy.enemyCount[id_]--;
 		}
 		
-		VanishCannotOverride();
+		DiscardCannotOverride();
 	}
 }

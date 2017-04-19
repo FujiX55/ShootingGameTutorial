@@ -2,61 +2,61 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/// Actor管理クラス
-public class ActorMgr<Type> where Type : Actor
+/// Actorコンテキスト
+public class ActorCtx<Type> where Type : Actor
 {
-	int _size = 0;
+	int size_ = 0;
 
-	GameObject _prefab = null;
-	List<Type> _pool = null;
+	GameObject prefab_ = null;
+	List<Type> pool_ = null;
 
 	/// Order in Layer
-	int _order = 0;
+	int order_ = 0;
 
 	/// ForEach関数に渡す関数の型
 	public delegate void FuncT(Type t);
 
 	/// コンストラクタ
 	/// プレハブは必ず"Resources/Prefabs/"に配置すること
-	public ActorMgr(string prefabName, int size = 0)
+	public ActorCtx(string prefabName, int size = 0)
 	{
-		_size = size;
-		_prefab = Resources.Load("Prefabs/" + prefabName) as GameObject;
+		size_ = size;
+		prefab_ = Resources.Load("Prefabs/" + prefabName) as GameObject;
 
-		if (_prefab == null) {
+		if (prefab_ == null) {
 			Debug.LogError("Not found prefab. name=" + prefabName);
 		}
-		_pool = new List<Type>();
+		pool_ = new List<Type>();
 
 		if (size > 0) {
 			// サイズ指定があれば固定アロケーションとする
 			for (int i = 0; i < size; i++) {
-				GameObject g = GameObject.Instantiate(_prefab, new Vector3(), Quaternion.identity) as GameObject;
+				GameObject g = GameObject.Instantiate(prefab_, new Vector3(), Quaternion.identity) as GameObject;
 				Type obj = g.GetComponent<Type>();
 				if (obj == null) {
 					Debug.LogError(prefabName + "にスクリプトが未設定です");
 				}
-				obj.VanishCannotOverride();
-				_pool.Add(obj);
+				obj.DiscardCannotOverride();
+				pool_.Add(obj);
 			}
 		}
 	}
 
 	/// オブジェクトを再利用する
-	Type _Recycle(Type obj, float x, float y, float direction, float speed)
+	Type Recycle_(Type obj, float x, float y, float direction, float speed)
 	{
 		// 復活
-		obj.Revive();
+		obj.Activate();
 		obj.SetPosition(x, y);
 
+		// Rigidbody2Dがあるときのみ速度を設定する
 		if (obj.RigidBody != null) {
-			// Rigidbody2Dがあるときのみ速度を設定する
 			obj.SetVelocity(direction, speed);
 		}
 		obj.Angle = 0;
 
 		// Order in Layerを設定してインクリメントする
-		obj.SortingOrder = _order++;
+		obj.SortingOrder = order_++;
 
 		return obj;
 	}
@@ -64,19 +64,19 @@ public class ActorMgr<Type> where Type : Actor
 	/// インスタンスを取得する
 	public Type Add(float x, float y, float direction = 0.0f, float speed = 0.0f)
 	{
-		foreach (Type obj in _pool) {
+		foreach (Type obj in pool_) {
 			if (obj.Exists == false) {
 				// 未使用のオブジェクトを見つけた
-				return _Recycle(obj, x, y, direction, speed);
+				return Recycle_(obj, x, y, direction, speed);
 			}
 		}
 
-		if (_size == 0) {
+		if (size_ == 0) {
 			// 自動で拡張
-			GameObject g = GameObject.Instantiate(_prefab, new Vector3(), Quaternion.identity) as GameObject;
+			GameObject g = GameObject.Instantiate(prefab_, new Vector3(), Quaternion.identity) as GameObject;
 			Type obj = g.GetComponent<Type>();
-			_pool.Add(obj);
-			return _Recycle(obj, x, y, direction, speed);
+			pool_.Add(obj);
+			return Recycle_(obj, x, y, direction, speed);
 		}
 		return null;
 	}
@@ -84,7 +84,7 @@ public class ActorMgr<Type> where Type : Actor
 	/// 生存するインスタンスに対してラムダ式を実行する
 	public void ForEachExist(FuncT func)
 	{
-		foreach (var obj in _pool) {
+		foreach (var obj in pool_) {
 			if (obj.Exists) {
 				func(obj);
 			}
@@ -92,9 +92,9 @@ public class ActorMgr<Type> where Type : Actor
 	}
 
 	/// 生存しているインスタンスをすべて破棄する
-	public void Vanish()
+	public void Discard()
 	{
-		ForEachExist(t => t.Vanish());
+		ForEachExist(t => t.Discard());
 	}
 
 	/// インスタンスの生存数を取得する

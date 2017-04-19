@@ -15,10 +15,6 @@ public class Player : Actor
 	// 待機画像3
 	public Sprite Spr2;
 
-	/// 移動速度
-	//  public float MoveSpeed = 5.0f;
-	public float MoveSpeed = 0.3f;
-
 	/// アニメーションタイマ
 	int _tAnim = 0;
 
@@ -53,42 +49,83 @@ public class Player : Actor
 	/// 固定フレームで更新
 	void FixedUpdate()
 	{
+		bool bShoot = false;
+		bool panic  = false;
 		_tAnim++;
+		
 		if (_tAnim % 48 < 24) {
+			// 0～23フレーム
 			if (0 < sensor.Alert) {
-				// 0～23フレームは「Spr2」
+				// 近接センサ反応中は「Spr2」を表示
 				SetSprite(Spr2);
+				panic = true;
 			}
 			else {
-				// 0～23フレームは「Spr0」
+				// 通常は「Spr0」を表示
 				SetSprite(Spr0);
 			}
-
+			// 0～23フレームでは必ずショットを撃つ
+			bShoot = true;
+		}
+		else {
+			// 24～48フレーム
+			if (0 < sensor.Alert) {
+				// 近接センサ反応中は「Spr2」を表示
+				SetSprite(Spr2);
+				
+				// 近接センサ反応中はパニックショットを発射する
+//				bShoot = true;
+				panic  = true;
+			}
+			else {
+				// 通常は「Spr1」を表示
+				SetSprite(Spr1);
+			}
+		}
+		// ショットを発射
+		if (bShoot){
 			// X座標をランダムでずらす
 			float px = X + Random.Range(0, SpriteWidth / 2);
 
 			// 発射角度を    ±3する
 			float angle = 3.0f;
-			// 位置に応じて角度を変化させる(-1.5より左ではレンジが開く)
-			angle *= (1.0f + (-5 * (X + 1.5f)));
-			if (3.0f > angle) {
-				angle = 3.0f;
+#if false
+			if (panic) {
+				// パニックショット
+				angle = 80.0f;
 			}
+			else
+			{
+#if false
+				// 位置に応じて角度を変化させる(-1.5より左ではレンジが開く)
+				angle *= (1.0f + (-5 * (X + 1.5f)));
+				if (angle < 3.0f) {
+					angle = 3.0f;
+				}
+				else if (angle > 60.0f){
+					angle = 60.0f;
+				}
+#endif
+			}
+#endif			
 
 			float dir = Random.Range(-angle, angle);
 
 			Shot.Add(px, Y, dir, 10);
 		}
-		else {
-			if (0 < sensor.Alert) {
-				// 24～48フレームは「Spr2」
-				SetSprite(Spr2);
-			}
-			else {
-				// 24～48フレームは「Spr1」
-				SetSprite(Spr1);
-			}
+		// パニックショット
+//		else
+		if (panic && (_tAnim % 2 == 0)){
+			// X座標をランダムでずらす
+			float px = X + Random.Range(0, SpriteWidth / 2);
+
+			float angle = 80.0f;
+
+			float dir = Random.Range(-angle, angle);
+
+			Shot.Add(px, Y, dir, 10);
 		}
+
 		// 噴煙をパーティクルで表現
 		Particle p = Particle.Add(X - 0.2f, Y - 0.5f);
 		if (p) {
@@ -132,7 +169,7 @@ public class Player : Actor
 				Vibration.Vibrate(100);
 			}
 			// ゲームオーバー
-			Vanish();
+			Discard();
 
 			// パーティクル生成
 			for (int i = 0; i < 8; i++) {
@@ -147,5 +184,26 @@ public class Player : Actor
 			break;
 		}
 #endif
+	}
+
+	/// 座標の描画
+	void OnGUI()
+	{
+		string text;
+
+		// テキストを黒にする
+		Util.SetFontColor(Color.black);
+
+		// テキストを大きめにする
+		Util.SetFontSize(24);
+
+		// 中央揃えにする
+		Util.SetFontAlignment(TextAnchor.MiddleCenter);
+
+		text = string.Format("player.x={0}", X);
+		Util.GUILabel(0, Screen.height / 20 * 5, 120, 30, text);
+
+		text = string.Format("player.y={0}", Y);
+		Util.GUILabel(0, Screen.height / 20 * 6, 120, 30, text);
 	}
 }

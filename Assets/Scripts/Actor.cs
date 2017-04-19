@@ -291,7 +291,7 @@ public class Actor : MonoBehaviour
 	}
 
 	/// アクティブにする.
-	public virtual void Revive()
+	public virtual void Activate()
 	{
 		gameObject.SetActive(true);
 		Exists = true;
@@ -299,14 +299,14 @@ public class Actor : MonoBehaviour
 	}
 
 	/// 消滅する（オーバーライド可能）
-	/// ただし base.Vanish()を呼ばないと消滅しなくなることに注意
-	public virtual void Vanish()
+	/// ただし base.Discard()を呼ばないと消滅しなくなることに注意
+	public virtual void Discard()
 	{
-		VanishCannotOverride();
+		DiscardCannotOverride();
 	}
 
 	/// 消滅する（オーバーライド禁止）
-	public void VanishCannotOverride()
+	public void DiscardCannotOverride()
 	{
 		gameObject.SetActive(false);
 		Exists = false;

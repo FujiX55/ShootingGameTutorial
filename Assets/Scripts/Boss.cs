@@ -23,12 +23,12 @@ public class Boss : Enemy
 	}
 
 	/// 消滅
-	public override void Vanish()
+	public override void Discard()
 	{
 		// ボスを倒した
 		bDestroyed = true;
 
-		base.Vanish();
+		base.Discard();
 	}
 
 	/// 更新

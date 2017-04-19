@@ -7,7 +7,7 @@ using System.Collections;
 public class Bullet : Actor
 {
 	/// 敵弾処理
-	public static ActorMgr<Bullet> parent = null;
+	public static ActorCtx<Bullet> parent = null;
 
 	/// 敵弾の取得
 	public static Bullet Add(float x, float y, float direction, float speed)
@@ -20,7 +20,7 @@ public class Bullet : Actor
 	{
 		if (IsOutside()) {
 			// 画面外に出たら消える
-			Vanish();
+			Discard();
 		}
 	}
 }

@@ -88,13 +88,13 @@ public class Background : MonoBehaviour
 		if (vec != null) {
 			string text;
 
-			text = string.Format("x={0}", vec.x);
+			text = string.Format("accel.x={0}", vec.x);
 			Util.GUILabel(0, Screen.height / 20 * 1, 120, 30, text);
 
-			text = string.Format("y={0}", vec.y);
+			text = string.Format("accel.y={0}", vec.y);
 			Util.GUILabel(0, Screen.height / 20 * 2, 120, 30, text);
 
-			text = string.Format("z={0}", vec.z);
+			text = string.Format("accel.z={0}", vec.z);
 			Util.GUILabel(0, Screen.height / 20 * 3, 120, 30, text);
 		}
 	}

@@ -63,7 +63,7 @@ public class GameMgr : MonoBehaviour
 	/// 破壊
 	void OnDestroy()
 	{
-		// ActorMgrの参照を消す
+		// ActorCtxの参照を消す
 		Shot.parent = null;
 		Enemy.parent = null;
 		Bullet.parent = null;
@@ -86,16 +86,16 @@ public class GameMgr : MonoBehaviour
 		pad = Pad.Instance;
 
 		// ショットオブジェクトを32個確保しておく
-		Shot.parent = new ActorMgr<Shot>("Shot", 32);
+		Shot.parent = new ActorCtx<Shot>("Shot", 32);
 
 		// パーティクルオブジェクトを256個確保しておく
-		Particle.parent = new ActorMgr<Particle>("Particle", 256);
+		Particle.parent = new ActorCtx<Particle>("Particle", 256);
 
 		// 敵弾オブジェクトを256個確保しておく
-		Bullet.parent = new ActorMgr<Bullet>("Bullet", 256);
+		Bullet.parent = new ActorCtx<Bullet>("Bullet", 256);
 
 		// 敵オブジェクトを64個確保しておく
-		Enemy.parent = new ActorMgr<Enemy>("Enemy", 64);
+		Enemy.parent = new ActorCtx<Enemy>("Enemy", 64);
 
 		for (int i = 0; i < (int)eEnemyType.Count; i++) {
 			Enemy.EnemyCount[i] = 0;
@@ -201,7 +201,6 @@ public class GameMgr : MonoBehaviour
 		switch (state_) {
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
-//				DrawLabelCenter("PAUSED");
 				message.text = "PAUSED\n<size=40><color=#ff0000>タップで再開</color></size>";
 				outline1.text = outline2.text = outline3.text = outline4.text = "PAUSED\n<size=40>タップで再開</size>";
 //				MainUI.SetActive("Restart", true);
@@ -220,11 +219,6 @@ public class GameMgr : MonoBehaviour
 			}
 			break;
 		case eState.GameClear:
-//			MainUI.SetActive("Restart", true);
-//			MainUI.SetActive("Title", true);
-//			MainUI.SetActive("Setting", true);
-//			MainUI.SetActive("Next", true);
-//			StartCoroutine(GoNext());
 			string msg = "STAGE CLEAR!";
 			if (message.text != msg) {
 				fade.FadeToNext();
@@ -232,7 +226,6 @@ public class GameMgr : MonoBehaviour
 			ButtonActive = false;
 
 			Time.timeScale = 1.0f;
-//			DrawLabelCenter("GAME CLEAR!");
 			message.text = msg;
 			break;
 		case eState.GameOver:
@@ -242,18 +235,9 @@ public class GameMgr : MonoBehaviour
 			ButtonActive = true;
 
 			Time.timeScale = 0.3f;
-//			DrawLabelCenter("GAME OVER");
 			message.text = "GAME OVER";
 			break;
 		}
-	}
-
-	IEnumerator GoNext()
-	{
-		yield return new WaitForSeconds(3.0f);
-
-		// 次のシーンへ
-		SceneManager.LoadScene("End");
 	}
 
 	//

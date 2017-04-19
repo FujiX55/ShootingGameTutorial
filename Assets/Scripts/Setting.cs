@@ -16,6 +16,8 @@ public class Setting : MonoBehaviour
 
 	public Pad pad;
 
+	bool unload = false;
+
 	void Awake()
 	{
 		canvas = GetComponent<Canvas>();
@@ -53,6 +55,7 @@ public class Setting : MonoBehaviour
 		pad = Pad.Instance;
 
 		pad.Active = false;
+		unload = false;
 	}
 
 	void Update()
@@ -61,6 +64,13 @@ public class Setting : MonoBehaviour
 		if (pad.IsEscape()) {
 			Application.Quit();
 			return;
+		}
+
+		if (unload) {
+			// 前のシーンに戻る
+			SceneManager.UnloadScene("Setting");
+			Resources.UnloadUnusedAssets();
+			pad.Active = true;
 		}
 	}
 
@@ -100,16 +110,14 @@ public class Setting : MonoBehaviour
 	// シーン終了
 	public void ExitScene()
 	{
-		pad.Active = true;
-
 		if (GameMgr.eState.Init == GameMgr.State) {
 			// タイトルへ戻る
 			SceneManager.LoadScene("Title");
+			pad.Active = true;
 		}
 		else {
-			// 前のシーンに戻る
-			SceneManager.UnloadScene("Setting");
-			Resources.UnloadUnusedAssets();
+			// アンロードフラグを立てる(ここで実行するとタップを検出してしまうので)
+			unload = true;
 		}
 	}
 }

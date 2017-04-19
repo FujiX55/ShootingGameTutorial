@@ -13,7 +13,7 @@ public class Particle : Actor
 	}
 
 	/// パーティクル管理
-	public static ActorMgr<Particle> parent = null;
+	public static ActorCtx<Particle> parent = null;
 
 	/// パーティクルのインスタンスを取得する
 	public static Particle Add(float x, float y)
@@ -49,7 +49,7 @@ public class Particle : Actor
 
 		if (Scale < 0.01f) {
 			// 見えなくなったら消す
-			Vanish();
+			Discard();
 		}
 	}
 }
