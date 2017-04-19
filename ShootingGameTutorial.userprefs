@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Background.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SeqFolder.cs">
     <Files>
+      <File FileName="Assets\Scripts\EndUI.cs" Line="17" Column="28" />
       <File FileName="Assets\Scripts\MainUI.cs" Line="29" Column="1" />
-      <File FileName="Assets\Scripts\Setting.cs" Line="99" Column="2" />
+      <File FileName="Assets\Scripts\Setting.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EndImage.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameMgr.cs" Line="210" Column="1" />
-      <File FileName="Assets\Scripts\Pad.cs" Line="119" Column="3" />
+      <File FileName="Assets\Scripts\Pad.cs" Line="1" Column="1" />
       <File FileName="Assets\Plugins\Vibration.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProximitySensor.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
@@ -21,24 +22,10 @@
       <File FileName="Assets\Scripts\Actor.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TitleUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TitleMgr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EndUI.cs" Line="71" Column="30" />
-      <File FileName="Assets\Scripts\ActorCtx.cs" Line="35" Column="39" />
-      <File FileName="Assets\Scripts\Background.cs" Line="97" Column="32" />
+      <File FileName="Assets\Scripts\ActorCtx.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Background.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SeqFolder.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="ShootingGameTutorial" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="Scripts" expanded="True">
-                <Node name="Background.cs" selected="True" />
-              </Node>
-            </Node>
-            <Node name="Assembly-CSharp-firstpass" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

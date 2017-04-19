@@ -6,13 +6,15 @@ using UnityEngine.SceneManagement;
 public class EndUI : MonoBehaviour
 {
 	static Canvas canvas;
-
-	public GameObject sprite;
+	static GameObject panel;
 
 	// Use this for initialization
 	void Start()
 	{
 		canvas = GetComponent<Canvas>();
+		panel = GameObject.Find("Panel");
+
+		SetActive("Baloon", false);
 
 		StartCoroutine(FadeIn());	
 	}
@@ -45,17 +47,15 @@ public class EndUI : MonoBehaviour
 
 	IEnumerator FadeIn()
 	{
-		Color spriteColor = sprite.GetComponent<SpriteRenderer>().color;
-
-		spriteColor.a = 0.0f;
+		float alpha = 1.0f;
 
 		// フェード処理
-		while (spriteColor.a < 1) {
-			spriteColor.a += Time.deltaTime;
-			sprite.GetComponent<SpriteRenderer>().color = 
-				new Color(spriteColor.r, spriteColor.g, spriteColor.b, spriteColor.a);
+		while (alpha > 0.0f) {
+			alpha -= Time.deltaTime;
+			panel.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
 			yield return null;
 		}
+		SetActive("Baloon", true);
 	}
 
 	// フェイドしつつタイトルへ
@@ -63,17 +63,15 @@ public class EndUI : MonoBehaviour
 	{
 		SetActive("GoTitle", false);
 
-		Color spriteColor = sprite.GetComponent<SpriteRenderer>().color;
+		float alpha = 0.0f;
 
-		spriteColor.a = 1.0f;
-
-		// フェードアウト
-		while (spriteColor.a > 0) {
-			spriteColor.a -= Time.deltaTime;
-			sprite.GetComponent<SpriteRenderer>().color = 
-				new Color(spriteColor.r, spriteColor.g, spriteColor.b, spriteColor.a);
+		// フェード処理
+		while (alpha < 1.0f) {
+			alpha += Time.deltaTime;
+			panel.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, alpha);
 			yield return null;
 		}
+
 		// タイトルへ戻る
 		SceneManager.LoadScene("Title");
 	}
