@@ -9,7 +9,13 @@ public class Shot : Actor
 	/// インスタンスの取得
 	public static Shot Add(float x, float y, float direction, float speed)
 	{
-		return parent.Add(x, y, direction, speed);
+		Shot shot = parent.Add(x, y, direction, speed);
+
+		if (shot != null) {
+			shot.Angle = Random.Range(0, 359);
+		}
+
+		return shot;
 	}
 
 	/// 更新
