@@ -50,7 +50,7 @@ public class Player : Actor
 	void FixedUpdate()
 	{
 		bool bShoot = false;
-		bool panic  = false;
+		bool panic = false;
 		_tAnim++;
 		
 		if (_tAnim % 48 < 24) {
@@ -75,7 +75,7 @@ public class Player : Actor
 				
 				// 近接センサ反応中はパニックショットを発射する
 //				bShoot = true;
-				panic  = true;
+				panic = true;
 			}
 			else {
 				// 通常は「Spr1」を表示
@@ -83,7 +83,7 @@ public class Player : Actor
 			}
 		}
 		// ショットを発射
-		if (bShoot){
+		if (bShoot) {
 			// X座標をランダムでずらす
 			float px = X + Random.Range(0, SpriteWidth / 2);
 
@@ -115,7 +115,7 @@ public class Player : Actor
 		}
 		// パニックショット
 //		else
-		if (panic && (_tAnim % 2 == 0)){
+		if (panic && (_tAnim % 2 == 0)) {
 			// X座標をランダムでずらす
 			float px = X + Random.Range(0, SpriteWidth / 2);
 
@@ -178,6 +178,7 @@ public class Player : Actor
 
             // やられSE再生
 			Sound.PlaySe("damage");
+			Sound.PlaySe("ann");
 
             // BGMを止める
 			Sound.StopBgm();

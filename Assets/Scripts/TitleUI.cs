@@ -5,29 +5,64 @@ using UnityEngine.SceneManagement;
 
 public class TitleUI : MonoBehaviour
 {
+	Pad pad;
+
+	bool pressed = false;
+	bool start = false;
+
+	float timer = 1000.0f;
 
 	// Use this for initialization
 	void Start()
 	{
-	
+		Time.timeScale = 1.0f;
+
+		pad = Pad.Instance;
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
-	
+		pad.Update();
+
+		// 戻るボタンで終了
+		if (pad.IsEscape()) {
+			//			if (SystemInfo.supportsVibration) {
+			//				VibrateScript.Destruct();
+			//			}
+			Application.Quit();
+			return;
+		}
+
+		if (start) {
+			SceneManager.LoadScene("Main");
+			start = false;
+		}
 	}
 
 	public void TransitSetting()
 	{
 		// 設定画面へ
 		SceneManager.LoadScene("Setting", LoadSceneMode.Additive);
-//		SceneManager.LoadScene("Setting");
 	}
 
 	public void StartGame()
 	{
+		if (pressed) {
+			return;
+		}
+		pressed = true;
+
+		Sound.PlaySe("hajimari");
+
+		StartCoroutine(CoStartGame());
+	}
+
+	public IEnumerator CoStartGame()
+	{
+		yield return new WaitForSeconds(0.8f);
+
 		// ゲーム開始
-		SceneManager.LoadScene("Main");
+		start = true;
 	}
 }

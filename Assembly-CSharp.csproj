@@ -65,7 +65,6 @@
      <Compile Include="Assets\Scripts\Shot.cs" />
      <Compile Include="Assets\Scripts\Sound.cs" />
      <Compile Include="Assets\Scripts\SoundMgr.cs" />
-     <Compile Include="Assets\Scripts\TitleMgr.cs" />
      <Compile Include="Assets\Scripts\TitleUI.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
  <Reference Include="UnityEngine.UI">

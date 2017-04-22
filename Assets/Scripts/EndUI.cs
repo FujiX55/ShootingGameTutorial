@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class EndUI : MonoBehaviour
 {
+	bool pressed = false;
 	static Canvas canvas;
 	static GameObject panel;
 
 	// Use this for initialization
 	void Start()
 	{
+		Time.timeScale = 1.0f;
+
 		canvas = GetComponent<Canvas>();
 		panel = GameObject.Find("Panel");
 
@@ -56,12 +59,18 @@ public class EndUI : MonoBehaviour
 			yield return null;
 		}
 		SetActive("Baloon", true);
+		if (!pressed) {
+			Sound.PlaySe("oshimai", 0);
+		}
 	}
 
 	// フェイドしつつタイトルへ
 	IEnumerator CoFadeToTitle()
 	{
 		SetActive("GoTitle", false);
+		pressed = true;
+
+		Sound.PlaySe("hai", 0);
 
 		float alpha = 0.0f;
 

@@ -34,6 +34,9 @@ public class ProximitySensor : MonoBehaviour
 				// 振動してみたり
 				Vibration.Vibrate(50);
 			}
+			if (alert == 0) {
+				Sound.PlaySe("kya");
+			}
 			break;
 		}
 	}
