@@ -84,6 +84,7 @@ public class GameMgr : MonoBehaviour
 
 		// パッド入力を取得
 		pad = Pad.Instance;
+		pad.Active = true;
 
 		// ショットオブジェクトを32個確保しておく
 		Shot.parent = new ActorCtx<Shot>("Shot", 32);
@@ -160,9 +161,9 @@ public class GameMgr : MonoBehaviour
 				state_ = eState.GameClear;
 			}
 			else if (Enemy.target.Exists == false) {
-				// プレイヤが死亡したのでゲームオーバー
-				state_ = eState.GameOver;
-			}
+					// プレイヤが死亡したのでゲームオーバー
+					state_ = eState.GameOver;
+				}
 			break;
 
 		case eState.GameClear:

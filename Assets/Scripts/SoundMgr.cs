@@ -33,5 +33,8 @@ public class SoundMgr : MonoBehaviour
 
 		// "0004_さとうささら_はじまりー"をロード　キーは"hajimari"とする
 		Sound.LoadSe("hajimari", "0004_さとうささら_はじまりー");
+
+		// "0005_さとうささら_ヤッタネ"をロード　キーは"yattane"とする
+		Sound.LoadSe("yattane", "0005_さとうささら_ヤッタネ");
 	}
 }

@@ -6,8 +6,8 @@ public class Background : MonoBehaviour
 	const int BUFF_SIZE = 8;
 
 	//加速度センサーの傾き
-	private Vector2 acc_vec;
-	private Vector2 org_vec;
+//	private Vector2 acc_vec;
+	private Vector2 pre_vec;
 	private Vector2[] his_vec;
 
 	// Use this for initialization
@@ -16,10 +16,11 @@ public class Background : MonoBehaviour
 		his_vec = new Vector2[BUFF_SIZE];
 
 		//加速度を取得
-		acc_vec = Input.acceleration;
-		org_vec = new Vector2();
+		Vector2 acc_vec = Input.acceleration;
+		pre_vec = new Vector2();
 
-		if (acc_vec != null) {
+//		if (acc_vec != null) 
+		{
 			//加速度を取得
 			acc_vec.y = -Input.acceleration.z;
 
@@ -34,20 +35,22 @@ public class Background : MonoBehaviour
 				his_vec[i] = acc_vec;
 			}
 
-			org_vec = acc_vec;
+			pre_vec = acc_vec;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
+		// 視差設定がONでなければ抜ける
 		if (!GetParallax()) {
 			return;
 		}
 		//加速度を取得
-		acc_vec = Input.acceleration;
+		Vector2 acc_vec = Input.acceleration;
 
-		if (acc_vec != null) {
+//		if (acc_vec != null) 
+		{
 			//加速度を取得
 			acc_vec.y = -Input.acceleration.z;
 			if (GetParaInv()) {
@@ -68,15 +71,15 @@ public class Background : MonoBehaviour
 			acc_vec /= BUFF_SIZE;
 
 			// 背景の座標を更新
-			transform.position = (acc_vec - org_vec);
+			transform.position = (acc_vec - pre_vec);
 
 			Vector3 pos = Camera.main.transform.position;
 			pos.y = -transform.position.y;
 			Camera.main.transform.position = pos;
 
 			// じわじわと戻す
-			Vector2 dir = acc_vec - org_vec;
-			org_vec += (dir * 0.005f);
+			Vector2 dir = acc_vec - pre_vec;
+			pre_vec += (dir * 0.005f);
 		}
 	}
 
@@ -85,7 +88,8 @@ public class Background : MonoBehaviour
 		// テキスト描画
 		Vector3 vec = Input.acceleration;
 
-		if (vec != null) {
+//		if (vec != null) 
+		{
 			string text;
 
 			text = string.Format("accel.x={0}", vec.x);
@@ -96,6 +100,9 @@ public class Background : MonoBehaviour
 
 			text = string.Format("accel.z={0}", vec.z);
 			Util.GUILabel(0, Screen.height / 20 * 3, 120, 30, text);
+
+			text = string.Format("volume={0}", Sound.GetVolumeSe(0));
+			Util.GUILabel(0, Screen.height / 20 * 7, 120, 30, text);
 		}
 	}
 

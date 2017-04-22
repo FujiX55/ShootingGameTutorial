@@ -9,6 +9,8 @@ public class EndUI : MonoBehaviour
 	static Canvas canvas;
 	static GameObject panel;
 
+	Pad pad;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -16,6 +18,8 @@ public class EndUI : MonoBehaviour
 
 		canvas = GetComponent<Canvas>();
 		panel = GameObject.Find("Panel");
+		pad = Pad.Instance;
+		pad.Active = false;
 
 		SetActive("Baloon", false);
 
@@ -39,7 +43,16 @@ public class EndUI : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		pad.Update();
 
+		// 戻るボタンで終了
+		if (pad.IsEscape()) {
+			//			if (SystemInfo.supportsVibration) {
+			//				VibrateScript.Destruct();
+			//			}
+			Application.Quit();
+			return;
+		}
 	}
 
 	// タイトルへ戻る

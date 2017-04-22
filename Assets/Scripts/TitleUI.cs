@@ -10,14 +10,13 @@ public class TitleUI : MonoBehaviour
 	bool pressed = false;
 	bool start = false;
 
-	float timer = 1000.0f;
-
 	// Use this for initialization
 	void Start()
 	{
 		Time.timeScale = 1.0f;
 
 		pad = Pad.Instance;
+		pad.Active = false;
 	}
 	
 	// Update is called once per frame

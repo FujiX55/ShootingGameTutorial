@@ -35,7 +35,7 @@ public class ProximitySensor : MonoBehaviour
 				Vibration.Vibrate(50);
 			}
 			if (alert == 0) {
-				Sound.PlaySe("kya");
+				Sound.PlaySe("kya", 0);
 			}
 			break;
 		}
