@@ -6,3 +6,14 @@ Temp
 /*.apk
 /*.sln
 /*.userprefs
+/MyShootingTutorial2_Data/Managed/*.dll
+/MyShootingTutorial2_Data/Mono/etc/mono/1.0/*.aspx
+/MyShootingTutorial2_Data/Mono/etc/mono/1.0/*.config
+/MyShootingTutorial2_Data/Mono/etc/mono/2.0/Browsers/*.browser
+/MyShootingTutorial2_Data/Mono/etc/mono/2.0/*.aspx
+/MyShootingTutorial2_Data/Mono/etc/mono/2.0/*.config
+/MyShootingTutorial2_Data/Mono/etc/mono/2.0/*.map
+/MyShootingTutorial2_Data/Mono/etc/mono/*.ini
+/MyShootingTutorial2_Data/Mono/etc/mono
+/MyShootingTutorial2_Data
+/MyShootingTutorial_Data

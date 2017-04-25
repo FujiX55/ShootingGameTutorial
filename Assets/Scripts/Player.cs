@@ -177,7 +177,7 @@ public class Player : Actor
 			}
 
             // やられSE再生
-			Sound.PlaySe("ann", 0);
+//			Sound.PlaySe("ann", 0);
 			Sound.PlaySe("damage");
 
             // BGMを止める
