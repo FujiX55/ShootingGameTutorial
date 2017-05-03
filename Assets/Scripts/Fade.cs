@@ -37,12 +37,6 @@ public class Fade : MonoBehaviour
 
 	public IEnumerator CoFadeToNext()
 	{
-		yield return new WaitForSeconds(1.0f);
-
-		Sound.PlaySe("yattane");
-
-		yield return new WaitForSeconds(2.0f);
-
 		Color color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
 		color.a = 0.0f;

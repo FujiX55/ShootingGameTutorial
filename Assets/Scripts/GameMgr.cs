@@ -26,6 +26,8 @@ public class GameMgr : MonoBehaviour
 		Main,
 		// ゲームクリア
 		GameClear,
+		// つぎへ
+		GoNext,
 		// ゲームオーバー
 		GameOver
 	}
@@ -44,7 +46,7 @@ public class GameMgr : MonoBehaviour
 
 	public Pad pad;
 
-	public Text message, outline1, outline2, outline3, outline4;
+	public Text message, outline1, outline2, outline3, outline4, subtext;
 
 	bool ButtonActive { set; get; }
 
@@ -105,7 +107,13 @@ public class GameMgr : MonoBehaviour
 		// プレイヤの参照を敵に登録する
 		Enemy.target = GameObject.Find("Player").GetComponent<Player>();
 
-		message.text = outline1.text = outline2.text = outline3.text = outline4.text = "";
+		message.text 
+			= outline1.text 
+			= outline2.text 
+			= outline3.text 
+			= outline4.text 
+			= subtext.text 
+			= "";
 
 		Time.timeScale = 1.0f;
 	}
@@ -158,18 +166,14 @@ public class GameMgr : MonoBehaviour
 				// ボスを倒したのでゲームクリア
 				// BGMを止める
 				Sound.StopBgm();
+				// Jingle再生開始
+				Sound.PlayBgm("jingle", false);
 				state_ = eState.GameClear;
 			}
 			else if (Enemy.target.Exists == false) {
 					// プレイヤが死亡したのでゲームオーバー
 					state_ = eState.GameOver;
 				}
-			break;
-
-		case eState.GameClear:
-			break;
-
-		case eState.GameOver:
 			break;
 
 		default:
@@ -222,12 +226,15 @@ public class GameMgr : MonoBehaviour
 		case eState.GameClear:
 			string msg = "STAGE CLEAR!";
 			if (message.text != msg) {
-				fade.FadeToNext();
+				StartCoroutine(CoFadeToNext());
 			}
 			ButtonActive = false;
 
 			Time.timeScale = 1.0f;
 			message.text = msg;
+//			state_ = eState.GoNext;
+			break;
+		case eState.GoNext:
 			break;
 		case eState.GameOver:
 			MainUI.SetActive("Restart", true);
@@ -239,6 +246,21 @@ public class GameMgr : MonoBehaviour
 			message.text = "GAME OVER";
 			break;
 		}
+	}
+
+	public IEnumerator CoFadeToNext()
+	{
+		yield return new WaitForSeconds(1.8f);
+
+		subtext.text = "CONGRATULATION";
+
+		yield return new WaitForSeconds(3.2f);
+
+		fade.FadeToNext();
+
+		yield return new WaitForSeconds(0.5f);
+
+		Sound.PlaySe("yattane");
 	}
 
 	//

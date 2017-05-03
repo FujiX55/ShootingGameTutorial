@@ -15,6 +15,10 @@ public class TitleUI : MonoBehaviour
 	{
 		Time.timeScale = 1.0f;
 
+		// BGMを止める
+		Sound.StopBgm();
+
+
 		pad = Pad.Instance;
 		pad.Active = false;
 	}

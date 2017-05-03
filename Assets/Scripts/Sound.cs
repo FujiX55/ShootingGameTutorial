@@ -139,12 +139,12 @@ public class Sound
 
 	/// BGMの再生
 	/// ※事前にLoadBgmでロードしておくこと
-	public static bool PlayBgm(string key)
+	public static bool PlayBgm(string key, bool bLoop = true)
 	{
-		return GetInstance().PlayBgmProc(key);
+		return GetInstance().PlayBgmProc(key, bLoop);
 	}
 
-	bool PlayBgmProc(string key)
+	bool PlayBgmProc(string key, bool bLoop = true)
 	{
 		if (poolBgm.ContainsKey(key) == false) {
 			// 対応するキーがない
@@ -159,7 +159,7 @@ public class Sound
 
 		// 再生
 		var source = GetAudioSource(eType.Bgm);
-		source.loop = true;
+		source.loop = bLoop;
 		source.clip = data.Clip;
 		source.Play();
 

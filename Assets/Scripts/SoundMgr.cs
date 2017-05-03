@@ -13,6 +13,9 @@ public class SoundMgr : MonoBehaviour
 		// "bgm01"をロード　キーは"bgm"とする
 		Sound.LoadBgm("bgm", "bgm01");
 	
+		// "ジングル01"をロード　キーは"jingle"とする
+		Sound.LoadBgm("jingle", "ジングル01");
+
 		// "damage"をロード　キーは"damage"とする
 		Sound.LoadSe("damage", "damage");
         
