@@ -48,7 +48,7 @@ public class GameMgr : MonoBehaviour
 
 	public Text message, outline1, outline2, outline3, outline4, subtext;
 
-	bool ButtonActive { set; get; }
+	bool Paused { set; get; }
 
 	//	public Texture2D blackTexture;
 
@@ -135,7 +135,8 @@ public class GameMgr : MonoBehaviour
 		MainUI.SetActive("Title", false);
 		MainUI.SetActive("Next", false);
 
-		ButtonActive = false;
+		Paused = false;
+		pad.touch1st = false;
 	}
 
 	/// 更新
@@ -156,6 +157,8 @@ public class GameMgr : MonoBehaviour
 		case eState.Init:
 			// BGM再生開始
 			Sound.PlayBgm("bgm");
+
+			pad.touch1st = false;
 
 			// メイン状態へ遷移する
 			state_ = eState.Main;
@@ -211,14 +214,14 @@ public class GameMgr : MonoBehaviour
 //				MainUI.SetActive("Restart", true);
 //				MainUI.SetActive("Title", true);
 				MainUI.SetActive("Setting", true);
-				ButtonActive = true;
+				Paused = true;
 			}
 			else {
-				if (ButtonActive) {
+				if (Paused) {
 					MainUI.SetActive("Setting", false);
 					MainUI.SetActive("Restart", false);
 					MainUI.SetActive("Title", false);
-					ButtonActive = false;
+					Paused = false;
 					message.text = outline1.text = outline2.text = outline3.text = outline4.text = "";
 				}
 			}
@@ -228,7 +231,7 @@ public class GameMgr : MonoBehaviour
 			if (message.text != msg) {
 				StartCoroutine(CoFadeToNext());
 			}
-			ButtonActive = false;
+			Paused = false;
 
 			Time.timeScale = 1.0f;
 			message.text = msg;
@@ -240,7 +243,7 @@ public class GameMgr : MonoBehaviour
 			MainUI.SetActive("Restart", true);
 			MainUI.SetActive("Title", true);
 			MainUI.SetActive("Setting", true);
-			ButtonActive = true;
+			Paused = true;
 
 			Time.timeScale = 0.3f;
 			message.text = "GAME OVER";

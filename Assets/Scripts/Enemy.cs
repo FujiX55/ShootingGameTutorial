@@ -54,6 +54,8 @@ public class Enemy : Actor
 
 	public int phase_;
 
+	Pad pad;
+
 	// 敵の追加
 	public static Enemy Add(int id, float x, float y, float direction, float speed)
 	{
@@ -131,12 +133,19 @@ public class Enemy : Actor
 			yield return new WaitForSeconds(2.0f);
 			
 			// 狙い撃ち角度を取得
-//			float dir = GetAim();
-			float dx = target.X - X - 0.5f;
-			float dy = target.Y - Y;
+			float dir = 0.0f;
 
-			float dir = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
+			Pad pad = Pad.Instance;
 
+			if (!pad.touch1st) {
+				float dx = target.X - X - 0.5f;
+				float dy = target.Y - Y;
+
+				dir = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
+			}
+			else {
+				dir = GetAim();
+			}
 			Bullet.Add(X, Y, dir, 3);
 
 			// 画面外に出たら消える
@@ -239,13 +248,13 @@ public class Enemy : Actor
 				// 角度差が小さいので回転不要
 			}
 			else if (delta > 0) {
-				// 左回り
-				dir += ROT;
-			}
-			else {
-				// 右回り
-				dir -= ROT;
-			}
+					// 左回り
+					dir += ROT;
+				}
+				else {
+					// 右回り
+					dir -= ROT;
+				}
 			SetVelocity(dir, Speed);
 
 			// 画像も回転させる

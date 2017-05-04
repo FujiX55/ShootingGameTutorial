@@ -25,6 +25,8 @@ public class Pad
 
 	bool active_ = true;
 
+	public bool touch1st = false;
+
 	public bool Active {
 		set { active_ = value; }
 		get { return active_; }
@@ -159,15 +161,15 @@ public class Pad
 				touchState = eTouchState.Began;
 			}
 			else if (Input.GetMouseButton(0)) {
-				// マウス押下中
-				latest_ = Input.mousePosition;
-				touchState = eTouchState.Stay;
-			}
-			else if (Input.GetMouseButtonUp(0)) {
-				// マウスリリース
-				latest_ = new Vector2(0, 0);
-				touchState = eTouchState.Ended;
-			}
+					// マウス押下中
+					latest_ = Input.mousePosition;
+					touchState = eTouchState.Stay;
+				}
+				else if (Input.GetMouseButtonUp(0)) {
+						// マウスリリース
+						latest_ = new Vector2(0, 0);
+						touchState = eTouchState.Ended;
+					}
 
 			// 右クリックやスペースキーでもPUSHを検出
 			if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) {
@@ -180,6 +182,7 @@ public class Pad
 		case eTouchState.Began:
 			start_ = prev_ = latest_;
 			push_ = true;
+			touch1st = true;
 			// 等速再生
 			Time.timeScale = 1.0f;
 			break;
