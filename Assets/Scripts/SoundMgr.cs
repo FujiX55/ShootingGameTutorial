@@ -16,11 +16,11 @@ public class SoundMgr : MonoBehaviour
 		// "ジングル01"をロード　キーは"jingle"とする
 		Sound.LoadBgm("jingle", "ジングル01");
 
-		// "damage"をロード　キーは"damage"とする
-		Sound.LoadSe("damage", "damage");
+		// "ごびおーーーん(爆発音)"をロード　キーは"damage"とする
+		Sound.LoadSe("damage", "ごびおーーーん(爆発音)");
         
-		// "destroy"をロード　キーは"destroy"とする
-		Sound.LoadSe("destroy", "destroy");    
+		// "ドぇン(爆発音)"をロード　キーは"destroy"とする
+		Sound.LoadSe("destroy", "ドぇン(爆発音)");    
 
 		// "0000_さとうささら_おしまい"をロード　キーは"oshimai"とする
 		Sound.LoadSe("oshimai", "0000_さとうささら_おしまい");    
