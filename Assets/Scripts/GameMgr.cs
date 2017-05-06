@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameMgr : MonoBehaviour
 {
-	private static GameMgr instance_;
-
 	public Fade fade;
 
 	// タッチ開始位置
@@ -50,17 +48,7 @@ public class GameMgr : MonoBehaviour
 
 	bool Paused { set; get; }
 
-	//	public Texture2D blackTexture;
-
-	static GameMgr Instance {
-		get {
-			if (instance_ == null) {
-				GameObject obj = new GameObject("GameMgr");
-				instance_ = obj.AddComponent<GameMgr>();
-			}
-			return instance_;
-		}
-	}
+	float timeBgmPlay;
 
 	/// 破壊
 	void OnDestroy()
@@ -71,19 +59,11 @@ public class GameMgr : MonoBehaviour
 		Bullet.parent = null;
 		Particle.parent = null;
 		Enemy.target = null;
-
-		if (this == instance_) {
-			instance_ = null;
-		}
 	}
 
 	/// 開始
 	void Awake()
 	{
-//		if (this != instance_) {
-//			return;
-//		}
-
 		// パッド入力を取得
 		pad = Pad.Instance;
 		pad.Active = true;
@@ -156,7 +136,8 @@ public class GameMgr : MonoBehaviour
 		switch (state_) {
 		case eState.Init:
 			// BGM再生開始
-			Sound.PlayBgm("bgm");
+//			Sound.PlayBgm("bgm");
+			SoundMgr.PlayBgm("intro", "loop");
 
 			pad.touch1st = false;
 
@@ -168,9 +149,9 @@ public class GameMgr : MonoBehaviour
 			if (Boss.bDestroyed) {
 				// ボスを倒したのでゲームクリア
 				// BGMを止める
-				Sound.StopBgm();
+				SoundMgr.StopBgm();
 				// Jingle再生開始
-				Sound.PlayBgm("jingle", false);
+				SoundMgr.PlayBgm("jingle", false);
 				state_ = eState.GameClear;
 			}
 			else if (Enemy.target.Exists == false) {

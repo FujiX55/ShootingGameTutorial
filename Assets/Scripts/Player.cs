@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Player : Actor
 {
-	private static Player instance_;
-
 	public GameMgr gameMgr_;
 	public Vector2 latest_;
 
@@ -19,16 +17,6 @@ public class Player : Actor
 	int _tAnim = 0;
 
 	ProximitySensor sensor;
-
-	public static Player Instance {
-		get {
-			if (instance_ == null) {
-				GameObject obj = new GameObject("Player");
-				instance_ = obj.AddComponent<Player>();
-			}
-			return instance_;
-		}
-	}
 
 	/// 開始
 	void Start()
@@ -181,7 +169,8 @@ public class Player : Actor
 			Sound.PlaySe("damage");
 
             // BGMを止める
-			Sound.StopBgm();
+//			Sound.StopBgm();
+			SoundMgr.StopBgm();
 			break;
 		}
 #endif

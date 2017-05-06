@@ -30,15 +30,15 @@ public class Sound
 	GameObject obj = null;
 	
 	// サウンドリソース
+	// BGM
 	AudioSource sourceBgm = null;
 	
-	// BGM
+	// SE (デフォルト)
 	AudioSource sourceSeDefault = null;
 	
-	// SE (デフォルト)
+	// SE (チャンネル)
 	AudioSource[] sourceSeArray;
 	
-	// SE (チャンネル)
 	// BGMにアクセスするためのテーブル
 	Dictionary<string, Data> poolBgm = new Dictionary<string, Data>();
 	// SEにアクセスするためのテーブル
@@ -72,7 +72,7 @@ public class Sound
 	}
 
 	/// AudioSourceを取得する
-	AudioSource GetAudioSource(eType type, int channel = -1)
+	AudioSource privateGetAudioSource(eType type, int channel = -1)
 	{
 		if (obj == null) {
 			// GameObjectがなければ作る
@@ -111,15 +111,15 @@ public class Sound
 	// ※Resources/Soundsフォルダに配置すること
 	public static void LoadBgm(string key, string resName)
 	{
-		GetInstance().LoadBgmProc(key, resName);
+		GetInstance().privateLoadBgm(key, resName);
 	}
 
 	public static void LoadSe(string key, string resName)
 	{
-		GetInstance().LoadSeProc(key, resName);
+		GetInstance().privateLoadSe(key, resName);
 	}
 
-	void LoadBgmProc(string key, string resName)
+	void privateLoadBgm(string key, string resName)
 	{
 		if (poolBgm.ContainsKey(key)) {
 			// すでに登録済みなのでいったん消す
@@ -128,7 +128,7 @@ public class Sound
 		poolBgm.Add(key, new Data(key, resName));
 	}
 
-	void LoadSeProc(string key, string resName)
+	void privateLoadSe(string key, string resName)
 	{
 		if (poolSe.ContainsKey(key)) {
 			// すでに登録済みなのでいったん消す
@@ -141,10 +141,10 @@ public class Sound
 	/// ※事前にLoadBgmでロードしておくこと
 	public static bool PlayBgm(string key, bool bLoop = true)
 	{
-		return GetInstance().PlayBgmProc(key, bLoop);
+		return GetInstance().privatePlayBgm(key, bLoop);
 	}
 
-	bool PlayBgmProc(string key, bool bLoop = true)
+	bool privatePlayBgm(string key, bool bLoop = true)
 	{
 		if (poolBgm.ContainsKey(key) == false) {
 			// 対応するキーがない
@@ -152,13 +152,13 @@ public class Sound
 		}
 
 		// いったん止める
-		StopBgmProc();
+		privateStopBgm();
 
 		// リソースの取得
 		var data = poolBgm[key];
 
 		// 再生
-		var source = GetAudioSource(eType.Bgm);
+		var source = privateGetAudioSource(eType.Bgm);
 		source.loop = bLoop;
 		source.clip = data.Clip;
 		source.Play();
@@ -169,24 +169,48 @@ public class Sound
 	/// BGMの停止
 	public static bool StopBgm()
 	{
-		return GetInstance().StopBgmProc();
+		return GetInstance().privateStopBgm();
 	}
 
-	bool StopBgmProc()
+	bool privateStopBgm()
 	{
-		GetAudioSource(eType.Bgm).Stop();
+		privateGetAudioSource(eType.Bgm).Stop();
 
 		return true;
+	}
+
+	public static float GetBgmLength()
+	{
+		return GetInstance().privateGetBgmLength();
+	}
+
+	float privateGetBgmLength()
+	{
+		var source = privateGetAudioSource(eType.Bgm);
+
+		return source.clip.length;
+	}
+
+	public static bool IsBgmPlaying()
+	{
+		return GetInstance().privateIsBgmPlaying();
+	}
+
+	bool privateIsBgmPlaying()
+	{
+		var source = privateGetAudioSource(eType.Bgm);
+
+		return source.isPlaying;
 	}
 
 	/// SEの再生
 	/// ※事前にLoadSeでロードしておくこと
 	public static bool PlaySe(string key, int channel = -1)
 	{
-		return GetInstance().PlaySeProc(key, channel);
+		return GetInstance().privatePlaySe(key, channel);
 	}
 
-	bool PlaySeProc(string key, int channel = -1)
+	bool privatePlaySe(string key, int channel = -1)
 	{
 		if (poolSe.ContainsKey(key) == false) {
 			// 対応するキーがない
@@ -198,13 +222,13 @@ public class Sound
 
 		if (0 <= channel && channel < SE_CHANNEL) {
 			// チャンネル指定
-			var source = GetAudioSource(eType.Se, channel);
+			var source = privateGetAudioSource(eType.Se, channel);
 			source.clip = data.Clip;
 			source.Play();
 		}
 		else {
 			// デフォルトで再生
-			var source = GetAudioSource(eType.Se);
+			var source = privateGetAudioSource(eType.Se);
 			source.PlayOneShot(data.Clip);
 		}
 
@@ -214,37 +238,37 @@ public class Sound
 	// ボリュームの設定 (0.0～1.0)
 	public static void SetVolumeSe(float volume, int channel = -1)
 	{
-		GetInstance().SetVolumeSeProc(volume, channel);
+		GetInstance().privateSetVolumeSe(volume, channel);
 	}
 
-	void SetVolumeSeProc(float volume, int channel = -1)
+	void privateSetVolumeSe(float volume, int channel = -1)
 	{
 		// ボリュームの設定
-		GetAudioSourceSe(channel).volume = volume;
+		privateGetAudioSourceSe(channel).volume = volume;
 	}
 
 	// ボリュームの取得 (0.0～1.0)
 	public static float GetVolumeSe(int channel = -1)
 	{
-		return GetInstance().GetVolumeSeProc(channel);
+		return GetInstance().privateGetVolumeSe(channel);
 	}
 
-	float GetVolumeSeProc(int channel = -1)
+	float privateGetVolumeSe(int channel = -1)
 	{
 		// ボリュームの取得
-		return GetAudioSourceSe(channel).volume;
+		return privateGetAudioSourceSe(channel).volume;
 	}
 
 	// SEのオーディオソースを取得
-	AudioSource GetAudioSourceSe(int channel = -1)
+	AudioSource privateGetAudioSourceSe(int channel = -1)
 	{
 		// ボリュームの設定
 		if (0 <= channel && channel < SE_CHANNEL) {
 			// チャンネル指定
-			return GetAudioSource(eType.Se, channel);
+			return privateGetAudioSource(eType.Se, channel);
 		}
 
 		// デフォルト
-		return GetAudioSource(eType.Se);
+		return privateGetAudioSource(eType.Se);
 	}
 }

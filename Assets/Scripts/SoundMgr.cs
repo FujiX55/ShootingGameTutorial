@@ -1,8 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SoundMgr : MonoBehaviour
+public class SoundMgr : SingletonMonoBehaviour<SoundMgr>
 {
+	float bgmTime = 0.0f;
+	string bgmNext = "";
+
+	/// 開始
+	void Awake()
+	{
+		if (this != Instance) {
+			Destroy(this);
+			return;
+		}
+//		DontDestroyOnLoad(this.gameObject);
+	}
 
 	/// <summary>
 	/// サウンド管理
@@ -10,9 +22,12 @@ public class SoundMgr : MonoBehaviour
 	void Start()
 	{
 		// サウンドをロード
-		// "bgm01"をロード　キーは"bgm"とする
-		Sound.LoadBgm("bgm", "bgm01");
+		// "bgm01_intro"をロード　キーは"intro"とする
+		Sound.LoadBgm("intro", "bgm01_intro");
 	
+		// "bgm01"をロード　キーは"loop"とする
+		Sound.LoadBgm("loop", "bgm01");
+
 		// "ジングル01"をロード　キーは"jingle"とする
 		Sound.LoadBgm("jingle", "ジングル01");
 
@@ -39,5 +54,46 @@ public class SoundMgr : MonoBehaviour
 
 		// "0005_さとうささら_ヤッタネ"をロード　キーは"yattane"とする
 		Sound.LoadSe("yattane", "0005_さとうささら_ヤッタネ");
+	}
+
+	public static void PlayBgm(string bgmIntro, string bgmLoop)
+	{
+		SoundMgr mgr = Instance;
+
+		Sound.PlayBgm(bgmIntro, false);
+
+		mgr.bgmNext = bgmLoop;	
+		mgr.bgmTime = Time.time + Sound.GetBgmLength();
+	}
+
+	void Update()
+	{
+		if (bgmNext != "") {
+			if ((bgmTime <= Time.time) || (!Sound.IsBgmPlaying())) {
+				Sound.PlayBgm(bgmNext);
+				bgmNext = "";
+				bgmTime = 0.0f;
+			}
+		}
+	}
+
+	public static void PlayBgm(string key, bool bLoop = true)
+	{
+		SoundMgr mgr = Instance;
+
+		mgr.bgmNext = "";	
+		mgr.bgmTime = 0.0f;
+
+		Sound.PlayBgm(key, bLoop);
+	}
+
+	public static void StopBgm()
+	{
+		SoundMgr mgr = Instance;
+
+		mgr.bgmNext = "";	
+		mgr.bgmTime = 0.0f;
+
+		Sound.StopBgm();
 	}
 }
