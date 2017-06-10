@@ -110,6 +110,12 @@ public class Actor : MonoBehaviour
 		Renderer.color = c;
 	}
 
+	/// 色の取得
+	public Color GetColor()
+	{
+		return Renderer.color;
+	}
+
 	/// アルファ値.
 	public float Alpha {
 		set {
@@ -140,7 +146,7 @@ public class Actor : MonoBehaviour
 		pos.x = Mathf.Clamp(pos.x, min.x, max.x);
 		pos.y = Mathf.Clamp(pos.y, min.y, max.y);
 
-		// プレイヤーの座標を反映.
+		// 座標を反映.
 		transform.position = pos;
 	}
 
