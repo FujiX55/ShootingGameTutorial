@@ -36,8 +36,8 @@ public static class Util
 		// スプライト設定.
 		t.Renderer.sprite = GetSprite(SpriteFile, SpriteName);
 		// 座標を設定.
-		t.X = x;
-		t.Y = y;
+		t.x = x;
+		t.y = y;
 		// 重力を無効にする.
 		t.RigidBody.gravityScale = 0.0f;
 

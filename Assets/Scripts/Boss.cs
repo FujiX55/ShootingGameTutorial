@@ -68,7 +68,7 @@ public class Boss : Enemy
 	/// 敵の生成
 	Enemy AddEnemy(int id, float direction, float speed)
 	{
-		return Enemy.Add(id, X, Y, direction, speed);
+		return Enemy.Add(id, x, y, direction, speed);
 	}
 
 	/// ペンシルを3方向に発射

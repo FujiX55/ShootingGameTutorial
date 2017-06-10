@@ -25,7 +25,7 @@ public class Particle : Actor
 			p.SetVelocity(Random.Range(0, 359), Random.Range(2.0f, 4.0f));
 
 			// 初期のサイズを設定
-			p.SetScale(0.25f, 0.25f);
+			p.Scale = 0.25f;
 			p.Delay = 0;
 			p.SetColor(1.0f, 1.0f, 1.0f);
 		}

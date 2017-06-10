@@ -102,7 +102,7 @@ public class Background : MonoBehaviour
 			Util.GUILabel(0, Screen.height / 20 * 3, 120, 30, text);
 
 			text = string.Format("volume={0}", Sound.GetVolumeSe(0));
-			Util.GUILabel(0, Screen.height / 20 * 7, 120, 30, text);
+			Util.GUILabel(0, Screen.height / 20 * 4, 120, 30, text);
 		}
 	}
 

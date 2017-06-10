@@ -85,8 +85,8 @@ public class Enemy : Actor
 	/// 狙い撃ち角度を取得する
 	public float GetAim()
 	{
-		float dx = target.X - X;
-		float dy = target.Y - Y;
+		float dx = target.x - x;
+		float dy = target.y - y;
 
 		return Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
 	}
@@ -102,7 +102,7 @@ public class Enemy : Actor
             
 			// 倒した
 			for (int i = 0; i < 4; i++) {
-				Particle.Add(X, Y);
+				Particle.Add(x, y);
 			}
             
 			// 破壊SE再生
@@ -138,15 +138,15 @@ public class Enemy : Actor
 			Pad pad = Pad.Instance;
 
 			if (!pad.touch1st) {
-				float dx = target.X - X - 0.5f;
-				float dy = target.Y - Y;
+				float dx = target.x - x - 0.5f;
+				float dy = target.y - y;
 
 				dir = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
 			}
 			else {
 				dir = GetAim();
 			}
-			Bullet.Add(X, Y, dir, 3);
+			Bullet.Add(x, y, dir, 3);
 
 			// 画面外に出たら消える
 			if (IsOutside()) {
@@ -163,7 +163,7 @@ public class Enemy : Actor
 		float dir = 0;
 
 		while (true) {
-			Bullet.Add(X, Y, dir, 2);
+			Bullet.Add(x, y, dir, 2);
 
 			Angle = dir;
 
@@ -213,7 +213,7 @@ public class Enemy : Actor
 			}
 			else {
 				// 噴煙をパーティクルで表現
-				Particle p = Particle.Add(X, Y);
+				Particle p = Particle.Add(x, y);
 				if (p) {
 					p.SetVelocity(Random.Range(0, 359), 0.0f);  // 全方向に速度0.3で放射
 					p.Renderer.enabled = false;                 // 非表示で開始
@@ -266,7 +266,7 @@ public class Enemy : Actor
 			}
 			else {
 				// 噴煙をパーティクルで表現
-				Particle p = Particle.Add(X, Y);
+				Particle p = Particle.Add(x, y);
 				if (p) {
 					p.SetVelocity(Random.Range(0, 359), 0.3f);  // 全方向に速度0.3で放射
 					p.Renderer.enabled = false;                 // 非表示で開始
@@ -298,7 +298,7 @@ public class Enemy : Actor
 	/// 弾を発射する
 	void DoBullet(float direction, float speed)
 	{
-		Bullet.Add(X, Y, direction, speed);
+		Bullet.Add(x, y, direction, speed);
 	}
 
 	/// IDからパラメータを設定
@@ -369,14 +369,14 @@ public class Enemy : Actor
 			Vector2 min = GetWorldMin();
 			Vector2 max = GetWorldMax();
 
-			if (Y < min.y || max.y < Y) {
+			if (y < min.y || max.y < y) {
 				// 上下ではみ出したら跳ね返るようにする
 //				ClampScreen();
 
 				// 移動速度を反転
 //				VY *= -1;
 			}
-			if (X < min.x || max.x < X) {
+			if (x < min.x || max.x < x) {
 				// 左右ではみ出したら消滅する
 				Discard();
 			}

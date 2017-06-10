@@ -71,8 +71,8 @@ public class Player : Actor
 		}
 		// ショットを発射
 		if (bShoot) {
-			// X座標をランダムでずらす
-			float px = X + Random.Range(0, this.Renderer.bounds.size.x / 2);
+			// x座標をランダムでずらす
+			float px = x + Random.Range(0, this.Renderer.bounds.size.x / 2);
 
 			// 発射角度を    ±3する
 			float angle = 3.0f;
@@ -85,7 +85,7 @@ public class Player : Actor
 			{
 #if false
 				// 位置に応じて角度を変化させる(-1.5より左ではレンジが開く)
-				angle *= (1.0f + (-5 * (X + 1.5f)));
+				angle *= (1.0f + (-5 * (x + 1.5f)));
 				if (angle < 3.0f) {
 					angle = 3.0f;
 				}
@@ -98,23 +98,23 @@ public class Player : Actor
 
 			float dir = Random.Range(-angle, angle);
 
-			Shot.Add(px, Y, dir, 10);
+			Shot.Add(px, y, dir, 10);
 		}
 		// パニックショット
 //		else
 		if (panic && (_tAnim % 2 == 0)) {
-			// X座標をランダムでずらす
-			float px = X + Random.Range(0, this.Renderer.bounds.size.x / 2);
+			// x座標をランダムでずらす
+			float px = x + Random.Range(0, this.Renderer.bounds.size.x / 2);
 
 			float angle = 80.0f;
 
 			float dir = Random.Range(-angle, angle);
 
-			Shot.Add(px, Y, dir, 10);
+			Shot.Add(px, y, dir, 10);
 		}
 
 		// 噴煙をパーティクルで表現
-		Particle p = Particle.Add(X - 0.2f, Y - 0.5f);
+		Particle p = Particle.Add(x - 0.2f, y - 0.5f);
 		if (p) {
 			p.SetVelocity(Random.Range(225, 270), 2.5f);  // 下後方に速度2.5で放射
 			p.Renderer.sortingLayerName = "Default";
@@ -131,10 +131,8 @@ public class Player : Actor
 
 		// 移動して画面外に出ないようにする
 //        ClampScreenAndMove (v * Time.deltaTime);
-		X += v.x;
-		Y += v.y;
-
-		//	Angle = v.x * -300;
+		x += v.x;
+		y += v.y;
 
 		ClampScreen();
 	}
@@ -160,7 +158,7 @@ public class Player : Actor
 
 			// パーティクル生成
 			for (int i = 0; i < 8; i++) {
-				Particle.Add(X, Y);
+				Particle.Add(x, y);
 			}
 
             // やられSE再生
@@ -168,7 +166,6 @@ public class Player : Actor
 			Sound.PlaySe("damage");
 
             // BGMを止める
-//			Sound.StopBgm();
 			SoundMgr.StopBgm();
 			break;
 		}
@@ -189,10 +186,13 @@ public class Player : Actor
 		// 中央揃えにする
 		Util.SetFontAlignment(TextAnchor.MiddleCenter);
 
-		text = string.Format("player.x={0}", X);
-		Util.GUILabel(0, Screen.height / 20 * 5, 120, 30, text);
+		text = string.Format("player.x={0}", x);
+		Util.GUILabel(0, Screen.height / 20 * 10, 120, 30, text);
 
-		text = string.Format("player.y={0}", Y);
-		Util.GUILabel(0, Screen.height / 20 * 6, 120, 30, text);
+		text = string.Format("player.y={0}", y);
+		Util.GUILabel(0, Screen.height / 20 * 11, 120, 30, text);
+
+		text = string.Format("player.a={0}", Alpha);
+		Util.GUILabel(0, Screen.height / 20 * 12, 120, 30, text);
 	}
 }

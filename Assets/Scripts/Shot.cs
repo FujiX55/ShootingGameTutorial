@@ -32,7 +32,7 @@ public class Shot : Actor
 	public override void Discard()
 	{
 		// パーティクル生成
-		Particle p = Particle.Add(X, Y);
+		Particle p = Particle.Add(x, y);
 
 		if (p != null) {
 			// 青色にする

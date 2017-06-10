@@ -21,8 +21,8 @@ public class Actor : MonoBehaviour
 		get { return renderer_ ?? (renderer_ = gameObject.GetComponent<SpriteRenderer>()); }
 	}
 
-	/// 座標(X).
-	public float X {
+	/// 座標(x).
+	public float x {
 		set {
 			Vector3 pos = transform.position;
 			pos.x = value;
@@ -31,8 +31,8 @@ public class Actor : MonoBehaviour
 		get { return transform.position.x; }
 	}
 
-	/// 座標(Y).
-	public float Y {
+	/// 座標(y).
+	public float y {
 		set {
 			Vector3 pos = transform.position;
 			pos.y = value;
@@ -49,25 +49,16 @@ public class Actor : MonoBehaviour
 		transform.position = pos;
 	}
 
-	/// スケール値を設定.
-	public void SetScale(float x, float y)
-	{
-		Vector3 scale = transform.localScale;
-		scale.Set(x, y, (x + y) / 2);
-		transform.localScale = scale;
-	}
-
-	/// スケール値(X/Y).
+	/// スケール値(x/y).
 	public float Scale {
+		set {
+			Vector3 scale = transform.localScale;
+			scale.Set(value, value, value);
+			transform.localScale = scale;
+		}
 		get {
 			Vector3 scale = transform.localScale;
 			return (scale.x + scale.y) / 2.0f;
-		}
-		set {
-			Vector3 scale = transform.localScale;
-			scale.x = value;
-			scale.y = value;
-			transform.localScale = scale;
 		}
 	}
 
@@ -103,42 +94,31 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	/// 回転角度.
+	/// 傾き.
 	public float Angle {
 		set { transform.eulerAngles = new Vector3(0, 0, value); }
 		get { return transform.eulerAngles.z; }
 	}
 
-	/// 色設定.
+	/// 色の設定.
 	public void SetColor(float r, float g, float b)
 	{
-		var c = Renderer.color;
+		Color c = Renderer.color;
 		c.r = r;
 		c.g = g;
 		c.b = b;
 		Renderer.color = c;
 	}
 
-	//  /// アルファ値を設定.
-	//  public void SetAlpha (float a)
-	//  {
-	//    var c = Renderer.color;
-	//    c.a = a;
-	//    Renderer.color = c;
-	//  }
-	//
-	//  /// アルファ値を取得.
-	//  public float GetAlpha ()
-	//  {
-	//    var c = Renderer.color;
-	//    return c.a;
-	//  }
-	//
-	//  /// アルファ値.
-	//  public float Alpha {
-	//    set { SetAlpha (value); }
-	//    get { return GetAlpha (); }
-	//  }
+	/// アルファ値.
+	public float Alpha {
+		set {
+			Color c = Renderer.color;
+			c.a = value;
+			Renderer.color = c;
+		}
+		get { return Renderer.color.a; }
+	}
 
 	/// サイズを設定.(画像サイズとは異なる)
 	float width_ = 0.0f;
