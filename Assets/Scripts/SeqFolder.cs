@@ -55,6 +55,7 @@ public class SeqFolder : MonoBehaviour
 
 			Sprite spr = Resources.Load<Sprite>(path);
 			obj.GetComponent<SpriteRenderer>().sprite = spr;
+			Resources.UnloadUnusedAssets();
 		}
 	}
 }
