@@ -34,12 +34,12 @@ public static class Util
 
 		Actor t = obj.GetComponent<Actor>();
 		// スプライト設定.
-		t.SetSprite(GetSprite(SpriteFile, SpriteName));
+		t.Renderer.sprite = GetSprite(SpriteFile, SpriteName);
 		// 座標を設定.
 		t.X = x;
 		t.Y = y;
 		// 重力を無効にする.
-		t.GravityScale = 0.0f;
+		t.RigidBody.gravityScale = 0.0f;
 
 		return t;
 	}

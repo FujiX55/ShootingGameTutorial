@@ -3,7 +3,7 @@ using System.Collections;
 
 /// キャラクター基底クラス.
 /// SpriteRendererが必要.
-[RequireComponent(typeof (SpriteRenderer))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Actor : MonoBehaviour
 {
 	/// 生存フラグ.
@@ -19,24 +19,6 @@ public class Actor : MonoBehaviour
 
 	public SpriteRenderer Renderer {
 		get { return renderer_ ?? (renderer_ = gameObject.GetComponent<SpriteRenderer>()); }
-	}
-
-	/// 描画フラグ.
-	public bool Visible {
-		get { return Renderer.enabled; }
-		set { Renderer.enabled = value; }
-	}
-
-	/// ソーティングレイヤー名.
-	public string SortingLayer {
-		get { return Renderer.sortingLayerName; }
-		set { Renderer.sortingLayerName = value; }
-	}
-
-	/// ソーティング・オーダー.
-	public int SortingOrder {
-		get { return Renderer.sortingOrder; }
-		set { Renderer.sortingOrder = value; }
 	}
 
 	/// 座標(X).
@@ -67,26 +49,6 @@ public class Actor : MonoBehaviour
 		transform.position = pos;
 	}
 
-	/// スケール値(X).
-	public float ScaleX {
-		set {
-			Vector3 scale = transform.localScale;
-			scale.x = value;
-			transform.localScale = scale;
-		}
-		get { return transform.localScale.x; }
-	}
-
-	/// スケール値(Y).
-	public float ScaleY {
-		set {
-			Vector3 scale = transform.localScale;
-			scale.y = value;
-			transform.localScale = scale;
-		}
-		get { return transform.localScale.y; }
-	}
-
 	/// スケール値を設定.
 	public void SetScale(float x, float y)
 	{
@@ -107,21 +69,6 @@ public class Actor : MonoBehaviour
 			scale.y = value;
 			transform.localScale = scale;
 		}
-	}
-
-	/// スケール値を足し込む.
-	public void AddScale(float d)
-	{
-		Vector3 scale = transform.localScale;
-		scale.x += d;
-		scale.y += d;
-		transform.localScale = scale;
-	}
-
-	/// スケール値をかける.
-	public void MulScale(float d)
-	{
-		transform.localScale *= d;
 	}
 
 	/// 剛体.
@@ -162,22 +109,10 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	/// 重力.
-	public float GravityScale {
-		get { return RigidBody.gravityScale; }
-		set { RigidBody.gravityScale = value; }
-	}
-
 	/// 回転角度.
 	public float Angle {
 		set { transform.eulerAngles = new Vector3(0, 0, value); }
 		get { return transform.eulerAngles.z; }
-	}
-
-	/// スプライトの設定.
-	public void SetSprite(Sprite sprite)
-	{
-		Renderer.sprite = sprite;
 	}
 
 	/// 色設定.
@@ -211,7 +146,7 @@ public class Actor : MonoBehaviour
 	//    get { return GetAlpha (); }
 	//  }
 
-	/// サイズを設定.
+	/// サイズを設定.(画像サイズとは異なる)
 	float width_ = 0.0f;
 	float height_ = 0.0f;
 
@@ -219,16 +154,6 @@ public class Actor : MonoBehaviour
 	{
 		width_ = width;
 		height_ = height;
-	}
-
-	/// スプライトの幅.
-	public float SpriteWidth {
-		get { return Renderer.bounds.size.x; }
-	}
-
-	/// スプライトの高さ.
-	public float SpriteHeight {
-		get { return Renderer.bounds.size.y; }
 	}
 
 	/// 画面内に収めるようにする.
@@ -295,7 +220,7 @@ public class Actor : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 		Exists = true;
-		Visible = true;
+		this.Renderer.enabled = true;
 	}
 
 	/// 消滅する（オーバーライド可能）

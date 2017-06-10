@@ -6,24 +6,23 @@ public class Player : Actor
 	public GameMgr gameMgr_;
 	public Vector2 latest_;
 
-	// 待機画像1
+	// 画像
 	public Sprite Spr0;
-	// 待機画像2
 	public Sprite Spr1;
-	// 待機画像3
 	public Sprite Spr2;
 
 	/// アニメーションタイマ
 	int _tAnim = 0;
 
+	// 近接センサ
 	ProximitySensor sensor;
 
 	/// 開始
 	void Start()
 	{
 		// 画面からはみ出ないようにする
-		var w = SpriteWidth / 2;
-		var h = SpriteHeight / 2;
+		var w = this.Renderer.bounds.size.x / 2;
+		var h = this.Renderer.bounds.size.y / 2;
 
 		w -= w / 2;
 		h -= h / 2;
@@ -45,12 +44,12 @@ public class Player : Actor
 			// 0～23フレーム
 			if (0 < sensor.Alert) {
 				// 近接センサ反応中は「Spr2」を表示
-				SetSprite(Spr2);
+				this.Renderer.sprite = Spr2;
 				panic = true;
 			}
 			else {
 				// 通常は「Spr0」を表示
-				SetSprite(Spr0);
+				this.Renderer.sprite = Spr0;
 			}
 			// 0～23フレームでは必ずショットを撃つ
 			bShoot = true;
@@ -59,7 +58,7 @@ public class Player : Actor
 			// 24～48フレーム
 			if (0 < sensor.Alert) {
 				// 近接センサ反応中は「Spr2」を表示
-				SetSprite(Spr2);
+				this.Renderer.sprite = Spr2;
 				
 				// 近接センサ反応中はパニックショットを発射する
 //				bShoot = true;
@@ -67,13 +66,13 @@ public class Player : Actor
 			}
 			else {
 				// 通常は「Spr1」を表示
-				SetSprite(Spr1);
+				this.Renderer.sprite = Spr1;
 			}
 		}
 		// ショットを発射
 		if (bShoot) {
 			// X座標をランダムでずらす
-			float px = X + Random.Range(0, SpriteWidth / 2);
+			float px = X + Random.Range(0, this.Renderer.bounds.size.x / 2);
 
 			// 発射角度を    ±3する
 			float angle = 3.0f;
@@ -105,7 +104,7 @@ public class Player : Actor
 //		else
 		if (panic && (_tAnim % 2 == 0)) {
 			// X座標をランダムでずらす
-			float px = X + Random.Range(0, SpriteWidth / 2);
+			float px = X + Random.Range(0, this.Renderer.bounds.size.x / 2);
 
 			float angle = 80.0f;
 
@@ -118,7 +117,7 @@ public class Player : Actor
 		Particle p = Particle.Add(X - 0.2f, Y - 0.5f);
 		if (p) {
 			p.SetVelocity(Random.Range(225, 270), 2.5f);  // 下後方に速度2.5で放射
-			p.SortingLayer = "Default";
+			p.Renderer.sortingLayerName = "Default";
 			p.SetColor(0.2f, 1.0f, 0.2f);
 		}
 	}

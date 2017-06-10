@@ -56,7 +56,7 @@ public class ActorCtx<Type> where Type : Actor
 		obj.Angle = 0;
 
 		// Order in Layerを設定してインクリメントする
-		obj.SortingOrder = order_++;
+		obj.Renderer.sortingOrder = order_++;
 
 		return obj;
 	}

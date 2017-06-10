@@ -216,7 +216,7 @@ public class Enemy : Actor
 				Particle p = Particle.Add(X, Y);
 				if (p) {
 					p.SetVelocity(Random.Range(0, 359), 0.0f);  // 全方向に速度0.3で放射
-					p.Visible = false;                          // 非表示で開始
+					p.Renderer.enabled = false;                 // 非表示で開始
 					p.Delay = 5;                                // 可視状態までの遅延フレーム数
 					//              p.SetColor(1.0f, 0.2f, 0.0f);
 					p.RigidBody.gravityScale = -0.1f;
@@ -269,7 +269,7 @@ public class Enemy : Actor
 				Particle p = Particle.Add(X, Y);
 				if (p) {
 					p.SetVelocity(Random.Range(0, 359), 0.3f);  // 全方向に速度0.3で放射
-					p.Visible = false;                          // 非表示で開始
+					p.Renderer.enabled = false;                 // 非表示で開始
 					p.Delay = 5;                                // 可視状態までの遅延フレーム数
 					p.SetColor(1.0f, 0.2f, 0.0f);
 				}
@@ -332,7 +332,7 @@ public class Enemy : Actor
 		hp_ = hps[id];
 
 		// スプライトを設定
-		SetSprite(sprs[id]);
+		this.Renderer.sprite = sprs[id];
 
 		// サイズ変更
 		Scale = 0.5f;

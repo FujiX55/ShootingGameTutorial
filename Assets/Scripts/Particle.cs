@@ -38,14 +38,14 @@ public class Particle : Actor
 	{
 		if (0 < delay) {
 			delay--;
-			Visible = false;
+			this.Renderer.enabled = false;
 		}
 		else {
-			Visible = true;
+			this.Renderer.enabled = true;
 		}
 
 		MulVelocity(0.95f);
-		MulScale(0.97f);
+		this.transform.localScale *= 0.97f;
 
 		if (Scale < 0.01f) {
 			// 見えなくなったら消す
