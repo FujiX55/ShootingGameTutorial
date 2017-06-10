@@ -39,7 +39,7 @@ public class Shot : Actor
 			p.SetColor(0.1f, 0.1f, 1);
 
 			// 速度を少し遅くする
-			p.MulVelocity(0.7f);
+			p.RigidBody.velocity *= 0.7f;
 		}
 		base.Discard();
 	}

@@ -44,7 +44,7 @@ public class Particle : Actor
 			this.Renderer.enabled = true;
 		}
 
-		MulVelocity(0.95f);
+		this.RigidBody.velocity *= 0.95f;
 		this.transform.localScale *= 0.97f;
 
 		if (Scale < 0.01f) {

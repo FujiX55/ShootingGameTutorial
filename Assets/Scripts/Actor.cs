@@ -87,12 +87,6 @@ public class Actor : MonoBehaviour
 		RigidBody.velocity = v;
 	}
 
-	/// 移動量をかける.
-	public void MulVelocity(float d)
-	{
-		RigidBody.velocity *= d;
-	}
-
 	/// 方向.
 	public float Direction {
 		get {

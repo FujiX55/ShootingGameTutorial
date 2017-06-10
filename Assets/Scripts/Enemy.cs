@@ -204,7 +204,7 @@ public class Enemy : Actor
 			yield return new WaitForSeconds(0.05f);
 
 			if (RigidBody.velocity.magnitude < 3.0f) {
-				MulVelocity(1.05f);
+				this.RigidBody.velocity *= 1.05f;
 			}
 
 			// 画面外に出たら消える
@@ -345,7 +345,7 @@ public class Enemy : Actor
 			switch (phase_) {
 			case 0:
 				// 通常の敵だけ移動速度を減衰する
-				MulVelocity(0.93f);
+				this.RigidBody.velocity *= 0.93f;
 				if (0.01 > RigidBody.velocity.magnitude) {
 					phase_ = 1;
 				}
@@ -355,7 +355,7 @@ public class Enemy : Actor
 				phase_ = 2;
 				break;
 			default:
-				MulVelocity(1.005f);
+				this.RigidBody.velocity *= 1.005f;
 				break;
 			}
 		}
