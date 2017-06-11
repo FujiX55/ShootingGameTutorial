@@ -22,7 +22,7 @@ public class Boss : Enemy
 		bDestroyed = false;
 	}
 
-	/// 消滅
+	/// 無効化する
 	public override void Discard()
 	{
 		// ボスを倒した

@@ -11,9 +11,9 @@ public class GameMgr : MonoBehaviour
 	public Fade fade;
 
 	// タッチ開始位置
-	public Vector2 start_;
+	public Vector2 touchStart;
 	// 最新タッチ位置
-	public Vector2 latest_;
+	public Vector2 touchLatest;
 
 	/// 状態
 	public enum eState
@@ -31,10 +31,10 @@ public class GameMgr : MonoBehaviour
 	}
 
 	/// 開始時は初期化状態にする
-	static eState state_ = eState.Init;
+	static eState state = eState.Init;
 
 	static public eState State {
-		get { return state_; }
+		get { return state; }
 	}
 
 	// 設定取得
@@ -100,9 +100,9 @@ public class GameMgr : MonoBehaviour
 
 	void OnLevelWasLoaded(int level)
 	{
-		if (state_ != eState.Main) {
+		if (state != eState.Main) {
 //			Destroy(gameObject);
-			state_ = eState.Init;
+			state = eState.Init;
 		}
 	}
 
@@ -124,8 +124,8 @@ public class GameMgr : MonoBehaviour
 	{
 		pad.Update();
 
-		start_ = pad.start_;	// タッチ開始位置
-		latest_ = pad.latest_;	// 最新タッチ位置
+		touchStart = pad.touchStart;	// タッチ開始位置
+		touchLatest = pad.touchLatest;	// 最新タッチ位置
 
 		// 戻るボタンで終了
 		if (pad.IsEscape()) {
@@ -133,7 +133,7 @@ public class GameMgr : MonoBehaviour
 			return;
 		}
 
-		switch (state_) {
+		switch (state) {
 		case eState.Init:
 			// BGM再生開始
 //			Sound.PlayBgm("bgm");
@@ -142,7 +142,7 @@ public class GameMgr : MonoBehaviour
 			pad.touch1st = false;
 
 			// メイン状態へ遷移する
-			state_ = eState.Main;
+			state = eState.Main;
 			break;
 		   
 		case eState.Main:
@@ -152,11 +152,11 @@ public class GameMgr : MonoBehaviour
 				SoundMgr.StopBgm();
 				// Jingle再生開始
 				SoundMgr.PlayBgm("jingle", false);
-				state_ = eState.GameClear;
+				state = eState.GameClear;
 			}
 			else if (Enemy.target.Exists == false) {
 					// プレイヤが死亡したのでゲームオーバー
-					state_ = eState.GameOver;
+					state = eState.GameOver;
 				}
 			break;
 
@@ -187,7 +187,7 @@ public class GameMgr : MonoBehaviour
 	//
 	void OnGUI()
 	{
-		switch (state_) {
+		switch (state) {
 		case eState.Main:
 			if (Time.timeScale == 0.0f) {
 				message.text = "PAUSED\n<size=40><color=#ff0000>タップで再開</color></size>";
@@ -216,7 +216,7 @@ public class GameMgr : MonoBehaviour
 
 			Time.timeScale = 1.0f;
 			message.text = msg;
-//			state_ = eState.GoNext;
+//			state = eState.GoNext;
 			break;
 		case eState.GoNext:
 			break;
@@ -248,9 +248,9 @@ public class GameMgr : MonoBehaviour
 	}
 
 	//
-	public static void SetVibrate(bool state)
+	public static void SetVibrate(bool b)
 	{
-		PlayerPrefs.SetInt("Vibrate", state ? 1 : 0);
+		PlayerPrefs.SetInt("Vibrate", b ? 1 : 0);
 		PlayerPrefs.Save();
 	}
 
@@ -261,9 +261,9 @@ public class GameMgr : MonoBehaviour
 	}
 
 	//
-	public static void SetVibNear(bool state)
+	public static void SetVibNear(bool b)
 	{
-		PlayerPrefs.SetInt("VibNear", state ? 1 : 0);
+		PlayerPrefs.SetInt("VibNear", b ? 1 : 0);
 		PlayerPrefs.Save();
 	}
 
@@ -274,9 +274,9 @@ public class GameMgr : MonoBehaviour
 	}
 
 	//
-	public static void SetDbgUndead(bool state)
+	public static void SetDbgUndead(bool b)
 	{
-		PlayerPrefs.SetInt("DbgUndead", state ? 1 : 0);
+		PlayerPrefs.SetInt("DbgUndead", b ? 1 : 0);
 		PlayerPrefs.Save();
 	}
 

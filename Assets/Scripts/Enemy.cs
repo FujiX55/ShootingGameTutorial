@@ -218,7 +218,7 @@ public class Enemy : Actor
 					p.SetVelocity(Random.Range(0, 359), 0.0f);  // 全方向に速度0.3で放射
 					p.Renderer.enabled = false;                 // 非表示で開始
 					p.Delay = 5;                                // 可視状態までの遅延フレーム数
-					//              p.SetColor(1.0f, 0.2f, 0.0f);
+					//p.SetColor(1.0f, 0.2f, 0.0f);
 					p.RigidBody.gravityScale = -0.1f;
 				}
 			}
@@ -386,12 +386,13 @@ public class Enemy : Actor
 		}
 	}
 
+	/// 無効化する
 	public override void Discard()
 	{
 		if (0 < Enemy.enemyCount[id_]) {
 			Enemy.enemyCount[id_]--;
 		}
 		
-		DiscardCannotOverride();
+		base.Discard();
 	}
 }

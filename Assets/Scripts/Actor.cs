@@ -7,11 +7,11 @@ using System.Collections;
 public class Actor : MonoBehaviour
 {
 	/// 生存フラグ.
-	bool exists_ = true;
+	bool exists = true;
 
 	public bool Exists {
-		get { return exists_; }
-		set { exists_ = value; }
+		get { return exists; }
+		set { exists = value; }
 	}
 
 	/// レンダラー.

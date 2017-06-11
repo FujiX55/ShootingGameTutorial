@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : Actor
 {
 	public GameMgr gameMgr_;
-	public Vector2 latest_;
+	public Vector2 touchLatest;
 
 	// 画像
 	public Sprite Spr0;
@@ -127,7 +127,7 @@ public class Player : Actor
 	{
 		// 移動量
 		Vector2 v = gameMgr_.pad.GetVector();
-		latest_ = v;
+		touchLatest = v;
 
 		// 移動して画面外に出ないようにする
 //        ClampScreenAndMove (v * Time.deltaTime);

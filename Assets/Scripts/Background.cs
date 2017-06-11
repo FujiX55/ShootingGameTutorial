@@ -107,9 +107,9 @@ public class Background : MonoBehaviour
 	}
 
 	//
-	public static void SetParallax(bool state)
+	public static void SetParallax(bool b)
 	{
-		PlayerPrefs.SetInt("Parallax", state ? 1 : 0);
+		PlayerPrefs.SetInt("Parallax", b ? 1 : 0);
 		PlayerPrefs.Save();
 	}
 
@@ -120,9 +120,9 @@ public class Background : MonoBehaviour
 	}
 
 	//
-	public static void SetParaInv(bool state)
+	public static void SetParaInv(bool b)
 	{
-		PlayerPrefs.SetInt("ParaInv", state ? 1 : 0);
+		PlayerPrefs.SetInt("ParaInv", b ? 1 : 0);
 		PlayerPrefs.Save();
 	}
 

@@ -7,11 +7,11 @@ public class Pad
 	private static Pad instance_;
 
 	// タッチ開始位置
-	public Vector2 start_;
+	public Vector2 touchStart;
 	// 前回タッチ位置
 	public Vector2 prev_;
 	// 最新タッチ位置
-	public Vector2 latest_;
+	public Vector2 touchLatest;
 	// 移動量
 	public Vector2 vec;
 	// 総移動量
@@ -78,7 +78,7 @@ public class Pad
 	/// タッチの現在位置を取得する.
 	public Vector2 GetPosition()
 	{
-		return latest_;
+		return touchLatest;
 	}
 
 	/// PUSHを検出する
@@ -126,7 +126,7 @@ public class Pad
 				if (touchId_ == -1) {
 					// タッチ開始
 					touchId_ = touch.fingerId;
-					latest_ = touch.position;
+					touchLatest = touch.position;
 					touchState = eTouchState.Began;
 				}
 				break;
@@ -135,7 +135,7 @@ public class Pad
 			case TouchPhase.Moved:
 				if (touch.fingerId == touchId_) {
 					// タッチ継続中
-					latest_ = touch.position;
+					touchLatest = touch.position;
 					touchState = eTouchState.Stay;
 				}
 				break;
@@ -145,7 +145,7 @@ public class Pad
 				if (touch.fingerId == touchId_) {
 					// タッチ終了
 					touchId_ = -1;
-					latest_ = new Vector2(0, 0);
+					touchLatest = new Vector2(0, 0);
 					touchState = eTouchState.Ended;
 				}
 				break;			
@@ -157,17 +157,17 @@ public class Pad
 			// 左クリックを検出
 			if (Input.GetMouseButtonDown(0)) {
 				// マウスボタン押下
-				latest_ = Input.mousePosition;
+				touchLatest = Input.mousePosition;
 				touchState = eTouchState.Began;
 			}
 			else if (Input.GetMouseButton(0)) {
 					// マウス押下中
-					latest_ = Input.mousePosition;
+					touchLatest = Input.mousePosition;
 					touchState = eTouchState.Stay;
 				}
 				else if (Input.GetMouseButtonUp(0)) {
 						// マウスリリース
-						latest_ = new Vector2(0, 0);
+						touchLatest = new Vector2(0, 0);
 						touchState = eTouchState.Ended;
 					}
 
@@ -180,7 +180,7 @@ public class Pad
 		// 共通処理
 		switch (touchState) {
 		case eTouchState.Began:
-			start_ = prev_ = latest_;
+			touchStart = prev_ = touchLatest;
 			push_ = true;
 			touch1st = true;
 			// 等速再生
@@ -188,14 +188,14 @@ public class Pad
 			break;
 
 		case eTouchState.Stay:
-			vec = Camera.main.ScreenToWorldPoint(latest_) - Camera.main.ScreenToWorldPoint(prev_);
+			vec = Camera.main.ScreenToWorldPoint(touchLatest) - Camera.main.ScreenToWorldPoint(prev_);
 
-			totalvec = latest_ - start_;
-			prev_ = latest_;
+			totalvec = touchLatest - touchStart;
+			prev_ = touchLatest;
 			break;
 
 		case eTouchState.Ended:
-			start_ = prev_ = vec = totalvec = latest_;
+			touchStart = prev_ = vec = totalvec = touchLatest;
 			touchId_ = -1;
 			// スロー再生
 			Time.timeScale = 0.99f;
