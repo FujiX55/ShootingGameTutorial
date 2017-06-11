@@ -111,11 +111,11 @@ public class Enemy : Actor
 			// ボスを倒したらザコ敵と敵弾を消す
 			if ((eEnemyType)id_ == eEnemyType.Boss) {
 				// 生存しているザコ敵を消す
-				Enemy.parent.ForEachExist(e => e.Damage(9999));
+				Enemy.parent.RunAll(e => e.Damage(9999));
 
 				// 敵弾をすべて消す
 				if (Bullet.parent != null) {
-					Bullet.parent.Discard();
+					Bullet.parent.DiscardAll();
 				}
 			}
 			return true;

@@ -1,14 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EndUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ActorCtx.cs">
     <Files>
+      <File FileName="Assets\Scripts\ActorCtx.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Pad.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Util.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SeqFolder.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EndUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Setting.cs" Line="1" Column="1" />
       <File FileName="Assets\Plugins\Vibration.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProximitySensor.cs" Line="1" Column="1" />
@@ -16,12 +17,11 @@
       <File FileName="Assets\Scripts\Shot.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Bullet.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SoundMgr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Particle.cs" Line="29" Column="16" />
+      <File FileName="Assets\Scripts\Particle.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Fade.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Actor.cs" Line="202" Column="17" />
+      <File FileName="Assets\Scripts\Actor.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TitleUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ActorCtx.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Background.cs" Line="104" Column="61" />
+      <File FileName="Assets\Scripts\Background.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Sound.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SingletonMonoBehaviour.cs" Line="1" Column="1" />

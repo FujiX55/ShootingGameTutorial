@@ -8,7 +8,7 @@ public class ActorCtx<Type> where Type : Actor
 	int size_ = 0;
 
 	GameObject prefab_ = null;
-	List<Type> pool_ = null;
+	List<Type> pool = null;
 
 	/// Order in Layer
 	int order_ = 0;
@@ -26,7 +26,7 @@ public class ActorCtx<Type> where Type : Actor
 		if (prefab_ == null) {
 			Debug.LogError("Not found prefab. name=" + prefabName);
 		}
-		pool_ = new List<Type>();
+		pool = new List<Type>();
 
 		if (size > 0) {
 			// サイズ指定があれば固定アロケーションとする
@@ -37,13 +37,13 @@ public class ActorCtx<Type> where Type : Actor
 					Debug.LogError(prefabName + "にスクリプトが未設定です");
 				}
 				obj.DiscardCannotOverride();
-				pool_.Add(obj);
+				pool.Add(obj);
 			}
 		}
 	}
 
 	/// オブジェクトを再利用する
-	Type Recycle_(Type obj, float x, float y, float direction, float speed)
+	Type RecycleT(Type obj, float x, float y, float direction, float speed)
 	{
 		// 復活
 		obj.Activate();
@@ -64,10 +64,10 @@ public class ActorCtx<Type> where Type : Actor
 	/// インスタンスを取得する
 	public Type Add(float x, float y, float direction = 0.0f, float speed = 0.0f)
 	{
-		foreach (Type obj in pool_) {
+		foreach (Type obj in pool) {
 			if (obj.Exists == false) {
 				// 未使用のオブジェクトを見つけた
-				return Recycle_(obj, x, y, direction, speed);
+				return RecycleT(obj, x, y, direction, speed);
 			}
 		}
 
@@ -75,16 +75,16 @@ public class ActorCtx<Type> where Type : Actor
 			// 自動で拡張
 			GameObject g = GameObject.Instantiate(prefab_, new Vector3(), Quaternion.identity) as GameObject;
 			Type obj = g.GetComponent<Type>();
-			pool_.Add(obj);
-			return Recycle_(obj, x, y, direction, speed);
+			pool.Add(obj);
+			return RecycleT(obj, x, y, direction, speed);
 		}
 		return null;
 	}
 
 	/// 生存するインスタンスに対してラムダ式を実行する
-	public void ForEachExist(FuncT func)
+	public void RunAll(FuncT func)
 	{
-		foreach (var obj in pool_) {
+		foreach (var obj in pool) {
 			if (obj.Exists) {
 				func(obj);
 			}
@@ -92,16 +92,16 @@ public class ActorCtx<Type> where Type : Actor
 	}
 
 	/// 生存しているインスタンスをすべて破棄する
-	public void Discard()
+	public void DiscardAll()
 	{
-		ForEachExist(t => t.Discard());
+		RunAll(t => t.Discard());
 	}
 
 	/// インスタンスの生存数を取得する
 	public int Count()
 	{
 		int ret = 0;
-		ForEachExist(t => ret++);
+		RunAll(t => ret++);
 
 		return ret;
 	}
