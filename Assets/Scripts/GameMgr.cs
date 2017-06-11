@@ -116,7 +116,7 @@ public class GameMgr : MonoBehaviour
 		MainUI.SetActive("Next", false);
 
 		Paused = false;
-		pad.touch1st = false;
+		pad.isTouch1st = false;
 	}
 
 	/// 更新
@@ -139,7 +139,7 @@ public class GameMgr : MonoBehaviour
 //			Sound.PlayBgm("bgm");
 			SoundMgr.PlayBgm("intro", "loop");
 
-			pad.touch1st = false;
+			pad.isTouch1st = false;
 
 			// メイン状態へ遷移する
 			state = eState.Main;

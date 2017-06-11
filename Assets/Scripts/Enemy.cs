@@ -137,7 +137,7 @@ public class Enemy : Actor
 
 			Pad pad = Pad.Instance;
 
-			if (!pad.touch1st) {
+			if (!pad.isTouch1st) {
 				float dx = target.x - x - 0.5f;
 				float dy = target.y - y;
 

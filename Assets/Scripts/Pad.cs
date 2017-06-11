@@ -4,53 +4,53 @@ using System.Collections;
 
 public class Pad
 {
-	private static Pad instance_;
+	private static Pad instance;
 
 	// タッチ開始位置
 	public Vector2 touchStart;
 	// 前回タッチ位置
-	public Vector2 prev_;
+	public Vector2 touchPrev;
 	// 最新タッチ位置
 	public Vector2 touchLatest;
 	// 移動量
 	public Vector2 vec;
 	// 総移動量
-	public Vector2 totalvec;
+	public Vector2 vecTotal;
 
 	// プッシュON
-	bool push_;
+	bool push;
 
 	// タッチ番号
-	int touchId_;
+	int idTouch;
 
-	bool active_ = true;
+	bool isActive = true;
 
-	public bool touch1st = false;
+	public bool isTouch1st = false;
 
 	public bool Active {
-		set { active_ = value; }
-		get { return active_; }
+		set { isActive = value; }
+		get { return isActive; }
 	}
 
 	// コンストラクタ
 	public Pad()
 	{
-		touchId_ = -1;
+		idTouch = -1;
 	}
 
 	public static Pad Instance {
 		get {
-			if (instance_ == null) {
-				instance_ = new Pad();
+			if (instance == null) {
+				instance = new Pad();
 			}
-			return instance_;
+			return instance;
 		}
 	}
 
 	void OnDestroy()
 	{
-		if (this == instance_) {
-			instance_ = null;
+		if (this == instance) {
+			instance = null;
 		}
 	}
 
@@ -72,7 +72,7 @@ public class Pad
 	/// タッチからの総移動量を取得する.
 	public Vector2 GetTotalVector()
 	{
-		return totalvec;
+		return vecTotal;
 	}
 
 	/// タッチの現在位置を取得する.
@@ -84,7 +84,7 @@ public class Pad
 	/// PUSHを検出する
 	public bool IsPushed()
 	{
-		return push_;
+		return push;
 	}
 
 	/// 戻るボタンを検出する
@@ -107,9 +107,9 @@ public class Pad
 
 	public void Update()
 	{
-		push_ = false;
+		push = false;
 
-		if (!active_) {
+		if (!isActive) {
 			return;
 		}
 //		if (IsPointerOverGameObject()) {
@@ -123,9 +123,9 @@ public class Pad
 		foreach (var touch in Input.touches) {
 			switch (touch.phase) {
 			case TouchPhase.Began:
-				if (touchId_ == -1) {
+				if (idTouch == -1) {
 					// タッチ開始
-					touchId_ = touch.fingerId;
+					idTouch = touch.fingerId;
 					touchLatest = touch.position;
 					touchState = eTouchState.Began;
 				}
@@ -133,7 +133,7 @@ public class Pad
 
 			case TouchPhase.Stationary:
 			case TouchPhase.Moved:
-				if (touch.fingerId == touchId_) {
+				if (touch.fingerId == idTouch) {
 					// タッチ継続中
 					touchLatest = touch.position;
 					touchState = eTouchState.Stay;
@@ -142,9 +142,9 @@ public class Pad
 			
 			case TouchPhase.Canceled:
 			case TouchPhase.Ended:
-				if (touch.fingerId == touchId_) {
+				if (touch.fingerId == idTouch) {
 					// タッチ終了
-					touchId_ = -1;
+					idTouch = -1;
 					touchLatest = new Vector2(0, 0);
 					touchState = eTouchState.Ended;
 				}
@@ -153,7 +153,7 @@ public class Pad
 		}
 
 		// マウス処理
-		if (touchId_ == -1) {
+		if (idTouch == -1) {
 			// 左クリックを検出
 			if (Input.GetMouseButtonDown(0)) {
 				// マウスボタン押下
@@ -173,30 +173,30 @@ public class Pad
 
 			// 右クリックやスペースキーでもPUSHを検出
 			if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) {
-				push_ = true;
+				push = true;
 			}
 		}
 
 		// 共通処理
 		switch (touchState) {
 		case eTouchState.Began:
-			touchStart = prev_ = touchLatest;
-			push_ = true;
-			touch1st = true;
+			touchStart = touchPrev = touchLatest;
+			push = true;
+			isTouch1st = true;
 			// 等速再生
 			Time.timeScale = 1.0f;
 			break;
 
 		case eTouchState.Stay:
-			vec = Camera.main.ScreenToWorldPoint(touchLatest) - Camera.main.ScreenToWorldPoint(prev_);
+			vec = Camera.main.ScreenToWorldPoint(touchLatest) - Camera.main.ScreenToWorldPoint(touchPrev);
 
-			totalvec = touchLatest - touchStart;
-			prev_ = touchLatest;
+			vecTotal = touchLatest - touchStart;
+			touchPrev = touchLatest;
 			break;
 
 		case eTouchState.Ended:
-			touchStart = prev_ = vec = totalvec = touchLatest;
-			touchId_ = -1;
+			touchStart = touchPrev = vec = vecTotal = touchLatest;
+			idTouch = -1;
 			// スロー再生
 			Time.timeScale = 0.99f;
 			// アイドル状態へ
