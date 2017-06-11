@@ -10,7 +10,7 @@ public class Boss : Enemy
 	public static bool bDestroyed = false;
 
 	/// コルーチンを開始したかどうか
-	bool _bStart = false;
+	bool isCoStarted = false;
 
 	/// 開始
 	void Start()
@@ -34,11 +34,11 @@ public class Boss : Enemy
 	/// 更新
 	void Update()
 	{
-		if (_bStart == false) {
+		if (isCoStarted == false) {
 			// 敵生成開始
 			StartCoroutine("CoGenerateEnemy");
 
-			_bStart = true;
+			isCoStarted = true;
 		}
 	}
 

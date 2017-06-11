@@ -15,10 +15,10 @@ public class Actor : MonoBehaviour
 	}
 
 	/// レンダラー.
-	SpriteRenderer renderer_ = null;
+	SpriteRenderer myRenderer = null;
 
 	public SpriteRenderer Renderer {
-		get { return renderer_ ?? (renderer_ = gameObject.GetComponent<SpriteRenderer>()); }
+		get { return myRenderer ?? (myRenderer = gameObject.GetComponent<SpriteRenderer>()); }
 	}
 
 	/// 座標(x).
@@ -63,10 +63,10 @@ public class Actor : MonoBehaviour
 	}
 
 	/// 剛体.
-	Rigidbody2D rigidbody2D_ = null;
+	Rigidbody2D myRigidbody = null;
 
 	public Rigidbody2D RigidBody {
-		get { return rigidbody2D_ ?? (rigidbody2D_ = gameObject.GetComponent<Rigidbody2D>()); }
+		get { return myRigidbody ?? (myRigidbody = gameObject.GetComponent<Rigidbody2D>()); }
 	}
 
 	/// 移動量を設定.
@@ -76,6 +76,26 @@ public class Actor : MonoBehaviour
 		v.x = Util.CosEx(direction) * speed;
 		v.y = Util.SinEx(direction) * speed;
 		RigidBody.velocity = v;
+	}
+
+	/// 移動量(X).
+	public float VelocityX {
+		get { return RigidBody.velocity.x; }
+		set {
+			Vector2 v = RigidBody.velocity;
+			v.x = value;
+			RigidBody.velocity = v;
+		}
+	}
+
+	/// 移動量(Y).
+	public float VelocityY {
+		get { return RigidBody.velocity.y; }
+		set {
+			Vector2 v = RigidBody.velocity;
+			v.y = value;
+			RigidBody.velocity = v;
+		}
 	}
 
 	/// 方向.
@@ -127,13 +147,13 @@ public class Actor : MonoBehaviour
 	}
 
 	/// サイズを設定.(画像サイズとは異なる)
-	float width_ = 0.0f;
-	float height_ = 0.0f;
+	float myWidth = 0.0f;
+	float myHeight = 0.0f;
 
 	public void SetSize(float width, float height)
 	{
-		width_ = width;
-		height_ = height;
+		myWidth = width;
+		myHeight = height;
 	}
 
 	/// 画面内に収めるようにする.
@@ -175,8 +195,8 @@ public class Actor : MonoBehaviour
 		}
 
 		// 自身のサイズを考慮する.
-		min.x += width_;
-		min.y += height_;
+		min.x += myWidth;
+		min.y += myHeight;
 		return min;
 	}
 
@@ -190,8 +210,8 @@ public class Actor : MonoBehaviour
 		}
 
 		// 自身のサイズを考慮する.
-		max.x -= width_;
-		max.y -= height_;
+		max.x -= myWidth;
+		max.y -= myHeight;
 		return max;
 	}
 

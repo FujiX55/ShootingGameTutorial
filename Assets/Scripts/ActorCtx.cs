@@ -5,13 +5,13 @@ using System.Collections.Generic;
 /// Actorコンテキスト
 public class ActorCtx<Type> where Type : Actor
 {
-	int size_ = 0;
+	int mySize = 0;
 
-	GameObject prefab_ = null;
+	GameObject myPrefab = null;
 	List<Type> pool = null;
 
 	/// Order in Layer
-	int order_ = 0;
+	int layerOrder = 0;
 
 	/// ForEach関数に渡す関数の型
 	public delegate void FuncT(Type t);
@@ -20,10 +20,10 @@ public class ActorCtx<Type> where Type : Actor
 	/// プレハブは必ず"Resources/Prefabs/"に配置すること
 	public ActorCtx(string prefabName, int size = 0)
 	{
-		size_ = size;
-		prefab_ = Resources.Load("Prefabs/" + prefabName) as GameObject;
+		mySize = size;
+		myPrefab = Resources.Load("Prefabs/" + prefabName) as GameObject;
 
-		if (prefab_ == null) {
+		if (myPrefab == null) {
 			Debug.LogError("Not found prefab. name=" + prefabName);
 		}
 		pool = new List<Type>();
@@ -31,7 +31,7 @@ public class ActorCtx<Type> where Type : Actor
 		if (size > 0) {
 			// サイズ指定があれば固定アロケーションとする
 			for (int i = 0; i < size; i++) {
-				GameObject g = GameObject.Instantiate(prefab_, new Vector3(), Quaternion.identity) as GameObject;
+				GameObject g = GameObject.Instantiate(myPrefab, new Vector3(), Quaternion.identity) as GameObject;
 				Type obj = g.GetComponent<Type>();
 				if (obj == null) {
 					Debug.LogError(prefabName + "にスクリプトが未設定です");
@@ -56,7 +56,7 @@ public class ActorCtx<Type> where Type : Actor
 		obj.Angle = 0;
 
 		// Order in Layerを設定してインクリメントする
-		obj.Renderer.sortingOrder = order_++;
+		obj.Renderer.sortingOrder = layerOrder++;
 
 		return obj;
 	}
@@ -71,9 +71,9 @@ public class ActorCtx<Type> where Type : Actor
 			}
 		}
 
-		if (size_ == 0) {
+		if (mySize == 0) {
 			// 自動で拡張
-			GameObject g = GameObject.Instantiate(prefab_, new Vector3(), Quaternion.identity) as GameObject;
+			GameObject g = GameObject.Instantiate(myPrefab, new Vector3(), Quaternion.identity) as GameObject;
 			Type obj = g.GetComponent<Type>();
 			pool.Add(obj);
 			return RecycleT(obj, x, y, direction, speed);

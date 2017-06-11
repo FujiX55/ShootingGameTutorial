@@ -27,7 +27,7 @@ public class Enemy : Actor
 	static int[] enemyCount = new int[(int)eEnemyType.Count];
 
 	static public int[] EnemyCount {
-		get { return Enemy.enemyCount; }
+		get { return enemyCount; }
 	}
 
 	/// スプライト
@@ -39,39 +39,37 @@ public class Enemy : Actor
 	public Sprite Spr5;
 
 	/// 敵のID
-	int id_ = (int)eEnemyType.Boss;
+	int myId = (int)eEnemyType.Boss;
 
 	/// HP
-	int hp_ = 0;
+	int myHp = 0;
 
 	/// HPの取得
 	public int Hp {
-		get { return hp_; }
+		get { return myHp; }
 	}
 
 	// 敵管理
 	public static ActorCtx<Enemy> parent = null;
 
-	public int phase_;
+	public int myPhase;
 
 	Pad pad;
 
 	// 敵の追加
 	public static Enemy Add(int id, float x, float y, float direction, float speed)
 	{
-		if (4 <= Enemy.enemyCount[id]) {
+		if (4 <= EnemyCount[id]) {
 			return null;
 		}
 
 		Enemy e = parent.Add(x, y, direction, speed);
 
-		e.phase_ = 0;
-
 		if (e == null) {
 			return null;
 		}
 
-		Enemy.enemyCount[id]++;
+		EnemyCount[id]++;
 		
 		// 初期パラメータ設定
 		e.SetParam(id);
@@ -94,9 +92,9 @@ public class Enemy : Actor
 	/// ダメージを与える
 	bool Damage(int v)
 	{
-		hp_ -= v;
+		myHp -= v;
         
-		if (hp_ <= 0) {
+		if (myHp <= 0) {
 			// HPがなくなったので死亡
 			Discard();
             
@@ -109,7 +107,7 @@ public class Enemy : Actor
 			Sound.PlaySe("destroy", 0);
 
 			// ボスを倒したらザコ敵と敵弾を消す
-			if ((eEnemyType)id_ == eEnemyType.Boss) {
+			if ((eEnemyType)myId == eEnemyType.Boss) {
 				// 生存しているザコ敵を消す
 				Enemy.parent.RunAll(e => e.Damage(9999));
 
@@ -126,7 +124,7 @@ public class Enemy : Actor
 	}
 
 	/// 更新
-	IEnumerator _Update1()
+	IEnumerator CoUpdate1()
 	{
 		while (true) {
 			// 2秒おきに弾を撃つ
@@ -155,7 +153,7 @@ public class Enemy : Actor
 		}
 	}
 
-	IEnumerator _Update2()
+	IEnumerator CoUpdate2()
 	{
 		// 発射角度を回転しながら撃つ
 		yield return new WaitForSeconds(2.0f);
@@ -178,7 +176,7 @@ public class Enemy : Actor
 		}
 	}
 
-	IEnumerator _Update3()
+	IEnumerator CoUpdate3()
 	{
 		// 3Way弾を撃つ
 		while (true) {
@@ -197,7 +195,7 @@ public class Enemy : Actor
 		}
 	}
 
-	IEnumerator _Update4()
+	IEnumerator CoUpdate4()
 	{
 		while (true) {
 			// まっすぐ飛ぶ
@@ -225,7 +223,7 @@ public class Enemy : Actor
 		}
 	}
 
-	IEnumerator _Update5()
+	IEnumerator CoUpdate5()
 	{
 		// 1回の更新で旋回する角度
 		const float ROT = 5.0f;
@@ -304,18 +302,20 @@ public class Enemy : Actor
 	/// IDからパラメータを設定
 	public void SetParam(int id)
 	{
-		if (id_ != (int)eEnemyType.Boss) {
+		myPhase = 0;
+
+		if (myId != (int)eEnemyType.Boss) {
 			// 前回のコルーチンを終了する
-			StopCoroutine("_Update" + id_);
+			StopCoroutine("CoUpdate" + myId);
 		}
 
 		if (id != (int)eEnemyType.Boss) {
 			// コルーチンを新しく開始する
-			StartCoroutine("_Update" + id);
+			StartCoroutine("CoUpdate" + id);
 		}
 
 		// IDを設定
-		id_ = id;
+		myId = id;
 
 		//              0,  1,  2,  3,  4,  5
 		// HPテーブル
@@ -329,7 +329,7 @@ public class Enemy : Actor
 		Sprite[] sprs = { Spr0, Spr1, Spr2, Spr3, Spr4, Spr5 };
 
 		// HPを設定
-		hp_ = hps[id];
+		myHp = hps[id];
 
 		// スプライトを設定
 		this.Renderer.sprite = sprs[id];
@@ -341,18 +341,18 @@ public class Enemy : Actor
 	/// 固定フレームで更新
 	void FixedUpdate()
 	{
-		if ((eEnemyType)id_ <= eEnemyType.Fugu && (eEnemyType)id_ != eEnemyType.Boss) {
-			switch (phase_) {
+		if ((eEnemyType)myId <= eEnemyType.Fugu && (eEnemyType)myId != eEnemyType.Boss) {
+			switch (myPhase) {
 			case 0:
 				// 通常の敵だけ移動速度を減衰する
 				this.RigidBody.velocity *= 0.93f;
 				if (0.01 > RigidBody.velocity.magnitude) {
-					phase_ = 1;
+					myPhase = 1;
 				}
 				break;
 			case 1:
 				SetVelocity(180, 0.1f);
-				phase_ = 2;
+				myPhase = 2;
 				break;
 			default:
 				this.RigidBody.velocity *= 1.005f;
@@ -364,7 +364,7 @@ public class Enemy : Actor
 	/// 更新
 	void Update()
 	{
-		if ((eEnemyType)id_ == eEnemyType.Pencil) {
+		if ((eEnemyType)myId == eEnemyType.Pencil) {
 			// ペンシルロケットのみ
 			Vector2 min = GetWorldMin();
 			Vector2 max = GetWorldMax();
@@ -374,7 +374,7 @@ public class Enemy : Actor
 //				ClampScreen();
 
 				// 移動速度を反転
-//				VY *= -1;
+//				VelocityY *= -1;
 			}
 			if (x < min.x || max.x < x) {
 				// 左右ではみ出したら消滅する
@@ -389,8 +389,8 @@ public class Enemy : Actor
 	/// 無効化する
 	public override void Discard()
 	{
-		if (0 < Enemy.enemyCount[id_]) {
-			Enemy.enemyCount[id_]--;
+		if (0 < Enemy.enemyCount[myId]) {
+			Enemy.enemyCount[myId]--;
 		}
 		
 		base.Discard();
